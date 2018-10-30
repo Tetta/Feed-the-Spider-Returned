@@ -79,9 +79,8 @@ namespace Appodeal.Unity.Editor.iOS
             string resourcesPath = Path.Combine(appodealPath, resourcesFolder);
             File.Copy(Path.Combine(resourcesPath, chScript), Path.Combine(buildPath, chScript));
             File.Copy(Path.Combine(resourcesPath, chScript), Path.Combine(buildPath, uploader));
-			//project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "{$PROJECT_DIR}/CrashHunterScript.sh");
+            project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "$PROJECT_DIR/CrashHunterScript.sh");
 
-			project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "");
 #if UNITY_4
         project.AddBuildProperty (target, "FRAMEWORK_SEARCH_PATHS", "$(PROJECT_DIR)/Frameworks/Plugins/iOS");
         project.SetBuildProperty (target, "LIBRARY_SEARCH_PATHS", "$(SRCROOT)/Libraries");
@@ -89,7 +88,7 @@ namespace Appodeal.Unity.Editor.iOS
         project.AddFileToBuild(target, project.AddFile("Frameworks/" + AppodealFramework, "Frameworks/" + AppodealFramework, PBXSourceTree.Source));
 #endif
 
-			File.WriteAllText(projPath, project.WriteToString());
+            File.WriteAllText(projPath, project.WriteToString());
         }
 
         protected static void AddProjectFrameworks(string[] frameworks, PBXProject project, string target, bool weak)
