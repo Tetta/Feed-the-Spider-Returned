@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.unity3d.player" android:installLocation="preferExternal" android:versionCode="1" android:versionName="1.0">
+  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <!--optional -->
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <!--optional -->
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <!--optional -->
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  <!--optional-->
+
+  <!--unitynotification-->
+  <!-- <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
+  <!-- <uses-permission android:name="com.evogames.feedthespider.permission.C2D_MESSAGE" />-->
+  <!-- <permission android:name="com.evogames.feedthespider.permission.C2D_MESSAGE" android:protectionLevel="signature" />-->
+  <!--unitynotification-->
+
+  <uses-feature android:name="android.hardware.location" android:required="false" />
+  <uses-feature android:name="android.hardware.location.network" android:required="false" />
+  
+  <application android:name="android.support.multidex.MultiDexApplication"  android:theme="@android:style/Theme.NoTitleBar.Fullscreen" tools:replace="android:icon" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true" >
+    <!--unitynotification-->
+
+    <!-- <receiver android:name="net.agasper.unitynotification.UnityNotificationManager"></receiver>-->
+    <!--<receiver android:name="net.agasper.unitynotification.UnityNotificationActionHandler"></receiver>-->
+    <!--end unitynotification-->
+
+    <activity android:name="com.unity3d.player.UnityPlayerActivity" android:label="@string/app_name">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+      <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+    </activity>
+    <activity android:name="com.facebook.unity.FBUnityLoginActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.facebook.unity.FBUnityDialogsActivity" android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+    <activity android:name="com.facebook.unity.FBUnityAppLinkActivity" android:exported="true" />
+    <activity android:name="com.facebook.unity.FBUnityDeepLinkingActivity" android:exported="true" />
+    <activity android:name="com.facebook.unity.FBUnityGameRequestActivity" />
+    <activity android:name="com.facebook.unity.FBUnityCreateGameGroupActivity" />
+    <activity android:name="com.facebook.unity.FBUnityJoinGameGroupActivity" />
+    <activity android:name="com.facebook.unity.AppInviteDialogActivity" />
+    <!-- ok-->
+    <activity android:name="ru.odnoklassniki.unity.OKAndroidPlugin" android:label="@string/app_name" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <!-- ??? -->
+        <data android:scheme="okauth" android:host="ok1250265856" />
+      </intent-filter>
+      <meta-data android:name="android.app.lib_name" android:value="unity" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+    </activity>
+    <activity android:name="ru.odnoklassniki.unity.webview.OKWVActivity" android:label="@string/app_name" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+      <meta-data android:name="android.app.lib_name" android:value="unity" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+    </activity>
+    <activity android:name="ru.odnoklassniki.unity.auth.AppAuthorization" />
+    <!-- ok end -->
+    <!-- Kii -->
+    <receiver android:name="com.kii.cloud.unity.GCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+      <intent-filter>
+        <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        <category android:name="com.evogames.feedthespider" />
+      </intent-filter>
+    </receiver>
+    <service android:name="com.kii.cloud.unity.GcmIntentService" />
+    <!-- Kii -->
+    <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="fb1677948472504355" />
+    <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider1677948472504355" android:exported="true" />
+
+    <meta-data android:name="firebase_performance_logcat_enabled" android:value="true" />
+
+  </application>
+</manifest>
