@@ -236,7 +236,7 @@ public class marketClass : MonoBehaviour {
         attr["transactionId"] = transactionId;
         attr["name"] = itemId;
         string nameForOpenBooster = "";
-
+		Debug.Log("itemId:" + itemId);
         switch (itemId)
         {
             case "booster_green_1":

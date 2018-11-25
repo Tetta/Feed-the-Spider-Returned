@@ -300,7 +300,7 @@ namespace CompleteProject
             string transactionId = "";
             // Unity IAP's validation logic is only included on these platforms.
             //#if UNITY_ANDROID || UNITY_STANDALONE_OSX
-            /*
+            
 #if UNITY_ANDROID || UNITY_IOS || UNITY_STANDALONE_OSX
             // Prepare the validator with the secrets we prepared in the Editor
             // obfuscation window.
@@ -351,7 +351,8 @@ namespace CompleteProject
                 Debug.Log("Invalid receipt, not unlocking content");
                 validPurchase = false;
                 //for test on desktop
-                //marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
+                //fix
+				marketClass.instance.setRewardForPurchase(args.purchasedProduct.definition.id, transactionId, args.purchasedProduct.metadata.isoCurrencyCode, args.purchasedProduct.metadata.localizedPrice);
 
             }
 #endif
@@ -366,7 +367,7 @@ namespace CompleteProject
 
 
 
-*/
+
 
 
 

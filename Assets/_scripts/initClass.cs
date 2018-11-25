@@ -58,7 +58,6 @@ public class initClass : MonoBehaviour {
         if (ctrPreviewBoosterClass.instance == null) previewBoosterMenu.SetActive(true);
         //for test
         //ctrFbKiiClass.instance.onLogin("ok");
-        //fix
         //ctrProgressClass.progress["lastLevel"] = 5;
         //if (ctrProgressClass.progress.Count == 0) {
         Time.maximumDeltaTime = 0.9F;

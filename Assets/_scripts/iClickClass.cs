@@ -1064,7 +1064,7 @@ public class iClickClass : MonoBehaviour {
 #if UNITY_ANDROID
                 Application.OpenURL("market://details?id=com.evogames.feedthespider");
 #elif UNITY_IPHONE
-             Application.OpenURL("itms-apps://itunes.apple.com/app/id1194487188");
+             Application.OpenURL("itms-apps://itunes.apple.com/app/id1440167499");
         //??? https://itunes.apple.com/us/app/feed-the-spider/id1194487188?l=ru&ls=1&mt=8
 #endif
     }
