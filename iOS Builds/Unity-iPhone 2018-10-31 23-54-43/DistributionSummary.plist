@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Unity-iPhone.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>DC2B1919DA87CFBBF430B083ECDDE80070EA18A5</string>
+				<key>dateExpires</key>
+				<string>27.10.2019</string>
+				<key>type</key>
+				<string>iOS Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>V4N2CK7GK7.com.gearsoffun.feedthespider</string>
+				<key>aps-environment</key>
+				<string>production</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>V4N2CK7GK7</string>
+				<key>get-task-allow</key>
+				<false/>
+			</dict>
+			<key>name</key>
+			<string>feedthespider.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>1854097b-73b0-4322-9d27-00a5147ac30b</string>
+				<key>name</key>
+				<string>feedthespider adhoc</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>V4N2CK7GK7</string>
+				<key>name</key>
+				<string>Tatiana Rafikova</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
