@@ -10,11 +10,12 @@ using GameAnalyticsSDK;
 using Assets.SimpleAndroidNotifications;
 
 //for local notification iOS
+using UnityEngine.Networking;
+#if UNITY_IOS
+using UnityEngine.iOS;
 using NotificationServices = UnityEngine.iOS.NotificationServices;
 using NotificationType = UnityEngine.iOS.NotificationType;
-using UnityEngine.Networking;
-using UnityEngine.iOS;
-
+#endif
 public class ctrAnalyticsClass: MonoBehaviour
 {
     public static ctrAnalyticsClass instance = null;
@@ -31,31 +32,15 @@ public class ctrAnalyticsClass: MonoBehaviour
     public static List<float> sessionGroups = new List<float> { 0, 1, 2, 3, 4, 5, 10, 25, 50, 100, 200  };
     public static List<float> friendGroups = new List<float> { 0, 1, 5, 10, 25, 50, 100 };
 
-//bool tokenSent;
+    //bool tokenSent;
+    public static string lastAction = "";
 
-	void Awake()
+    void Awake()
     {
-        /*
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task => {
-            var dependencyStatus = task.Result;
-            if (dependencyStatus == Firebase.DependencyStatus.Available)
-            {
-                // Create and hold a reference to your FirebaseApp, i.e.
-                //   app = Firebase.FirebaseApp.DefaultInstance;
-                // where app is a Firebase.FirebaseApp property of your application class.
+        //fix - false for publish
+       //Debug.unityLogger.logEnabled = false;
+        Debug.unityLogger.logEnabled = true;
 
-                // Set a flag here indicating that Firebase is ready to use by your
-                // application.
-                Firebase.FirebaseApp.Create();
-            }
-            else
-            {
-                UnityEngine.Debug.LogError(System.String.Format(
-                  "Could not resolve all Firebase dependencies: {0}", dependencyStatus));
-                // Firebase Unity SDK is not safe to use here.
-            }
-        });
-        */
         //Localytics.Upload();
         if (FB.IsInitialized)
         {
@@ -70,7 +55,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
 		GameAnalytics.Initialize();
 
-		Firebase.FirebaseApp.Create();
+		//Firebase.FirebaseApp.Create();
 
 
 	}
@@ -99,8 +84,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 #endif
         //LocalyticsUnity.Localytics.cre
         //Unity 2017
-        //Debug.unityLogger.logEnabled = false;
-        Debug.unityLogger.logEnabled = true;
+
         Debug.Log("ctrAnalyticsClass start");
         try
         {
@@ -124,13 +108,14 @@ public class ctrAnalyticsClass: MonoBehaviour
 
         startSession();
 
-		//local notification for iOS
-		//tokenSent = false;
-
-		NotificationServices.RegisterForNotifications(
+        //local notification for iOS
+        //tokenSent = false;
+#if UNITY_IOS
+        NotificationServices.RegisterForNotifications(
 			NotificationType.Alert |
 			NotificationType.Badge |
 			NotificationType.Sound);
+#endif
 	}
 
 	private void Update()
@@ -173,23 +158,23 @@ public class ctrAnalyticsClass: MonoBehaviour
         string strForGA = nameEvent;
         string strForLog = "Event: " + nameEvent;
         Dictionary<string, object> parameters = new Dictionary<string, object>();
-        Firebase.Analytics.Parameter[] parametersFirebase = new Firebase.Analytics.Parameter[attributes.Count];
+        //Firebase.Analytics.Parameter[] parametersFirebase = new Firebase.Analytics.Parameter[attributes.Count];
         int i = 0;
         foreach (KeyValuePair<string, string> param in attributes)
         {
 
-            strForGA += ":" + param.Value.ToString();
+            strForGA += ":" + param.Key.ToString() + "_"  + param.Value.ToString();
             strForLog += ", " + param.Key.ToString() + ": " + param.Value.ToString();
             parameters[param.Key] = (object)param.Value;
-            parametersFirebase[i] = new Firebase.Analytics.Parameter(param.Key.ToString(), param.Value);
+            //parametersFirebase[i] = new Firebase.Analytics.Parameter(param.Key.ToString(), param.Value);
                 i++;
         }
         //Debug.Log(strForLog);
         // Log an event with multiple parameters, passed as a struct:
 
-        Firebase.Analytics.FirebaseAnalytics.LogEvent(
-          nameEvent,
-          parametersFirebase);
+        //Firebase.Analytics.FirebaseAnalytics.LogEvent(
+        //  nameEvent,
+         // parametersFirebase);
 
 
 		 GameAnalytics.NewDesignEvent(strForGA);
@@ -206,6 +191,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
 
 
+        Debug.Log(strForGA);
 
         Debug.Log(str);
         try
@@ -240,7 +226,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         try
         {
             //LocalyticsUnity.Localytics.SetCustomDimension(key, value);
-            Firebase.Analytics.FirebaseAnalytics.SetUserProperty("Property_" + key.ToString(), value);
+            //Firebase.Analytics.FirebaseAnalytics.SetUserProperty("Property_" + key.ToString(), value);
             GameAnalytics.SetCustomDimension01(key + ": " + value);
         }
 
@@ -250,7 +236,8 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
     }
 
-    public void OnApplicationFocus(bool flag)
+    //standart event OnApplicationFocus dont work. why?
+    public void applicationFocus(bool flag)
     {
         Debug.Log("OnFocus: " + flag);
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
@@ -262,6 +249,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             ctrProgressClass.progress["energyOnEndSession"] = lsEnergyClass.energy;
             ctrProgressClass.saveProgress();
 
+            sendEvent("GameUnfocus", new Dictionary<string, string> { { "LastAction", ctrAnalyticsClass.lastAction }, { "Scene", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name } });
 
 
         }

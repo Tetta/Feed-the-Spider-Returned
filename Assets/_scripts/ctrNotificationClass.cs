@@ -6,14 +6,16 @@ using Facebook.Unity;
 using UnityEngine;
 //using LocalyticsUnity;
 using GameAnalyticsSDK;
-//using Firebase;
+
 using Assets.SimpleAndroidNotifications;
 
 //for local notification iOS
+using UnityEngine.Networking;
+#if UNITY_IOS
+using UnityEngine.iOS;
 using NotificationServices = UnityEngine.iOS.NotificationServices;
 using NotificationType = UnityEngine.iOS.NotificationType;
-using UnityEngine.Networking;
-using UnityEngine.iOS;
+#endif
 
 public class ctrNotificationClass: MonoBehaviour
 {
@@ -33,13 +35,14 @@ public class ctrNotificationClass: MonoBehaviour
 
 		Debug.Log("ctrNotificationClass start");
         cancelNotification();
-		//local notification for iOS
-		//tokenSent = false;
-
+        //local notification for iOS
+        //tokenSent = false;
+#if UNITY_IOS
 		NotificationServices.RegisterForNotifications(
 			NotificationType.Alert |
 			NotificationType.Badge |
 			NotificationType.Sound);
+#endif
 	}
 
 	private void Update()
@@ -70,7 +73,7 @@ public class ctrNotificationClass: MonoBehaviour
 
 
         }
-
+        if (ctrAnalyticsClass.instance != null) ctrAnalyticsClass.instance.applicationFocus(flag);
 
     }
 	public void OnApplicationPause(bool flag)
@@ -162,12 +165,12 @@ public class ctrNotificationClass: MonoBehaviour
         }
         
         //fix test
-		/*
+		
         delay = new TimeSpan(0, 0, 0);
         delay = delay.Add(new TimeSpan(0, 0, 30));
         sendNotification(8, delay, "", "TEST", new Color32(0xff, 0x44, 0x44, 255));
         Debug.Log("notifer test: " );
-        */
+        
         
     }
 

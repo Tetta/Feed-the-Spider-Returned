@@ -1,7 +1,7 @@
 //
 //  APDBannerView.h
 //
-//  AppodealSDK version 2.4.6.1-Beta
+//  AppodealSDK version 2.5.0-Beta
 //
 //  Copyright © 2018 Appodeal, Inc. All rights reserved.
 //
@@ -86,7 +86,7 @@
 /*!
  *  If this flag is set to YES, banner view will auto-resize after screen rotation
  *  (It is possible to use the flag only if the application supports one orientation)
- *  Set to NO by default
+ *  Set to YES by default
  */
 @property (assign, nonatomic) IBInspectable BOOL usesSmartSizing;
 

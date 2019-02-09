@@ -115,6 +115,7 @@ public class gBerryClass : MonoBehaviour {
         {
             staticClass.levelRestartedCount = 0;
             staticClass.levelAdViewed = 0;
+            gHintClass.timeForMenu = Time.unscaledTime;
         }
 
         //level restarted
@@ -125,7 +126,7 @@ public class gBerryClass : MonoBehaviour {
 
 	    //dream
             var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];
-        if (staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
+        if (!staticClass.adHard && staticClass.scenePrev == SceneManager.GetActiveScene().name && !((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 || (p == 2 || p == 3)
             && initLevelMenuClass.levelDemands == 1)
             && gHintClass.hintState == "")
 	    {
@@ -140,8 +141,8 @@ public class gBerryClass : MonoBehaviour {
 	    }
 	    else if
             //если уже есть подсказка
-            ((p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
-             (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1 
+            (!staticClass.adHard && (p == 1 || p == 3) && initLevelMenuClass.levelDemands == 0 ||
+             !staticClass.adHard && (p == 2 || p == 3) && initLevelMenuClass.levelDemands == 1 
              && gHintClass.hintState == "")
         {
             var dream = GameObject.Find("/default level/gui/dream");
@@ -159,7 +160,7 @@ public class gBerryClass : MonoBehaviour {
         gRecHintClass.recHintState = 0;
 
         //show tutorial hint
-        if (staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
+        if (!staticClass.adHard && staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialHint"] == 0 &&
             ctrProgressClass.progress["hints"] > 0 && !dreamIsset)
 
         {
@@ -189,9 +190,21 @@ public class gBerryClass : MonoBehaviour {
         Debug.Log("staticClass.levelRestartedCount: " + staticClass.levelRestartedCount);
         Debug.Log("gHintClass.hintState: " + gHintClass.hintState);
 
+        //show hint ads menu
+        if (staticClass.adHard && gHintClass.hintState == "" && (staticClass.levelRestartedCount >= 1 && gHintClass.timeForMenu + 15 < Time.unscaledTime)) {
+            Debug.Log("need show hint ads menu");
+            //fix comment for test
+            if (ctrAdClass.isAdReady(AppodealAds.Unity.Api.Appodeal.REWARDED_VIDEO)) {
+                Debug.Log("show hint ads menu");
+                Time.timeScale = 0;
+                Debug.Log("Time.timeScale: " + Time.timeScale);
+                ctrAnalyticsClass.lastAction = "HintMenuOpened";
+                GameObject.Find("default level/gui/hint menu").transform.GetChild(0).gameObject.SetActive(true);
+                gHintClass.timeForMenu = Time.unscaledTime;
+            }
+        }
 
-        
-        
+
         /*
         //show tutorial bonus
         if ( staticClass.levelRestartedCount >= 3 && ctrProgressClass.progress["tutorialBonus"] == 0 &&
@@ -220,7 +233,7 @@ public class gBerryClass : MonoBehaviour {
         */
 
         //show tutorial dream
-        if (staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] < 3 && gHintClass.hintState == "" && !dreamIsset)
+        if (!staticClass.adHard && staticClass.levelRestartedCount == 2 && ctrProgressClass.progress["tutorialDream"] < 3 && gHintClass.hintState == "" && !dreamIsset)
         {
             GameObject tutorialDreamGO = Instantiate(tutorialDream, new Vector2(0, 0), Quaternion.identity) as GameObject;
             //position hand

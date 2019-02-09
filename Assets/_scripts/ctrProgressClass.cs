@@ -54,8 +54,9 @@ public class ctrProgressClass {
         }
 
         progress = new Dictionary<string, int> (progressDefault);
+        if (staticClass.adHard) progress["hints"] = 0;
 
-		string strKey = "", strValue = "";
+        string strKey = "", strValue = "";
 		bool flag = true;
 		for (int i = 0; i < strProgress.Length; i++) {
 			if (strProgress.Substring(i, 1) == "=") flag = false;
@@ -94,7 +95,7 @@ public class ctrProgressClass {
 		{"skin1",1},{"skin2",0},{"skin3",0},{"skin4",0},{"skin5",0},
         {"berryCurrent", 1}, {"hatCurrent", 1}, {"skinCurrent", 1},
 
-        { "bonusesView", 1},{ "firstTimeAd", 0},
+        { "bonusesView", 0},{ "firstTimeAd", 0},
 
         {"tutorialEnergy",1}, {"tutorialBuy",0}, {"tutorialHint",0}, {"tutorialBonus",0}, {"tutorialDream",0},  {"tutorialAdCoins",0}, {"tutorialFreeCoins",0},  {"tutorialSale",0}, {"tutorialMap",0},
 
@@ -229,6 +230,7 @@ public class ctrProgressClass {
 	    //var rewardLogin = progress["rewardLogin"];
         //сброс прогресса
         progress = new Dictionary<string, int> (progressDefault);
+        if (staticClass.adHard) progress["hints"] = 0;
         //progress = new Dictionary<string, int>(progressCheat);
         if (nameButton == "reset cheat") progress = new Dictionary<string, int> (progressCheat);
 

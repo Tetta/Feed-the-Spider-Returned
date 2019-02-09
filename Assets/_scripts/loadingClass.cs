@@ -39,7 +39,7 @@ public class loadingClass : MonoBehaviour {
         ctrAdClass.instance. initAppodeal();
         //label.text = "Loading complete";
         Debug.Log("loadingClass 4");
-        yield return new WaitForSeconds(5);
+        //yield return new WaitForSeconds(5);
 
 
         //Text label = GetComponent<Text>();

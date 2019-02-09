@@ -28,7 +28,11 @@ public class AppodealUnityUtils{
         bool isGradleEnabled = false;
         PropertyInfo androidBuildSystem = typeof(EditorUserBuildSettings).GetProperty("androidBuildSystem", PublicStaticFlags);
         if (androidBuildSystem != null) {
-            isGradleEnabled = (AndroidBuildSystem)androidBuildSystem.GetValue(null, null) == AndroidBuildSystem.Gradle;
+			object gradle = Enum.Parse(androidBuildSystem.PropertyType, "Gradle");
+			int gradle_int = (int)Convert.ChangeType(gradle, typeof(int));
+			object currentBS = androidBuildSystem.GetValue(null, null);
+			int currentBS_int = (int)Convert.ChangeType(currentBS, typeof(int));
+            isGradleEnabled = (gradle_int == currentBS_int);
         }
         return isGradleEnabled;
     }

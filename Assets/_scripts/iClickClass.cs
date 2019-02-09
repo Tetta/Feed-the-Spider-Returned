@@ -909,6 +909,11 @@ public class iClickClass : MonoBehaviour {
         {
             GameObject.Find("default level/gui/dream menu").transform.GetChild(0).gameObject.SetActive(false);
         }
+        else if (name == "exit hint menu") {
+            Time.timeScale = 1;
+            ctrAnalyticsClass.lastAction = "";
+            GameObject.Find("default level/gui/hint menu").transform.GetChild(0).gameObject.SetActive(false);
+        }
         else if (name == "exit disable level menu")
         {
             initLevelMenuClass.instance.disableLevelMenu.SetActive(false);
@@ -1049,6 +1054,14 @@ public class iClickClass : MonoBehaviour {
                 ShowRewardedAd();
             } //gHintClass.initDream();
         }
+    }
+    void hintAdClick() {
+        Debug.Log("hintAdClick");
+        //смотрим сначала видео
+        ctrAnalyticsClass.lastAction = "";
+        Time.timeScale = 1;
+        GameObject.Find("default level/gui/hint menu").transform.GetChild(0).gameObject.SetActive(false);
+        ShowRewardedAd();
     }
 
     public void buyChapter()

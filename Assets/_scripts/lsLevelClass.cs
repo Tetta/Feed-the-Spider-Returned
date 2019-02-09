@@ -283,7 +283,6 @@ public class lsLevelClass : MonoBehaviour {
             {
                 StartCoroutine(blockDisableCoroutine());
                 //anim
-				//fix animator missing
                 //block.transform.GetChild(0).GetChild(0).GetComponent<Animator>().enabled = true;
                 Debug.Log("block anim");
                 //block.SetActive(false);

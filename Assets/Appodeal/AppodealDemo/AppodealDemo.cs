@@ -63,9 +63,8 @@ public class AppodealDemo : MonoBehaviour, IPermissionGrantedListener, IIntersti
 
         int gdpr = PlayerPrefs.GetInt("result_gdpr_sdk", 0);
         Debug.Log("result_gdpr_sdk: " + gdpr);
-        Appodeal.initialize (appKey, Appodeal.INTERSTITIAL | Appodeal.BANNER_VIEW | Appodeal.REWARDED_VIDEO | Appodeal.MREC, gdpr == 1);
-
-		Appodeal.setBannerCallbacks (this);
+        Appodeal.initialize (appKey, Appodeal.BANNER_VIEW | Appodeal.REWARDED_VIDEO | Appodeal.MREC | Appodeal.INTERSTITIAL, gdpr == 1);
+        Appodeal.setBannerCallbacks (this);
 		Appodeal.setInterstitialCallbacks (this);
 		Appodeal.setRewardedVideoCallbacks (this);
         Appodeal.setMrecCallbacks(this);

@@ -108,25 +108,30 @@ namespace AppodealAds.Unity.Android {
 
 		public void initialize(string appKey, int adTypes, bool hasConsent)  {
             disableNetwork("mobvista");
+            disableNetwork("yandex");
             getAppodealClass().CallStatic("setFramework", "unity", Appodeal.getPluginVersion(), Application.unityVersion);
 			#if UNITY_5_6_0 || UNITY_5_6_1
 				getAppodealClass().CallStatic("setFramework", "unity", Appodeal.getPluginVersion(), Application.unityVersion, true, false);
 				getAppodealClass().CallStatic("disableNetwork", getActivity(), "amazon_ads", Appodeal.BANNER);
 			#endif
 
-			if((adTypes & Appodeal.BANNER_VIEW) > 0) {
+            if((adTypes & Appodeal.BANNER_VIEW) > 0 || (adTypes & Appodeal.MREC) > 0) {
 				getAppodealClass().CallStatic("setFramework", "unity", Appodeal.getPluginVersion(), Application.unityVersion, false, false);
 				getAppodealClass().CallStatic("disableNetwork", getActivity(), "amazon_ads", Appodeal.BANNER);
 			}
 			getAppodealClass().CallStatic("initialize", getActivity(), appKey, nativeAdTypesForType(adTypes), hasConsent);
 		}
 
+        public bool isInitialized(int adType) {
+            return getAppodealClass().CallStatic<bool>("isInitialized", nativeAdTypesForType(adType));
+        }
+
 		public bool show(int adTypes) {
-            return getAppodealUnityClass().CallStatic<bool>("show", getActivity(), nativeAdTypesForType(adTypes));
+            return getAppodealClass().CallStatic<bool>("show", getActivity(), nativeAdTypesForType(adTypes));
 		}
 
 		public bool show(int adTypes, string placement) {
-            return getAppodealUnityClass().CallStatic<bool>("show", getActivity(), nativeAdTypesForType(adTypes), placement);
+            return getAppodealClass().CallStatic<bool>("show", getActivity(), nativeAdTypesForType(adTypes), placement);
 		}
 
 		public bool showBannerView(int YAxis, int XAxis, string Placement) {

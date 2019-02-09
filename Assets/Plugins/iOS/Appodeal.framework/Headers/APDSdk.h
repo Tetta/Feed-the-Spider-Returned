@@ -2,7 +2,7 @@
 //  APDSdk.h
 //  Appodeal
 //
-//  AppodealSDK version 2.4.6.1-Beta
+//  AppodealSDK version 2.5.0-Beta
 //
 //  Copyright © 2018 Appodeal, Inc. All rights reserved.
 //
@@ -240,18 +240,6 @@
  *  @param enabled Set to NO by default
  */
 - (void)setLocationTracking:(BOOL)enabled;
-
-/*!
- *  Enable memory monitoring for ad type. If current memory consumption is higher than required, all cached ad objects will be released
- *  @warning loaded ad will return and will not be shown
- *
- *  @param percentage Minimum percent of RAM free is from 1 to 100. If NSNotFound memory monitor is inactive
- *  @param observeSystemWarnings enable system warnings observation
- *  @param type Type of ad to use
- */
-- (void)setMinimumFreeMemoryPercentage:(NSUInteger)percentage
-                 observeSystemWarnings:(BOOL)observeSystemWarnings
-                             forAdType:(APDAdType)type;
 
 - (void)setChildDirectedTreatment:(BOOL)childDirectedTreatment;
 

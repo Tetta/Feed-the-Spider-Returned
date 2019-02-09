@@ -52,7 +52,13 @@ public class lsGiftClass : MonoBehaviour {
 
 
         portionsGreen["webs"] = 30; portionsGreen["teleports"] = 26;
-        portionsGreen["collectors"] = 24; portionsGreen["hints"] = 20;
+        portionsGreen["collectors"] = 24;
+
+        if (staticClass.adHard)
+            portionsGreen["hints"] = 2;
+        else
+            portionsGreen["hints"] = 20;
+
         portionsCountGreen["webs"] = 2; portionsCountGreen["teleports"] = 2;
         portionsCountGreen["collectors"] = 2; portionsCountGreen["hints"] = 1;
 
@@ -68,7 +74,10 @@ public class lsGiftClass : MonoBehaviour {
 	    {
             openingCards.Add(new KeyValuePair<string, int>("coins", 150));
             openingCards.Add(new KeyValuePair<string, int>("teleports", 1));
-            openingCards.Add(new KeyValuePair<string, int>("hints", 1));
+            if (staticClass.adHard)
+                openingCards.Add(new KeyValuePair<string, int>("collectors", 1));
+            else
+                openingCards.Add(new KeyValuePair<string, int>("hints", 1));
         }
         else
 	    {
@@ -137,6 +146,7 @@ public class lsGiftClass : MonoBehaviour {
         }
         //off for tests
         //помечаем что сундук открыт
+        
         transform.GetChild(0).gameObject.SetActive(false);
 		transform.GetChild(1).gameObject.SetActive(true);
 		ctrProgressClass.progress [name] = 1; 

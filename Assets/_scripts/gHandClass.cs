@@ -44,19 +44,22 @@ public class gHandClass : MonoBehaviour {
 			yield return StartCoroutine (staticClass.waitForRealTime (1F));
 			transform.GetChild (2).gameObject.SetActive (false);
 		}
-		if (level == "level28") {
-			if (gYetiClass.yetiState == "")
-				Time.timeScale = 1;
-		} else Time.timeScale = 1;
-        Debug.Log("Time.timeScale: " + Time.timeScale);
+        if (ctrAnalyticsClass.lastAction != "HintMenuOpened") {
+            if (level == "level28") {
+                if (gYetiClass.yetiState == "")
+                    Time.timeScale = 1;
+            }
+            else Time.timeScale = 1;
+            Debug.Log("Time.timeScale: " + Time.timeScale);
+        }
+        //yield return StartCoroutine(staticClass.waitForRealTime(timeWait));
+        yield return new WaitForSeconds(timeWait);
 
-        yield return StartCoroutine(staticClass.waitForRealTime(timeWait));
-
-		description.SetActive (true);
+        description.SetActive (true);
 		hand.SetActive (true);
 		if (level == "level1" || level == "level16" || level == "level28"  || (level == "level37" && handState == "text2") || level == "level39" || (level == "level7" && handState == "text1")) hand.GetComponent<Animator>().Play("hand click");
 		else  hand.GetComponent<Animator>().Play("hand drag");
-        if (level == "level7" && handState == "text2") hand.transform.parent.transform.localPosition = new Vector3(-24, -243, 0);
+        if (level == "level7" && handState == "text2") hand.transform.parent.transform.localPosition = new Vector3(-325, -245, 0);
 
         description.GetComponent<Animator>().Play("menu open");
 

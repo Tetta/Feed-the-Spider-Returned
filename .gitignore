@@ -1,4 +1,4 @@
-﻿
+﻿/[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -16,7 +16,7 @@
 *.pidb
 *.booproj
 
-Temp 
+
 /iOS
 
 
@@ -28,4 +28,5 @@ sysinfo.txt
 apk
 *.apk
 exp
+
 

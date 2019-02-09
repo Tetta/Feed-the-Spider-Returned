@@ -911,7 +911,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 
 #if UNITY_ANDROID
 
-
+            /*
             //getInstallSource
             OK.GetInstallSource(source =>
             {
@@ -969,7 +969,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                     });
                 }
             });
-
+            */
 #endif
 
             if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1) onLogin("ok");

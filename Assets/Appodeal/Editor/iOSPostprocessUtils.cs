@@ -74,13 +74,10 @@ namespace Appodeal.Unity.Editor.iOS
                 }
             }
             string resourcesFolder = "InternalResources";
-            string chScript = "CrashHunterScript.sh";
-            string uploader = "dSYMUploader";
+            string chZip = "CrashHunter.zip";
             string resourcesPath = Path.Combine(appodealPath, resourcesFolder);
-            File.Copy(Path.Combine(resourcesPath, chScript), Path.Combine(buildPath, chScript));
-            File.Copy(Path.Combine(resourcesPath, chScript), Path.Combine(buildPath, uploader));
-            //project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "$PROJECT_DIR/CrashHunterScript.sh");
-			project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "");
+            MacOSUnzip(Path.Combine(resourcesPath, chZip), buildPath);
+            project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "$PROJECT_DIR/CrashHunterScript.sh");
 
 #if UNITY_4
         project.AddBuildProperty (target, "FRAMEWORK_SEARCH_PATHS", "$(PROJECT_DIR)/Frameworks/Plugins/iOS");
@@ -89,7 +86,24 @@ namespace Appodeal.Unity.Editor.iOS
         project.AddFileToBuild(target, project.AddFile("Frameworks/" + AppodealFramework, "Frameworks/" + AppodealFramework, PBXSourceTree.Source));
 #endif
 
-			File.WriteAllText(projPath, project.WriteToString());
+            File.WriteAllText(projPath, project.WriteToString());
+        }
+
+        static void MacOSUnzip(string source, string dest)
+        {
+            try {
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo()
+                {
+                    FileName = "unzip",
+                    Arguments = source + " -d " + dest
+                };
+                System.Diagnostics.Process proc = new System.Diagnostics.Process() { StartInfo = startInfo, };
+                bool started = proc.Start();
+            }
+            catch(Exception e){
+                Debug.Log(e.Message);
+                ExtractZip(source, dest);
+            }
         }
 
         protected static void AddProjectFrameworks(string[] frameworks, PBXProject project, string target, bool weak)

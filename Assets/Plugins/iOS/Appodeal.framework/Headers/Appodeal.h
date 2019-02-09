@@ -2,7 +2,7 @@
 //  Appodeal.h
 //  Appodeal
 //
-//  AppodealSDK version 2.4.6.1-Beta
+//  AppodealSDK version 2.5.0-Beta
 //
 //  Copyright (c) 2018 Appodeal, Inc. All rights reserved.
 //
@@ -23,7 +23,6 @@
 #import <Appodeal/APDMRECView.h>
 #import <Appodeal/APDBannerView.h>
 
-#import <Appodeal/APDNativeAdLoader.h>
 #import <Appodeal/APDNativeAdViewProtocol.h>
 #import <Appodeal/APDNativeAdQueue.h>
 #import <Appodeal/APDNativeAd.h>
@@ -619,12 +618,12 @@
  *  @discussion Get current available ads
  *  @param count - Desired count of native ads. Real returned array count can be less that this parameter
  */
-+ (nonnull NSArray *)getNativeAdsOfCount:(NSInteger)count;
++ (nonnull NSArray *)getNativeAdsOfCount:(NSInteger)count __attribute__((deprecated("Method deprecated! Use integration via APDNativeAdQueue instead")));
 
 /*!
  *  @discussion Get current available ads count
  */
-+ (NSInteger)availableNativeAdsCount;
++ (NSInteger)availableNativeAdsCount __attribute__((deprecated("Method deprecated! Use integration via APDNativeAdQueue instead")));
 
 /*!
  *  @discussion disable user data for adNetwork name
@@ -642,7 +641,7 @@
  */
 + (void)setMinimumFreeMemoryPercentage:(NSUInteger)percentage
                  observeSystemWarnings:(BOOL)observeSystemWarnings
-                             forAdType:(AppodealAdType)type;
+                             forAdType:(AppodealAdType)type __attribute__((deprecated("Method deprecated!")));
 
 /*!
  *  @discussion Enable COPPA setting flag. By defualt this setting is false
@@ -650,6 +649,11 @@
  *  @param childDirectedTreatment Boolean flag inficates that app for kids.
  */
 + (void)setChildDirectedTreatment:(BOOL)childDirectedTreatment;
+
+/*!
+ *  Present test view controller where you can choose different ad types and see ad networks presentation behaviour
+ */
++ (void)presentTestViewController;
 
 /**
  Pause all curent sdk work. All mediation task will invalidate asap and your get

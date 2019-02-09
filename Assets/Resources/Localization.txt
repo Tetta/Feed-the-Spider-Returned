@@ -252,3 +252,4 @@ s, "s", "с"
 
 noAds, "NO ADS", "БЕЗ\nРЕКЛАМЫ"
 noAds2, "Make any purchase\nand play without advertising!", "СОВЕРШИ ЛЮБУЮ ПОКУПКУ\nИ ИГРАЙ БЕЗ РЕКЛАМЫ!"
+hintMenu, "Complete the level\nwith a hint!", "Пройди уровень\nс подсказкой!"

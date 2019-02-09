@@ -30,10 +30,10 @@ public class gRecHintClass : MonoBehaviour {
 			if (tr.name == "web" || tr.name == "cloud" || tr.name == "yeti body") mousePos = new Vector3(0, 0, 0); 
 
 			rec = rec + 		
-				"\nactions[" + counter + "].id = new Vector3("+tr.position.x+"F, "+tr.position.y+"F, "+tr.position.z+"F); //" + tr.name +
+				"\nactions[" + counter + "].id = new Vector3("+tr.position.x.ToString( System.Globalization. CultureInfo.CreateSpecificCulture("en-US") ) + "F, "+tr.position.y.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-US")) + "F, "+tr.position.z.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-US") )+ "F); //" + tr.name +
 				//"\nactions[" + counter + "].time = "+(Time.unscaledTime - recHintState)+"F;" +
 				"\nactions[" + counter + "].frame = "+(gBerryClass.fixedCounter - recHintState)+";" +
-				"\nactions[" + counter + "].mouse = new Vector3("+mousePos.x+"F, "+mousePos.y+"F, "+mousePos.z+"F);";
+				"\nactions[" + counter + "].mouse = new Vector3("+mousePos.x.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-US")) + "F, "+mousePos.y.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-US")) + "F, "+mousePos.z.ToString(System.Globalization.CultureInfo.CreateSpecificCulture("en-US") )+ "F);";
 				//"\nactions[" + counter + "].mouse = new Vector3("+Input.mousePosition.x+", "+Input.mousePosition.y+", "+Input.mousePosition.z+");";
 			//recHintState += Time.unscaledTime - recHintState;
 			recHintState += gBerryClass.fixedCounter - recHintState;

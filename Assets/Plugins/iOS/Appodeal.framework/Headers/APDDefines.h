@@ -2,7 +2,7 @@
 //  APDDefines.h
 //  Appodeal
 //
-//  AppodealSDK version 2.4.6.1-Beta
+//  AppodealSDK version 2.5.0-Beta
 //
 //  Copyright © 2018 Appodeal, Inc. All rights reserved.
 //
@@ -435,7 +435,7 @@ extern const NSString * _Nonnull kAPDAppnextNetworkName;
 extern const NSString * _Nonnull kAPDCheetahNetworkName;
 extern const NSString * _Nonnull kAPDRevMobNetworkName;
 extern const NSString * _Nonnull kAPDMobvistaNetworkName;
-
+extern const NSString * _Nonnull kAPDIVengoNetworkName;
 /*!
  *  Default APDBanner sizes
  */

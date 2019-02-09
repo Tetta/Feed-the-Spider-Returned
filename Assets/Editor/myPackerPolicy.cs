@@ -31,7 +31,8 @@ public class myPackerPolicy : IPackerPolicy
     {
         get
         {
-            throw new NotImplementedException();
+            return true;
+            //throw new NotImplementedException();
         }
     }
 
@@ -108,17 +109,17 @@ public class myPackerPolicy : IPackerPolicy
 				entry.atlasName = ParseAtlasName(ti.spritePackingTag);
 				entry.packingMode = GetPackingMode(ti.spritePackingTag, tis.spriteMeshType);
                 //anisoLevel не важен
-                //entry.anisoLevel = ti.anisoLevel;
-                entry.anisoLevel = 0;
+                entry.anisoLevel = ti.anisoLevel;
+                //entry.anisoLevel = 0;
                 //Debug.Log (entry.settings.generateMipMaps);
 
 #if UNITY_IOS
                 entry.settings.generateMipMaps = false;
 #else
-                entry.settings.generateMipMaps = true;
+                //entry.settings.generateMipMaps = true;
+                //ti.mipmapFilter = TextureImporterMipFilter.KaiserFilter;
+
 #endif
-
-
                 entries.Add(entry);
 				
 				if (entry.sprite.name == "pixel" || entry.sprite.name == "button icon music") {
@@ -133,7 +134,7 @@ public class myPackerPolicy : IPackerPolicy
 					Debug.Log (entry.packingMode);
 					Debug.Log (entry.anisoLevel );
                     Debug.Log(entry.settings.generateMipMaps);
-
+                    //entry.settings.filterMode
                 }
                 
 				

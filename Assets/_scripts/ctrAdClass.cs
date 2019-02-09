@@ -10,7 +10,7 @@ using Facebook.Unity;
 using UnityEngine.SceneManagement;
 
 
-using Odnoklassniki;
+//using Odnoklassniki;
 using Object = System.Object;
 
 using AppodealAds.Unity.Api;
@@ -18,7 +18,7 @@ using AppodealAds.Unity.Common;
 using UnityEngine.Advertisements;
 //2740765
 
-public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitialAdListener, INonSkippableVideoAdListener {
+public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitialAdListener/*, INonSkippableVideoAdListener*/ {
 
     public static ctrAdClass instance = null;
     public static string adStarted = "";
@@ -59,9 +59,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     private int levelAdCounter = 0;
 
 #if UNITY_ANDROID
-    string appKeyAppodeal = "696005dece72ab367077e595ed5b245f52a52044528a8f80";
+    public static string appKeyAppodeal = "696005dece72ab367077e595ed5b245f52a52044528a8f80";
 #else
-    string appKeyAppodeal = "3a4bc268f2c33545ea93819a1f82e439b9d34a9bd0a23174";
+    public static string appKeyAppodeal = "3a4bc268f2c33545ea93819a1f82e439b9d34a9bd0a23174";
 #endif
     List<string> availableNetworks = new List<string>() { "adcolony", "admob", "amazon_ads", "applovin", "appnext", "avocarrot", "chartboost", "facebook", "flurry", "inmobi", "inner-active", "ironsource", "mailru", "mmedia", "mopub", "mobvista", "ogury", "openx", "pubnative", "smaato", "startapp", "tapjoy", "unity_ads", "vungle", "yandex" };
         
@@ -78,27 +78,28 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         DontDestroyOnLoad(gameObject);
 
         if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
-        if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
-            disableNetworks();
+        //if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
+        //    disableNetworks();
         if (ctrProgressClass.progress["firstTimeAd"] == 0) initUnityAds();
     }
 
     public static void initUnityAds() {
-        Advertisement.Initialize("2740765");
+        //Advertisement.Initialize("2740765");
     }
     public static bool isUnityAdsReady() {
-        return Advertisement.IsReady("video");
+        //return Advertisement.IsReady("video");
+        return false;
     }
     public static void showUnityAds() {
-        Advertisement.Show("video");
+        //Advertisement.Show("video");
         ctrProgressClass.progress["firstTimeAd"] = 1;
     }
     public void initAppodeal () {
-        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL | Appodeal.NON_SKIPPABLE_VIDEO);
+        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL /*| Appodeal.NON_SKIPPABLE_VIDEO*/);
         
         Appodeal.setRewardedVideoCallbacks(this);
         Appodeal.setInterstitialCallbacks(this);
-        Appodeal.setNonSkippableVideoCallbacks(this);
+        //Appodeal.setNonSkippableVideoCallbacks(this);
     }
 
     public void ShowRewardedAd()
@@ -121,13 +122,14 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         else
         {
             //if loading failed, send analytics event
-            adsAttributes["status"] = "failed";
+            adsAttributes["status"] = "notready";
             if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
             else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "level") GameObject.Find("/default level/gui/ad dont ready menu").transform.GetChild(0).gameObject.SetActive(true);
         }
-        //setReward(); //test
+        //fix for test
+        //setReward(); 
     }
 
     void setReward()
@@ -186,11 +188,15 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
             ctrProgressClass.saveProgress();
             gHintClass.initDream();
         }
+        else if (adStarted == "hintShowAd") {
+            Debug.Log("setReward hintShowAd");
+            gHintClass.useHint();
+        }
         ctrProgressClass.saveProgress();
         adStarted = "";
     }
 
-    bool isAdReady(int type)
+    public static bool isAdReady(int type)
     {
         if (Appodeal.isLoaded(type)) return true;
         else Appodeal.initialize(appKeyAppodeal, type);
@@ -203,9 +209,11 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
         //if OK, ad rate /2
         float r = UnityEngine.Random.value;
-        if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1 && r > 0.5F) return false;
+        //if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1 && r > 0.5F) return false;
 
-        if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= 5 && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
+        int adAfterLevel = 5;
+        if (staticClass.adHard) adAfterLevel = 1;
+        if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= adAfterLevel && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;
 
@@ -245,7 +253,8 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
             {
                 Debug.Log("need ShowLevelAd");
                 //staticClass.setApplicationFocus(false); for test
-                if (levelAdCounter % 3 == 2 && isAdReady(Appodeal.NON_SKIPPABLE_VIDEO)) {
+                //if (levelAdCounter % 3 == 2 && isAdReady(Appodeal.NON_SKIPPABLE_VIDEO)) {
+                if (false) {
                     ctrAdClass.adStarted = "level";
                     adsAttributes["type"] = "non_skippable";
                     //Appodeal.
@@ -271,7 +280,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
                 }
                 else
                 {
-                    adsAttributes["status"] = "failed";
+                    adsAttributes["status"] = "notready";
                     Debug.Log("ShowLevelAd fail");
                     if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
                 }
@@ -318,6 +327,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     }
     */
     //--------------------------------- Appodeal -----------------------------------------------------------------------------------
+    /*
     void disableNetworks()
     {
         foreach (string value in availableNetworks)
@@ -326,7 +336,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
             Appodeal.disableNetwork(value);
         }
     }
-
+    */
 
      #region Rewarded Video callback handlers
     public void onRewardedVideoLoaded(bool flag)
@@ -339,18 +349,23 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     public void onRewardedVideoFailedToLoad()
     {
         Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO);
+        adsAttributes["type"] = "rewarded";
+        adsAttributes["status"] = "failed";
+        ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
         print("Rewarded Video failed");
     }
     public void onRewardedVideoShown()
     {
         adsAttributes["type"] = "rewarded";
         adsAttributes["status"] = "shown";
+        ctrAnalyticsClass.lastAction = adsAttributes["name"] + "RewardedShown";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
         print("Video shown");
     }
     public void onRewardedVideoClosed(bool finished) {
         adsAttributes["type"] = "rewarded";
         adsAttributes["status"] = "closed";
+        ctrAnalyticsClass.lastAction = "";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
         print("Video closed"); }
 
@@ -388,6 +403,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     public void onInterstitialFailedToLoad()
     {
         Appodeal.initialize(appKeyAppodeal, Appodeal.INTERSTITIAL);
+        adsAttributes["type"] = "interstitial";
+        adsAttributes["status"] = "failed";
+        ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
         print("Video Interstitial failed");
     }
 
@@ -399,6 +417,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         print("onInterstitialShown");
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //if (adReward == "levelFinished") LevelFinishedGUI.instance.adShown();
+        ctrAnalyticsClass.lastAction = "InterstitialShown";
         staticClass.setApplicationFocus(false);
 
     }
@@ -429,9 +448,11 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         adsAttributes["type"] = "interstitial";
         adsAttributes["status"] = "closed";
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+        ctrAnalyticsClass.lastAction = "";
         staticClass.setApplicationFocus(true);
 
         print("onInterstitialClosed");
+
     }
     public void onInterstitialExpired()
     {
@@ -440,6 +461,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     #endregion
 
     #region Non Skippable callback handlers
+    /*
     public void onNonSkippableClicked() {
         adsAttributes["type"] = "non_skippable";
         adsAttributes["status"] = "clicked";
@@ -448,6 +470,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     }
     public void onNonSkippableVideoFailedToLoad() {
         Appodeal.initialize(appKeyAppodeal, Appodeal.NON_SKIPPABLE_VIDEO);
+        adsAttributes["type"] = "non_skippable";
+        adsAttributes["status"] = "failed";
+        ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
         print("onNonSkippableVideoFailedToLoad");
     }
 
@@ -488,6 +513,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     public void onNonSkippableVideoExpired() {
 
     }
+    */
     #endregion
 
 

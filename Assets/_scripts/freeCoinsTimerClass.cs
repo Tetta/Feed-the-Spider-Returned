@@ -28,6 +28,12 @@ public class freeCoinsTimerClass : MonoBehaviour {
     //public static int firstInterval = 0;
     public static int firstInterval = 60 * 5;
 
+    public void Awake() {
+        if (staticClass.adHard)
+            firstInterval = 60 * 60 * 4;
+        else
+            firstInterval = 60 * 5;
+    }
 
     // Use this for initialization
     void Start () {
@@ -153,8 +159,8 @@ public class freeCoinsTimerClass : MonoBehaviour {
             adCoinsGO.transform.GetChild(0).gameObject.SetActive(true);
             //adCoinsGO.transform.GetChild(2).gameObject.SetActive(true);
             adCoinsGO.GetComponent<BoxCollider>().enabled = true;
-            ctrProgressClass.progress["adCoinsDate"] = (int)DateTime.Now.AddSeconds(firstInterval).TotalSeconds();
-            AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(firstInterval);
+            ctrProgressClass.progress["adCoinsDate"] = (int)DateTime.Now.AddSeconds(AdCoinsTimerClass.interval).TotalSeconds();
+            AdCoinsTimerClass.timer = DateTime.Now.AddSeconds(AdCoinsTimerClass.interval);
             adCoinsGO.GetComponent<AdCoinsTimerClass>().Start();
         }
         else

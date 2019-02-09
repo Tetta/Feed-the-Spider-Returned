@@ -19,11 +19,18 @@ public class AdCoinsTimerClass : MonoBehaviour {
     public GameObject inactive;
 
     public static int counter = 0;
-    public static DateTime timer = DateTime.Now.AddSeconds(60 * 5);
+    public static DateTime timer;// = DateTime.Now.AddSeconds(60 * 5);
     public static int interval = 60 * 5;
     //public static int firstInterval = 60 * 4;
 
-
+    public void Awake() {
+        //PlayerPrefs.DeleteAll();
+        if (staticClass.adHard)
+            interval = 0;
+        else
+            interval = 60 * 5;
+        //timer = DateTime.Now.AddSeconds(interval);
+    }
 
     // Use this for initialization
     public void Start () {
@@ -58,8 +65,10 @@ public class AdCoinsTimerClass : MonoBehaviour {
             if (ctrProgressClass.progress["tutorialAdCoins"] == 1) hand.transform.GetChild(1).gameObject.SetActive(false);
             if (ctrProgressClass.progress["tutorialAdCoins"] < 2)
             {
-                hand.SetActive(true);
-                ctrProgressClass.progress["tutorialAdCoins"]++;
+                if (staticClass.adHard && ctrProgressClass.progress["tutorialBuy"] > 0 || !staticClass.adHard) {
+                    hand.SetActive(true);
+                    ctrProgressClass.progress["tutorialAdCoins"]++;
+                }
             }
             
 

@@ -2,7 +2,7 @@
 //  APDReviewVideo.h
 //  Appodeal
 //
-//  AppodealSDK version 2.4.6.1-Beta
+//  AppodealSDK version 2.5.0-Beta
 //
 //  Copyright © 2018 Appodeal, Inc. All rights reserved.
 //
@@ -99,10 +99,6 @@
  *  Set delegate to skippable video
  */
 @property (weak, nonatomic, nullable) id<APDRewardedVideoDelegate> delegate;
-///*!
-// *  Get current placement name, that you create in the Appodeal Dashboard
-// */
-//@property (copy, nonatomic, readonly, nullable) NSString * placement;
 /*!
  *  Set custom SDK
  */

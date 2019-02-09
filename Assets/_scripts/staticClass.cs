@@ -40,15 +40,19 @@ public class staticClass
         levels[6, 0] = 2;
         levels[6, 1] = 201;
         levels[7, 0] = 3;
-        levels[7, 1] = 102;
-        levels[11, 0] = 3;
-        levels[11, 1] = 7;
+        levels[7, 1] = 15;
+        //levels[7, 1] = 102; v.1.0.37
+        levels[9, 0] = 3; // v.1.0.37 = 11 level
+        levels[9, 1] = 9; // v.1.0.37 = 11 level
+        levels[10, 0] = 3; // v.1.0.37 = 11 level
+        levels[10, 1] = 9; // v.1.0.37 = 11 level
+
         levels[5, 0] = 1;
         levels[5, 1] = 11;
         levels[57, 0] = 2;
         levels[57, 1] = 102;
-        levels[10, 0] = 2;
-        levels[10, 1] = 201;
+        levels[11, 0] = 2;// v.1.0.37 = 10 level
+        levels[11, 1] = 201;// v.1.0.37 = 10 level
         levels[8, 0] = 2;
         levels[8, 1] = 201;
         levels[52, 0] = 0;
@@ -146,8 +150,8 @@ public class staticClass
 		levels[55, 1] = 16;
 		levels[61, 0] = 3;
 		levels[61, 1] = 204;
-		levels[9, 0] = 0;
-		levels[9, 1] = 102;
+		//levels[9, 0] = 0;
+		//levels[9, 1] = 102;
 		levels[54, 0] = 3;
 		levels[54, 1] = 21;
 		levels[59, 0] = 2;
@@ -158,16 +162,16 @@ public class staticClass
         levels[18, 1] = 101;
 		levels[69, 0] = 1;
 		levels[69, 1] = 9;
-		levels[15, 0] = 0;
-        levels[15, 1] = 102;
+		levels[24, 0] = 0;
+        levels[24, 1] = 102; //15
 		levels[68, 0] = 2;
 		levels[68, 1] = 8;
 		levels[75, 0] = 3;
 		levels[75, 1] = 104;
 		levels[74, 0] = 1;
 		levels[74, 1] = 9;
-		levels[24, 0] = 2;
-		levels[24, 1] = 10;
+		levels[15, 0] = 3;
+		levels[15, 1] = 10;
 		levels[64, 0] = 2;
 		levels[64, 1] = 12;
 		levels[70, 0] = 2;
@@ -543,7 +547,7 @@ public class staticClass
     public static bool notGemsForLevel = false;
 
     public static int  rateUsLast = 0;
-    public static List<int> rateUsLevels = new List<int> {8, 16, 25, 32, 41, 48, 57, 63, 70, 80, 88, 96, 100};
+    public static List<int> rateUsLevels = new List<int> {9, 16, 25, 32, 41, 48, 57, 63, 70, 80, 88, 96, 100};
     public static string rateUsSceneNext;
 
     public static bool showRewardCardsMenu = false;
@@ -656,5 +660,7 @@ public class staticClass
     public static int keysBefore = 3000;
     //for play anim "block disable" on map when buy chapter
     public static bool buyChapter = false;
+    //for ad hell
+    public static bool adHard = true;
 }
 
