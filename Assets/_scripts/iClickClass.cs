@@ -260,8 +260,10 @@ public class iClickClass : MonoBehaviour {
                     staticClass.scenePrev = "level menu";
 		            sceneNeedLoad = "level1";
                     //async = SceneManager.LoadSceneAsync("level1");
-		        }
-		        else
+                    ctrAnalyticsClass.funnelStart(3, "play_button_click");
+
+                }
+                else
 		        {
                     sceneNeedLoad = "level menu";
 
@@ -294,28 +296,27 @@ public class iClickClass : MonoBehaviour {
 
             }
             else if (name == "button next") {
-                if (staticClass.scenePrev.Substring(0, 5) == "level")
-                {
+                if (staticClass.scenePrev.Substring(0, 5) == "level") {
                     //rate us
                     Debug.Log("staticClass.rateUsLast: " + staticClass.rateUsLast);
                     Debug.Log("int.Parse(staticClass.scenePrev.Substring(5): " + int.Parse(staticClass.scenePrev.Substring(5)));
                     if (staticClass.rateUsLast < int.Parse(staticClass.scenePrev.Substring(5)) &&
-                        staticClass.rateUsLevels.Contains(int.Parse(staticClass.scenePrev.Substring(5)) ))
-                    {
+                        staticClass.rateUsLevels.Contains(int.Parse(staticClass.scenePrev.Substring(5)))) {
                         rateUsMenuEnable();
                         sceneCanLoad = false;
                         staticClass.rateUsSceneNext = "level menu";
                     }
-                    else
-                    {
+                    else {
                         sceneNeedLoad = "level menu";
                         //async = SceneManager.LoadSceneAsync("level menu");
                     }
 
                 }
-                else
+                else {
                     //async = SceneManager.LoadSceneAsync ("level menu");
                     sceneNeedLoad = "level menu";
+                    ctrAnalyticsClass.funnelStart(8, "level1_next_click");
+                }
             } else if (name == "button play") {
 				//если открыта вкладка основного прохождения
 				if (transform.parent.GetChild(0).GetChild(2).gameObject.activeSelf ) 
@@ -359,6 +360,7 @@ public class iClickClass : MonoBehaviour {
                     staticClass.levelRestartedCount = -1;
 
                 initLevelMenuClass.levelDemands = 1;
+                ctrAnalyticsClass.funnelStart(13, "island2_play_click");
 
             }
             else if (name.Substring (0, 5) == "level") {
@@ -936,6 +938,10 @@ public class iClickClass : MonoBehaviour {
         {
             Debug.Log(ctrPreviewBoosterClass.instance);
             ctrPreviewBoosterClass.instance.gameObject.SetActive(false);
+        }
+        else if (name == "button subscription exit") {
+            Debug.Log("button subscription exit");
+            ctrSubscriptionClass.instance.panel.SetActive(false);
         }
     }
 

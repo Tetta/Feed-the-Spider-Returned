@@ -236,11 +236,11 @@ public class gWebClass : MonoBehaviour {
 				diffX = maxDiffC / orbyDiffC * diff.x / maxChainCount;
 				diffY = maxDiffC / orbyDiffC * diff.y / maxChainCount;
 				webState = "creatingWeb";
-				//creating web instant
-				//for (int i = 0; i < maxChainCount2; )
+                //creating web instant
+                //for (int i = 0; i < maxChainCount2; )
+                if (ctrProgressClass.progress["currentLevel"] == 1) ctrAnalyticsClass.funnelStart(5, "level1_web_on");
 
-
-			}
+            }
 			if (webState == "enableWeb") {
 				//tutorial
 				if (SceneManager.GetActiveScene ().name == "level1") 
@@ -255,8 +255,9 @@ public class gWebClass : MonoBehaviour {
 				staticClass.useWeb++;
 				webState = "destroyingWeb";
 				globalCounter = 1;
-			}
-		}
+                if (ctrProgressClass.progress["currentLevel"] == 1) ctrAnalyticsClass.funnelStart(6, "level1_web_off");
+            }
+        }
 
 	}
 

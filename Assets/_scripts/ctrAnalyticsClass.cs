@@ -38,8 +38,8 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Awake()
     {
         //fix - false for publish
-       //Debug.unityLogger.logEnabled = false;
         Debug.unityLogger.logEnabled = true;
+        //Debug.unityLogger.logEnabled = false;
 
         //Localytics.Upload();
         if (FB.IsInitialized)
@@ -421,4 +421,12 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
     }
 
+
+    public static void funnelStart(int step, string stepName ) {
+        if (ctrProgressClass.progress["funnelStep"] < step) {
+            ctrProgressClass.progress["funnelStep"] = step;
+            ctrProgressClass.saveProgress();
+            sendEvent("FunnelStart", new Dictionary<string, string> { { "step", step.ToString("00") + "_" + stepName } });
+        }
+    }
 }

@@ -95,7 +95,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         ctrProgressClass.progress["firstTimeAd"] = 1;
     }
     public void initAppodeal () {
-        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL /*| Appodeal.NON_SKIPPABLE_VIDEO*/);
+        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL, true /*| Appodeal.NON_SKIPPABLE_VIDEO*/);
         
         Appodeal.setRewardedVideoCallbacks(this);
         Appodeal.setInterstitialCallbacks(this);
@@ -123,6 +123,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         {
             //if loading failed, send analytics event
             adsAttributes["status"] = "notready";
+            //fix убрать таймер
             if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
@@ -282,6 +283,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
                 {
                     adsAttributes["status"] = "notready";
                     Debug.Log("ShowLevelAd fail");
+                    //fix убрать таймер
                     if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
                 }
 
@@ -419,6 +421,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         //if (adReward == "levelFinished") LevelFinishedGUI.instance.adShown();
         ctrAnalyticsClass.lastAction = "InterstitialShown";
         staticClass.setApplicationFocus(false);
+        ctrAnalyticsClass.funnelStart(9, "level1_interstitial_shown");
 
     }
     public void onInterstitialFinished()
@@ -452,6 +455,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         staticClass.setApplicationFocus(true);
 
         print("onInterstitialClosed");
+        ctrAnalyticsClass.funnelStart(10, "level1_interstitial_closed");
 
     }
     public void onInterstitialExpired()

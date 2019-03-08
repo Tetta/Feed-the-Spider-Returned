@@ -148,7 +148,9 @@ public class lsLevelClass : MonoBehaviour {
 	        }
 	    }
 
-	}
+
+        if (level == 2) ctrAnalyticsClass.funnelStart(12, "island2_click");
+    }
 
 	/// <summary>
 	/// Checks if a line between p0 to p1 intersects a line between p2 and p3

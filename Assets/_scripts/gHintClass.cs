@@ -396,10 +396,13 @@ public class gHintClass : MonoBehaviour {
 		actions[5].id = new Vector3(0.3730469F, 0.3359375F, 0F); //sluggish
 		actions[5].frame = 45;
 		actions[5].mouse = new Vector3(0.5667448F, 0.6135831F, 0F);
-		actions[6].id = new Vector3(-0.3046875F, 0.4179688F, 0F); //web
-		actions[6].frame = 57;
-		actions[6].mouse = new Vector3(0F, 0F, 0F);
-	}
+        actions[6].id = new Vector3(0.3730469F, 0.3359375F, 0F); //sluggish
+        actions[6].frame = 100;
+        actions[6].mouse = new Vector3(0.2392534F, -0.1323529F, 0F);
+        //actions[6].id = new Vector3(-0.3046875F, 0.4179688F, 0F); //web
+        //actions[6].frame = 57;
+        //actions[6].mouse = new Vector3(0F, 0F, 0F);
+    }
 	void level12_1 () {
 		actions = new action[5];
 
@@ -764,11 +767,15 @@ public class gHintClass : MonoBehaviour {
 
     }
     void level11_1 () { //v.1.0.37 = 10 level
-        actions = new action[4];
+        actions = new action[2];
 
 		actions[0].id = new Vector3(0.3222656F, 0.9082031F, 0F); //web
 		actions[0].frame = 69;
 		actions[0].mouse = new Vector3(0F, 0F, 0F);
+        actions[1].id = new Vector3(0.3222656F, 0.9082031F, 0F); //web
+        actions[1].frame = 80;
+        actions[1].mouse = new Vector3(0F, 0F, 0F);
+        /*
 		actions[1].id = new Vector3(0.07617188F, -0.3125F, 0F); //web
 		actions[1].frame = 114;
 		actions[1].mouse = new Vector3(0F, 0F, 0F);
@@ -778,7 +785,8 @@ public class gHintClass : MonoBehaviour {
 		actions[3].id = new Vector3(0.07617188F, -0.3125F, 0F); //web
 		actions[3].frame = 53;
 		actions[3].mouse = new Vector3(0F, 0F, 0F);
-	}
+        */
+    }
     void level8_0() {
         actions = new action[7];
         

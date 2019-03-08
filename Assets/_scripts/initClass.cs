@@ -15,7 +15,7 @@ public class initClass : MonoBehaviour {
 	public GameObject leaderboards;
 	public GameObject closeMenu;
 	public GameObject market;
-	public GameObject spider;
+    public GameObject spider;
     public GameObject logo;
     public Transform berry;
     public GameObject openBoosterMenu;
@@ -33,7 +33,6 @@ public class initClass : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
 	{
-        Debug.Log("ctrAdClass.unityAdsLoaded: " + ctrAdClass.unityAdsLoaded);
         Debug.Log("Time.realtimeSinceStartup: " + Time.realtimeSinceStartup);
         if (ctrAdClass.unityAdsLoaded) ctrAdClass.showUnityAds();
         ctrProgressClass.progress["firstTimeAd"] = 1;
@@ -79,19 +78,8 @@ public class initClass : MonoBehaviour {
 
 
         //ctrProgressClass.progress["language"] = 1;
-        //everyplay
-        if (ctrProgressClass.progress ["everyplay"] == 1) {
-		//	Everyplay.SetDisableSingleCoreDevices (true);
-		//	Everyplay.SetMaxRecordingMinutesLength(10);
-			//Everyplay.SetLowMemoryDevice (true);
-		}
-        /*
-        if (!Everyplay.IsRecordingSupported () || ctrProgressClass.progress ["everyplay"] == 0) {
-			ctrProgressClass.progress ["everyplay"] = 0;
-			GameObject.Find ("camera button").transform.GetChild(0).gameObject.SetActive (true);
-			GameObject.Find ("camera button").transform.GetChild(1).gameObject.SetActive (false);
-		}
-        */
+
+
 		ctrProgressClass.saveProgress ();
 
 		if (ctrProgressClass.progress ["music"] == 0)  GameObject.Find ("music").GetComponent<AudioSource> ().mute = true;
@@ -116,7 +104,8 @@ public class initClass : MonoBehaviour {
 		//market
 		market.SetActive(true);
 
-		staticClass.sceneLoading = false;
+
+        staticClass.sceneLoading = false;
 
 		Time.timeScale = 1;
         Debug.Log("Time.timeScale: " + Time.timeScale);
@@ -151,6 +140,7 @@ public class initClass : MonoBehaviour {
         }
         if (ctrProgressClass.progress["rewardRepostOK"] == 1) repostRewardOK.SetActive(false);
 
+        ctrAnalyticsClass.funnelStart(2, "menu_scene");
 
     }
 

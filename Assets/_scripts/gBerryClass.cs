@@ -257,6 +257,9 @@ public class gBerryClass : MonoBehaviour {
         if (marketClass.instance != null) marketClass.instance.sale.GetComponent<lsSaleClass>().OnEnable();
 
         staticClass.sendPlayLevelStats = false;
+
+        if (ctrProgressClass.progress["currentLevel"] == 1) ctrAnalyticsClass.funnelStart(4, "level1_start");
+        if (ctrProgressClass.progress["currentLevel"] == 2) ctrAnalyticsClass.funnelStart(14, "level2_start");
     }
 
 
@@ -641,7 +644,6 @@ public class gBerryClass : MonoBehaviour {
     {
         Debug.Log("endLevel: " + result);
 
-        
         //var resultStr = (result) ? "win" : "lost";
         var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
 
@@ -656,9 +658,11 @@ public class gBerryClass : MonoBehaviour {
         if (initLevelMenuClass.levelDemands == 0) attr.Add("stars", starsCounter.ToString());
         ctrAnalyticsClass.sendEvent("Play_Level", attr);
 
+        if (ctrProgressClass.progress["currentLevel"] == 1 && result == "win") ctrAnalyticsClass.funnelStart(7, "level1_finish");
+        if (ctrProgressClass.progress["currentLevel"] == 2 && result == "win") ctrAnalyticsClass.funnelStart(15, "level2_finish");
     }
 
-	void OnDestroy() {
+    void OnDestroy() {
 		//Everyplay
 		//if (Everyplay.IsRecording ())
 		//	Everyplay.StopRecording ();

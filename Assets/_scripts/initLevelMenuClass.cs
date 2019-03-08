@@ -163,10 +163,13 @@ public class initLevelMenuClass : MonoBehaviour {
 		else
 			shieldMarketButton.SetActive(false);
 
-	}
 
-	// Update is called once per frame
-	void Update () {
+        ctrAnalyticsClass.funnelStart(11, "level_menu_scene");
+
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 		//обработка кнопки "Назад" на Android
 		if (Input.GetButtonDown("Cancel")) {
