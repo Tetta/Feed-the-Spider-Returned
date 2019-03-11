@@ -942,6 +942,7 @@ public class iClickClass : MonoBehaviour {
         else if (name == "button subscription exit") {
             Debug.Log("button subscription exit");
             ctrSubscriptionClass.instance.panel.SetActive(false);
+            ctrSubscriptionClass.instance.congrats.SetActive(false);
         }
     }
 
@@ -1162,5 +1163,9 @@ public class iClickClass : MonoBehaviour {
     {
         Debug.Log("clickLogout");
         ctrFbKiiClass.instance.share();
+    }
+
+    public void restorePurchases () {
+        marketClass.instance.GetComponent<CompleteProject.Purchaser>().RestorePurchases();
     }
 }

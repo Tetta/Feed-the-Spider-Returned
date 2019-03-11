@@ -7,6 +7,7 @@ public class ctrSubscriptionClass : MonoBehaviour
     public static ctrSubscriptionClass instance;
     public Transform items;
     public GameObject panel;
+    public GameObject congrats;
     float timerItems = 0;
     // Start is called before the first frame update
     void Awake() {
@@ -51,6 +52,24 @@ public class ctrSubscriptionClass : MonoBehaviour
         }
         //GetComponent<Animation>().Play("star 4");
 
+
+    }
+
+    public void getReward () {
+        // { "berry1",1},{ "berry2",0},{ "berry3",0},{ "berry4",0},{ "berry5",0},
+        //{ "hat1",1},{ "hat2",0},{ "hat3",0},{ "hat4",0},{ "hat5",0},
+        //{ "skin1",1},{ "skin2",0},{ "skin3",0},{ "skin4",0},{ "skin5",0},
+
+        for (int i = 2; i <= 5; i++) {
+            ctrProgressClass.progress["berry" + i]++;
+            ctrProgressClass.progress["hat" + i]++;
+            ctrProgressClass.progress["skin" + i]++;
+        }
+        ctrProgressClass.progress["vip"] = 1;
+        ctrProgressClass.saveProgress();
+
+        panel.SetActive(false);
+        congrats.SetActive(true);
 
     }
 }

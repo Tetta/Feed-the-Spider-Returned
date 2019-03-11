@@ -86,6 +86,10 @@ public class gHintClass : MonoBehaviour {
 		flagTransform = false;
 		hintStartPos = new Vector3 (-4, 0, 0);
 
+        if (ctrProgressClass.progress["vip"] == 1) {
+            transform.GetChild(0).gameObject.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(true);
+        } else
         if (staticClass.adHard) {
             if (ctrProgressClass.progress["hints"] == 0) {
                 transform.GetChild(0).gameObject.SetActive(false);
@@ -97,7 +101,7 @@ public class gHintClass : MonoBehaviour {
 
 
 
-	}
+    }
 	
 	// Update is called once per frame
 	void Update() {
@@ -176,7 +180,7 @@ public class gHintClass : MonoBehaviour {
     void OnPress(bool flag) {
         if (!flag) {
 
-            if (ctrProgressClass.progress["hints"] > 0) {
+            if (ctrProgressClass.progress["hints"] > 0 || ctrProgressClass.progress["vip"] == 1) {
                 //off tutorial hint
                 if (ctrProgressClass.progress["tutorialHint"] == 0) {
                     if (GameObject.Find("/default level/gui/tutorial hint(Clone)") != null)
@@ -196,7 +200,7 @@ public class gHintClass : MonoBehaviour {
                 });
 
                 GetComponent<AudioSource>().Play();
-                ctrProgressClass.progress["hints"]--;
+                if (ctrProgressClass.progress["vip"] != 1) ctrProgressClass.progress["hints"]--;
                 transform.GetChild(0).GetComponent<UILabel>().text = ctrProgressClass.progress[name].ToString();
                 ctrProgressClass.saveProgress();
                 Time.timeScale = 1;
@@ -205,7 +209,7 @@ public class gHintClass : MonoBehaviour {
                 useHint();
 
             }
-            if (staticClass.adHard) {
+            else if (staticClass.adHard) {
                 if (ctrProgressClass.progress["hints"] == 0) {
                     ctrAdClass.adStarted = "hintShowAd";
                     ctrAdClass.instance.ShowRewardedAd();
@@ -773,7 +777,7 @@ public class gHintClass : MonoBehaviour {
 		actions[0].frame = 69;
 		actions[0].mouse = new Vector3(0F, 0F, 0F);
         actions[1].id = new Vector3(0.3222656F, 0.9082031F, 0F); //web
-        actions[1].frame = 80;
+        actions[1].frame = 105;
         actions[1].mouse = new Vector3(0F, 0F, 0F);
         /*
 		actions[1].id = new Vector3(0.07617188F, -0.3125F, 0F); //web

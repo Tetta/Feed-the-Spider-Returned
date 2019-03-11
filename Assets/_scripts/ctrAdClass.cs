@@ -124,7 +124,8 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
             //if loading failed, send analytics event
             adsAttributes["status"] = "notready";
             //fix убрать таймер
-            if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+            //if (isTimeToSendFailedAdAnalytics())
+                ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
             else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "level") GameObject.Find("/default level/gui/ad dont ready menu").transform.GetChild(0).gameObject.SetActive(true);
@@ -284,7 +285,8 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
                     adsAttributes["status"] = "notready";
                     Debug.Log("ShowLevelAd fail");
                     //fix убрать таймер
-                    if (isTimeToSendFailedAdAnalytics()) ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+                    //if (isTimeToSendFailedAdAnalytics())
+                        ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
                 }
 
             }

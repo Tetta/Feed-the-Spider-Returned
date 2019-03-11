@@ -165,12 +165,12 @@ public class ctrNotificationClass: MonoBehaviour
         }
         
         //fix test
-		
+		/*
         delay = new TimeSpan(0, 0, 0);
         delay = delay.Add(new TimeSpan(0, 0, 30));
         sendNotification(8, delay, "", "TEST", new Color32(0xff, 0x44, 0x44, 255));
         Debug.Log("notifer test: " );
-        
+        */
         
     }
 

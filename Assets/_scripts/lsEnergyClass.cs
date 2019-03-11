@@ -337,7 +337,7 @@ public class lsEnergyClass : MonoBehaviour {
     {
         DateTime startDate = new DateTime(1970, 1, 1, 0, 0, 0, 0);
         //если бесконечная энергия на день
-        if (startDate.AddSeconds(ctrProgressClass.progress["energyInfinity"]) > DateTime.Now)
+        if (startDate.AddSeconds(ctrProgressClass.progress["energyInfinity"]) > DateTime.Now || ctrProgressClass.progress["vip"] == 1)
         {
             energyInfinity = true;
             infinity.SetActive(true);
@@ -360,7 +360,7 @@ public class lsEnergyClass : MonoBehaviour {
                 str = timeDiff.Seconds.ToString();
                 if (timeDiff.Seconds < 10) str = "0" + timeDiff.Seconds;
                 buttonBuyEnergy.transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<UILabel>().text = str;
-
+                if (ctrProgressClass.progress["vip"] == 1) buttonBuyEnergy.SetActive(false);
             }
         }
         else

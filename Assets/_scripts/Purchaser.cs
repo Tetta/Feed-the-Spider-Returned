@@ -19,7 +19,8 @@ namespace CompleteProject
     {
         private static IStoreController m_StoreController;          // The Unity Purchasing system.
         private static IExtensionProvider m_StoreExtensionProvider; // The store-specific Purchasing subsystems.
-        
+        private IGooglePlayStoreExtensions m_GooglePlayStoreExtensions;
+        private IAppleExtensions m_AppleExtensions;
         // Product identifiers for all products capable of being purchased: 
         // "convenience" general identifiers for use with Purchasing, and their store-specific identifier 
         // counterparts for use with and outside of Unity Purchasing. Define store-specific identifiers 
@@ -253,9 +254,15 @@ namespace CompleteProject
             // Store specific subsystem, for accessing device-specific store features.
             m_StoreExtensionProvider = extensions;
 
+            m_GooglePlayStoreExtensions = extensions.GetExtension<IGooglePlayStoreExtensions>();
+            m_AppleExtensions = extensions.GetExtension<IAppleExtensions>();
+
+            int vip = 0;
+
+            Dictionary<string, string> introductory_info_dict = m_AppleExtensions.GetIntroductoryPriceDictionary();
 
             //controller.products.all.First().metadata.localizedPrice
-            foreach (var product in controller.products.all)
+            foreach (var item in controller.products.all)
             {
                 //Debug.Log(product.metadata.localizedPrice);
                 //Debug.Log(product.metadata.isoCurrencyCode);
@@ -266,23 +273,78 @@ namespace CompleteProject
                // Fetch the currency Product reference from Unity Purchasing
                 //Debug.Log(product.definition.id);
 //#if UNITY_ANDROID
-                if (product.definition.id.Length > 28)
+                if (item.definition.id.Length > 28)
                 {
-                    if (staticClass.prices.ContainsKey(product.definition.id.Substring(27))) staticClass.prices[product.definition.id.Substring(27)] = product.metadata.localizedPriceString;
+                    if (staticClass.prices.ContainsKey(item.definition.id.Substring(27))) staticClass.prices[item.definition.id.Substring(27)] = item.metadata.localizedPriceString;
                 }
-//#elif UNITY_IOS
-//                if (product.definition.id.Length > 23)
-//                {
-//                    if (staticClass.prices.ContainsKey(product.definition.id.Substring(22))) staticClass.prices[product.definition.id.Substring(22)] = product.metadata.localizedPriceString;
-//                }
-//#endif               
+                //#elif UNITY_IOS
+                //                if (product.definition.id.Length > 23)
+                //                {
+                //                    if (staticClass.prices.ContainsKey(product.definition.id.Substring(22))) staticClass.prices[product.definition.id.Substring(22)] = product.metadata.localizedPriceString;
+                //                }
+                //#endif                         if (item.availableToPurchase)
+                {
+                    Debug.Log(string.Join(" - ",
+                        new[]
+                        {
+                        item.metadata.localizedTitle,
+                        item.metadata.localizedDescription,
+                        item.metadata.isoCurrencyCode,
+                        item.metadata.localizedPrice.ToString(),
+                        item.metadata.localizedPriceString,
+                        item.transactionID,
+                        item.receipt
+                        }));
+
+                    // this is the usage of SubscriptionManager class
+                    if (item.receipt != null) {
+                        if (item.definition.type == ProductType.Subscription) {
+                            if (checkIfProductIsAvailableForSubscriptionManager(item.receipt)) {
+                                string intro_json = (introductory_info_dict == null || !introductory_info_dict.ContainsKey(item.definition.storeSpecificId)) ? null : introductory_info_dict[item.definition.storeSpecificId];
+                                SubscriptionManager p = new SubscriptionManager(item, intro_json);
+                                SubscriptionInfo info = p.getSubscriptionInfo();
+                                Debug.Log("product id is: " + info.getProductId());
+                                Debug.Log("purchase date is: " + info.getPurchaseDate());
+                                Debug.Log("subscription next billing date is: " + info.getExpireDate());
+                                Debug.Log("is subscribed? " + info.isSubscribed().ToString());
+
+                                if (info.isSubscribed().ToString() == "True") vip = 1;
+
+                                Debug.Log("is expired? " + info.isExpired().ToString());
+                                Debug.Log("is cancelled? " + info.isCancelled());
+                                Debug.Log("product is in free trial peroid? " + info.isFreeTrial());
+                                Debug.Log("product is auto renewing? " + info.isAutoRenewing());
+                                Debug.Log("subscription remaining valid time until next billing date is: " + info.getRemainingTime());
+                                Debug.Log("is this product in introductory price period? " + info.isIntroductoryPricePeriod());
+                                Debug.Log("the product introductory localized price is: " + info.getIntroductoryPrice());
+                                Debug.Log("the product introductory price period is: " + info.getIntroductoryPricePeriod());
+                                Debug.Log("the number of product introductory price period cycles is: " + info.getIntroductoryPricePeriodCycles());
+                            }
+                            else {
+                                Debug.Log("This product is not available for SubscriptionManager class, only products that are purchase by 1.19+ SDK can use this class.");
+                            }
+                        }
+                        else {
+                            Debug.Log("the product is not a subscription product");
+                        }
+                    }
+                    else {
+                        Debug.Log("the product should have a valid receipt");
+                    }
+
+                }
+
+
 
             }
-            
-            
-            
-            //extensions.GetExtension<googl>()
 
+
+
+            //extensions.GetExtension<googl>()
+            if (vip == 0) {
+                ctrProgressClass.progress["vip"] = 0;
+                ctrProgressClass.saveProgress();
+            }
         }
 
 
@@ -418,5 +480,50 @@ namespace CompleteProject
             // this reason with the user to guide their troubleshooting actions.
             Debug.Log(string.Format("OnPurchaseFailed: FAIL. Product: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
         }
+
+        private bool checkIfProductIsAvailableForSubscriptionManager(string receipt) {
+            var receipt_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode(receipt);
+            if (!receipt_wrapper.ContainsKey("Store") || !receipt_wrapper.ContainsKey("Payload")) {
+                Debug.Log("The product receipt does not contain enough information");
+                return false;
+            }
+            var store = (string)receipt_wrapper["Store"];
+            var payload = (string)receipt_wrapper["Payload"];
+
+            if (payload != null) {
+                switch (store) {
+                    case GooglePlay.Name: {
+                            var payload_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode(payload);
+                            if (!payload_wrapper.ContainsKey("json")) {
+                                Debug.Log("The product receipt does not contain enough information, the 'json' field is missing");
+                                return false;
+                            }
+                            var original_json_payload_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode((string)payload_wrapper["json"]);
+                            if (original_json_payload_wrapper == null || !original_json_payload_wrapper.ContainsKey("developerPayload")) {
+                                Debug.Log("The product receipt does not contain enough information, the 'developerPayload' field is missing");
+                                return false;
+                            }
+                            var developerPayloadJSON = (string)original_json_payload_wrapper["developerPayload"];
+                            var developerPayload_wrapper = (Dictionary<string, object>)MiniJson.JsonDecode(developerPayloadJSON);
+                            if (developerPayload_wrapper == null || !developerPayload_wrapper.ContainsKey("is_free_trial") || !developerPayload_wrapper.ContainsKey("has_introductory_price_trial")) {
+                                Debug.Log("The product receipt does not contain enough information, the product is not purchased using 1.19 or later");
+                                return false;
+                            }
+                            return true;
+                        }
+                    case AppleAppStore.Name:
+                    case AmazonApps.Name:
+                    case MacAppStore.Name: {
+                            return true;
+                        }
+                    default: {
+                            return false;
+                        }
+                }
+            }
+            return false;
+        }
+
+
     }
 }

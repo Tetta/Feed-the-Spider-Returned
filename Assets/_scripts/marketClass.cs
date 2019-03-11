@@ -388,6 +388,11 @@ public class marketClass : MonoBehaviour {
                 if (GameObject.Find("energy menu/panel with anim/energy") != null) GameObject.Find("energy menu/panel with anim/energy").GetComponent<lsEnergyClass>().buyEnergyReward();
                 attr["revenue"] = "99";
                 break;
+
+            case "vip_week":
+                //subscriptions
+                ctrSubscriptionClass.instance.getReward();
+                 break;
         }
 
 
@@ -541,7 +546,11 @@ public class marketClass : MonoBehaviour {
 //#else
             instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider." + name);
 //#endif
-
+            //fix
+            //test subscriptions
+            //if (name == "vip_week") {
+            //    ctrSubscriptionClass.instance.getReward();
+            //}
 
         }
 

@@ -38,8 +38,8 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Awake()
     {
         //fix - false for publish
-        Debug.unityLogger.logEnabled = true;
-        //Debug.unityLogger.logEnabled = false;
+        //Debug.unityLogger.logEnabled = true;
+        Debug.unityLogger.logEnabled = false;
 
         //Localytics.Upload();
         if (FB.IsInitialized)
