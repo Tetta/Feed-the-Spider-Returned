@@ -213,6 +213,16 @@ namespace CompleteProject
                 return;
             }
 
+            /*
+            if (Application.platform == RuntimePlatform.IPhonePlayer ||
+                         Application.platform == RuntimePlatform.OSXPlayer ||
+                         Application.platform == RuntimePlatform.tvOS) {
+                CodelessIAPStoreListener.Instance.ExtensionProvider.GetExtension<IAppleExtensions>()
+                    .RestoreTransactions(OnTransactionsRestored);
+            }
+            */
+
+
             // If we are running on an Apple device ... 
             if (Application.platform == RuntimePlatform.IPhonePlayer ||
                 Application.platform == RuntimePlatform.OSXPlayer)

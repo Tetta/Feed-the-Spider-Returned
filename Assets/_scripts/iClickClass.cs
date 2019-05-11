@@ -216,6 +216,7 @@ public class iClickClass : MonoBehaviour {
 		            {
 		                staticClass.adLevelCounter++;
                         Debug.Log("adLevelCounter: " + staticClass.adLevelCounter);
+                        /* fix disable ad tired menu
                         if (staticClass.adLevelCounter >= 3) //5
 		                {
                             staticClass.needShowAdTiredMenu = true;
@@ -230,6 +231,7 @@ public class iClickClass : MonoBehaviour {
 
 
                         }
+                        */
                     }
                     
                 }

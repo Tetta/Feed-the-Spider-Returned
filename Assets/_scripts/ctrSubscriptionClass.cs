@@ -15,22 +15,16 @@ public class ctrSubscriptionClass : MonoBehaviour
     }
 
     void Start() {
-        //StartCoroutine(startStar());
+
         Debug.Log("ctrSubscriptionClass start");
-        Debug.Log(staticClass.scenePrev);
-        Debug.Log(staticClass.getLanguage());
-        //if (instance != null) {
-        //    Destroy(gameObject);
-        //    return;
-        //}
-        //DontDestroyOnLoad(gameObject);
+
         instance = this;
 
-#if UNITY_IOS
-        if (staticClass.scenePrev != "menu" && staticClass.scenePrev != "level menu")
-            //if (staticClass.scenePrev.Substring(0, 5) == "level" || staticClass.scenePrev == "level menu")
-           if (staticClass.getLanguage() == 1) panel.SetActive(true);
-#endif
+        if (staticClass.subscriptionsEnable) {
+            if (staticClass.scenePrev != "menu" && staticClass.scenePrev != "level menu")
+                //if (staticClass.scenePrev.Substring(0, 5) == "level" || staticClass.scenePrev == "level menu")
+                if (staticClass.getLanguage() == 1 && ctrProgressClass.progress["vip"] != 1) panel.SetActive(true);
+        }
 
     }
 

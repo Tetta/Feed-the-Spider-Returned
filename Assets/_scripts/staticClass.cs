@@ -429,7 +429,7 @@ public class staticClass
         "gift7=0;gift8=0;gift11=0;gift19=0;gift21=0;gift31=0;gift32=0;gift40=0;gift47=0;" +
         "gift53=0;gift56=0;gift63=0;gift69=0;gift71=0;gift73=0;gift84=0;gift87=0;gift94=0;gift95=0;";
 
-    public static string scenePrev = "loading"; //fix
+    public static string scenePrev = "loading"; 
     public static bool sceneLoading = false;
     public static float isTimePlay = 1;
     public static bool bonusesView = true;
@@ -662,5 +662,7 @@ public class staticClass
     public static bool buyChapter = false;
     //for ad hell
     public static bool adHard = true;
+    //enable subscriptions 
+    public static bool subscriptionsEnable = true;
 }
 

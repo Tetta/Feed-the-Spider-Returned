@@ -95,7 +95,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         ctrProgressClass.progress["firstTimeAd"] = 1;
     }
     public void initAppodeal () {
-        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL, true /*| Appodeal.NON_SKIPPABLE_VIDEO*/);
+        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL /*| Appodeal.NON_SKIPPABLE_VIDEO*/);
         
         Appodeal.setRewardedVideoCallbacks(this);
         Appodeal.setInterstitialCallbacks(this);
