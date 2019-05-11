@@ -1168,4 +1168,20 @@ public class iClickClass : MonoBehaviour {
     public void restorePurchases () {
         marketClass.instance.GetComponent<CompleteProject.Purchaser>().RestorePurchases();
     }
+	public void labelPrivacyLink()
+	{
+		//UILabel lbl = GetComponent<UILabel>();
+		//string url = lbl.GetUrlAtPosition(UICamera.lastWorldPosition);
+		string url = "https://docs.google.com/document/d/1FkOeftcs8gF9gZYcTyEXGgihmkdCb60x7Z1Q1o8ixbo/edit?usp=sharing";
+		Debug.Log("Clicked on: " + url);
+		Application.OpenURL(url);
+	}
+	public void labelTermsLink()
+	{
+		//UILabel lbl = GetComponent<UILabel>();
+		//string url = lbl.GetUrlAtPosition(UICamera.lastWorldPosition);
+		string url = "https://docs.google.com/document/d/16AMooYyxeEODGMWGF48IScPSj2w3dPtJ7qgowRByYb8/edit?usp=sharing";
+		Debug.Log("Clicked on: " + url);
+		Application.OpenURL(url);
+	}
 }

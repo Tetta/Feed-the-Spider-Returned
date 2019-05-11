@@ -29,7 +29,7 @@ public class ctrSubscriptionClass : MonoBehaviour
 #if UNITY_IOS
         if (staticClass.scenePrev != "menu" && staticClass.scenePrev != "level menu")
             //if (staticClass.scenePrev.Substring(0, 5) == "level" || staticClass.scenePrev == "level menu")
-           if (staticClass.getLanguage() == 1) panel.SetActive(true);
+           if (staticClass.getLanguage() == 1 && ctrProgressClass.progress["vip"] != 1) panel.SetActive(true);
 #endif
 
     }
