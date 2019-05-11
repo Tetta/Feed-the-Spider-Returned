@@ -77,7 +77,7 @@ namespace Appodeal.Unity.Editor.iOS
             string chZip = "CrashHunter.zip";
             string resourcesPath = Path.Combine(appodealPath, resourcesFolder);
             MacOSUnzip(Path.Combine(resourcesPath, chZip), buildPath);
-            project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "$PROJECT_DIR/CrashHunterScript.sh");
+            //project.AppendShellScriptBuildPhase(target, "Run Script ChashHunter", "/bin/sh", "$PROJECT_DIR/CrashHunterScript.sh");
 
 #if UNITY_4
         project.AddBuildProperty (target, "FRAMEWORK_SEARCH_PATHS", "$(PROJECT_DIR)/Frameworks/Plugins/iOS");

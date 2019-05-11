@@ -112,23 +112,24 @@ namespace CompleteProject
             builder.AddProduct("com.evogames.feedthespider.sale_3_purple_payers", ProductType.Consumable);
             builder.AddProduct("com.evogames.feedthespider.energy_for_day", ProductType.Consumable);
             builder.AddProduct("com.evogames.feedthespider.chapter", ProductType.Consumable);
+			builder.AddProduct("com.evogames.feedthespider.vip_week", ProductType.Subscription);
 
 
-            // Continue adding the non-consumable product.
-            //builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
-            // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
-            // if the Product ID was configured differently between Apple and Google stores. Also note that
-            // one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
-            // must only be referenced here. 
-            /*
+			// Continue adding the non-consumable product.
+			//builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
+			// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
+			// if the Product ID was configured differently between Apple and Google stores. Also note that
+			// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
+			// must only be referenced here. 
+			/*
             builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
                 { kProductNameAppleSubscription, AppleAppStore.Name },
                 { kProductNameGooglePlaySubscription, GooglePlay.Name },
             });
             */
-            // Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
-            // and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
-            UnityPurchasing.Initialize(this, builder);
+			// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
+			// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
+			UnityPurchasing.Initialize(this, builder);
 
 
         }
@@ -159,7 +160,8 @@ namespace CompleteProject
 
         public void BuySubscription()
         {
-            // Buy the subscription product using its the general identifier. Expect a response either 
+			Debug.Log("BuySubscription...");
+			// Buy the subscription product using its the general identifier. Expect a response either 
             // through ProcessPurchase or OnPurchaseFailed asynchronously.
             // Notice how we use the general product identifier in spite of this ID being mapped to
             // custom store-specific identifiers above.
@@ -169,8 +171,9 @@ namespace CompleteProject
 
         public void BuyProductID(string productId)
         {
-            // If Purchasing has been initialized ...
-            if (IsInitialized())
+			Debug.Log("BuyProductID..." + productId);
+			// If Purchasing has been initialized ...
+			if (IsInitialized())
             {
                 // ... look up the Product reference with the general product identifier and the Purchasing 
                 // system's products collection.
@@ -205,8 +208,9 @@ namespace CompleteProject
         // Apple currently requires explicit purchase restoration for IAP, conditionally displaying a password prompt.
         public void RestorePurchases()
         {
-            // If Purchasing has not yet been set up ...
-            if (!IsInitialized())
+			Debug.Log("RestorePurchases...");
+			// If Purchasing has not yet been set up ...
+			if (!IsInitialized())
             {
                 // ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
                 Debug.Log("RestorePurchases FAIL. Not initialized.");
