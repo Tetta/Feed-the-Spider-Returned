@@ -37,9 +37,9 @@ public class ctrAnalyticsClass: MonoBehaviour
 
     void Awake()
     {
-        //fix - false for publish
-        //Debug.unityLogger.logEnabled = true;
-        Debug.unityLogger.logEnabled = false;
+        //fixnow - false for publish
+        Debug.unityLogger.logEnabled = true;
+        //Debug.unityLogger.logEnabled = false;
 
         //Localytics.Upload();
         if (FB.IsInitialized)
@@ -116,25 +116,31 @@ public class ctrAnalyticsClass: MonoBehaviour
 			NotificationType.Badge |
 			NotificationType.Sound);
 #endif
-	}
 
-	private void Update()
-	{
-		/*
+
+        //AppsFlyer
+        /* Mandatory - set your AppsFlyer’s Developer key. */
+        Debug.Log("AppsFlyer init");
+        AppsFlyer.setAppsFlyerKey("Ura5UVbFB3YXvaig2PnvPA");
+        /* For detailed logging */
+        //fixnow
+        AppsFlyer.setIsDebug (true);
 #if UNITY_IOS
-		//local notification for iOS
-
-		if (!tokenSent) {
-			byte[] token = NotificationServices.deviceToken;
-			if (token != null) {
-				// send token to a provider
-				string hexToken = "%" + System.BitConverter.ToString(token).Replace('-', '%');
-				UnityWebRequest.Get("http:/example.com?token=" + hexToken).SendWebRequest();
-				tokenSent = true;
-			}
-		}
+   /* Mandatory - set your apple app ID
+      NOTE: You should enter the number only and not the "ID" prefix */
+   AppsFlyer.setAppID ("1440167499");
+   AppsFlyer.trackAppLaunch ();
+#elif UNITY_ANDROID
+        /* Mandatory - set your Android package name */
+        AppsFlyer.setAppID("com.evogames.feedthespider");
+        /* For getting the conversion data in Android, you need to add the "AppsFlyerTrackerCallbacks" listener.*/
+        AppsFlyer.init("Ura5UVbFB3YXvaig2PnvPA", "AppsFlyerTrackerCallbacks");
 #endif
-*/
+    }
+
+    private void Update()
+	{
+
 	}
 	public static void sendEvent(string nameEvent, Dictionary<string, string> attributes2, long purchase = 0)
     {
@@ -205,6 +211,8 @@ public class ctrAnalyticsClass: MonoBehaviour
             //throw;
         }
 
+        //AppsFlyer
+        AppsFlyer.trackRichEvent(nameEvent, attributes);
     }
     public static void sendProfileAttribute(string key, string value)
     {

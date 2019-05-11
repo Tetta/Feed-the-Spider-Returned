@@ -21,12 +21,12 @@ public class ctrResolutionClass : MonoBehaviour {
         float desrease = currentRes / minRes;
 
         Camera camera = GetComponent<Camera>();
-        Debug.Log("---------------"+camera);
+        //Debug.Log("---------------"+camera);
         if (camera != null) camera.orthographicSize *= increase;
-        Debug.Log("---------------  Screen.width " + Screen.width);
-        Debug.Log("--------------- currentRes " + currentRes);
-        Debug.Log("--------------- increase " + increase);
-        Debug.Log("--------------- desrease " + desrease);
+        //Debug.Log("---------------  Screen.width " + Screen.width);
+        //Debug.Log("--------------- currentRes " + currentRes);
+        //Debug.Log("--------------- increase " + increase);
+        //Debug.Log("--------------- desrease " + desrease);
 
         switch (name) {
             case "button market": //start menu
