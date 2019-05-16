@@ -38,8 +38,8 @@ public class ctrAnalyticsClass: MonoBehaviour
     void Awake()
     {
         //fixnow - false for publish
-        Debug.unityLogger.logEnabled = true;
-        //Debug.unityLogger.logEnabled = false;
+        //Debug.unityLogger.logEnabled = true;
+        Debug.unityLogger.logEnabled = false;
 
         //Localytics.Upload();
         if (FB.IsInitialized)
@@ -123,8 +123,8 @@ public class ctrAnalyticsClass: MonoBehaviour
         Debug.Log("AppsFlyer init");
         AppsFlyer.setAppsFlyerKey("Ura5UVbFB3YXvaig2PnvPA");
         /* For detailed logging */
-        //fixnow
-        AppsFlyer.setIsDebug (true);
+        //fix
+        //AppsFlyer.setIsDebug (true);
 #if UNITY_IOS
    /* Mandatory - set your apple app ID
       NOTE: You should enter the number only and not the "ID" prefix */
