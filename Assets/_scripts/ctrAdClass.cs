@@ -64,7 +64,10 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     public static string appKeyAppodeal = "3a4bc268f2c33545ea93819a1f82e439b9d34a9bd0a23174";
 #endif
     List<string> availableNetworks = new List<string>() { "adcolony", "admob", "amazon_ads", "applovin", "appnext", "avocarrot", "chartboost", "facebook", "flurry", "inmobi", "inner-active", "ironsource", "mailru", "mmedia", "mopub", "mobvista", "ogury", "openx", "pubnative", "smaato", "startapp", "tapjoy", "unity_ads", "vungle", "yandex" };
-        
+
+    //for review AppStore interstitial after 5 level (off after "05/23/2019")
+    string adAfterDate = "05/23/2019";
+
     public void Start()
     {
 
@@ -130,7 +133,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
             else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "level") GameObject.Find("/default level/gui/ad dont ready menu").transform.GetChild(0).gameObject.SetActive(true);
         }
-        //fix for test
+        //fix - uncomment for test
         //setReward(); 
     }
 
@@ -215,6 +218,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
         int adAfterLevel = 5;
         if (staticClass.adHard) adAfterLevel = 1;
+        if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
         if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= adAfterLevel && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;

@@ -193,7 +193,7 @@ public class gBerryClass : MonoBehaviour {
         //show hint ads menu
         if (ctrProgressClass.progress["vip"] != 1 && staticClass.adHard && gHintClass.hintState == "" && (staticClass.levelRestartedCount >= 1 && gHintClass.timeForMenu + 15 < Time.unscaledTime)) {
             Debug.Log("need show hint ads menu");
-            //fix comment for test
+            //fix - comment for test
             if (ctrAdClass.isAdReady(AppodealAds.Unity.Api.Appodeal.REWARDED_VIDEO)) {
                 Debug.Log("show hint ads menu");
                 Time.timeScale = 0;
