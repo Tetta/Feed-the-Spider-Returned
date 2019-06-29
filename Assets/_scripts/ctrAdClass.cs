@@ -218,7 +218,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
         int adAfterLevel = 5;
         if (staticClass.adHard) adAfterLevel = 1;
+#if UNITY_IOS
         if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
+#endif
         if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= adAfterLevel && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;
@@ -346,7 +348,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     }
     */
 
-     #region Rewarded Video callback handlers
+#region Rewarded Video callback handlers
     public void onRewardedVideoLoaded(bool flag)
     {
         adsAttributes["type"] = "rewarded";
@@ -398,9 +400,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     {
 
     }
-    #endregion
+#endregion
 
-    #region Interstitial callback handlers
+#region Interstitial callback handlers
     public void onInterstitialClicked()
     {
         adsAttributes["type"] = "interstitial";
@@ -468,9 +470,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     {
 
     }
-    #endregion
+#endregion
 
-    #region Non Skippable callback handlers
+#region Non Skippable callback handlers
     /*
     public void onNonSkippableClicked() {
         adsAttributes["type"] = "non_skippable";
@@ -524,7 +526,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
     }
     */
-    #endregion
+#endregion
 
 
 

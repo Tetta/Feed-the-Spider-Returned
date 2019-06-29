@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class ctrResolutionClass : MonoBehaviour {
     //float minRes = 0.562f; // 480x854
-    float minRes = 0.55f; 
-
+    public static float minRes = 0.55f;
+    //public static float currentRes = 0.55f;
     void Awake() {
         setScale();
 

@@ -113,23 +113,25 @@ namespace CompleteProject
             builder.AddProduct("com.evogames.feedthespider.energy_for_day", ProductType.Consumable);
             builder.AddProduct("com.evogames.feedthespider.chapter", ProductType.Consumable);
 			builder.AddProduct("com.evogames.feedthespider.vip_week", ProductType.Subscription);
+            builder.AddProduct("com.evogames.feedthespider.vip_month", ProductType.Subscription);
+            builder.AddProduct("com.evogames.feedthespider.vip_year", ProductType.Subscription);
 
 
-			// Continue adding the non-consumable product.
-			//builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
-			// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
-			// if the Product ID was configured differently between Apple and Google stores. Also note that
-			// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
-			// must only be referenced here. 
-			/*
+            // Continue adding the non-consumable product.
+            //builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
+            // And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
+            // if the Product ID was configured differently between Apple and Google stores. Also note that
+            // one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
+            // must only be referenced here. 
+            /*
             builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
                 { kProductNameAppleSubscription, AppleAppStore.Name },
                 { kProductNameGooglePlaySubscription, GooglePlay.Name },
             });
             */
-			// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
-			// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
-			UnityPurchasing.Initialize(this, builder);
+            // Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
+            // and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
+            UnityPurchasing.Initialize(this, builder);
 
 
         }

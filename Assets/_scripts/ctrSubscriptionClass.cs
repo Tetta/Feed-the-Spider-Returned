@@ -12,6 +12,7 @@ public class ctrSubscriptionClass : MonoBehaviour
     // Start is called before the first frame update
     void Awake() {
         //panel.SetActive(true);
+        setScale();
     }
 
     void Start() {
@@ -26,6 +27,8 @@ public class ctrSubscriptionClass : MonoBehaviour
                 if (staticClass.getLanguage() == 1 && ctrProgressClass.progress["vip"] != 1) panel.SetActive(true);
         }
 
+        panel.transform.Find("content/spider/skin5").GetComponent<Animator>().Play("spider hi");
+
     }
 
     // Update is called once per frame
@@ -34,13 +37,15 @@ public class ctrSubscriptionClass : MonoBehaviour
         timerItems += Time.deltaTime;
         if (timerItems > Random.Range(0.5f, 4)) {
             timerItems = 0;
-            StartCoroutine(playBlikItem(items.GetChild(Random.Range(0, 6)).GetChild(0).GetChild(1)));
+            //point
+            //StartCoroutine(playBlikItem(items.GetChild(Random.Range(0, 6)).GetChild(0).GetChild(1)));
+            StartCoroutine(playBlikItem(items.GetChild(Random.Range(0, 3)).GetChild(0).GetChild(1)));
         }
-        
+
     }
 
     private IEnumerator playBlikItem(Transform obj) {
-        for (int i = 0; i < 20; i ++) {
+        for (int i = 0; i < 30; i ++) {
             yield return StartCoroutine(staticClass.waitForRealTime(0.01f));
             obj.localPosition = new Vector3(35 * i/2 - 140, 18 + (i/2 - 10) -50, 0);
         }
@@ -65,5 +70,22 @@ public class ctrSubscriptionClass : MonoBehaviour
         panel.SetActive(false);
         congrats.SetActive(true);
 
+    }
+
+
+    void setScale() {
+        float currentRes = (float)Screen.width / Screen.height;
+        if (currentRes >= ctrResolutionClass.minRes) return;
+
+        float increase = ctrResolutionClass.minRes / currentRes;
+        float desrease = currentRes / ctrResolutionClass.minRes;
+        items.transform.Find("vip_week/ps").localScale *= desrease;
+        items.transform.localScale = new Vector3(desrease, desrease, desrease);
+        //Debug.Log("---------------"+camera);
+
+        //Debug.Log("---------------  Screen.width " + Screen.width);
+        //Debug.Log("--------------- currentRes " + currentRes);
+        Debug.Log("--------------- increase " + increase);
+        Debug.Log("--------------- desrease " + desrease);
     }
 }

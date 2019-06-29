@@ -390,6 +390,8 @@ public class marketClass : MonoBehaviour {
                 break;
 
             case "vip_week":
+            case "vip_month":
+            case "vip_year":
                 //subscriptions
                 ctrSubscriptionClass.instance.getReward();
                  break;
