@@ -18,16 +18,32 @@ public class ctrSubscriptionClass : MonoBehaviour
     void Start() {
 
         Debug.Log("ctrSubscriptionClass start");
-
+        //point
+        //bad code...
+        Debug.Log(PlayerPrefs.GetInt("FIRST_LAUNCH", 0));
         instance = this;
+        //if (PlayerPrefs.GetInt("FIRST_LAUNCH", 0) == 0) {
+            
+             
+        //} else {
 
-        if (staticClass.subscriptionsEnable) {
-            if (staticClass.scenePrev != "menu" && staticClass.scenePrev != "level menu")
-                //if (staticClass.scenePrev.Substring(0, 5) == "level" || staticClass.scenePrev == "level menu")
-                if (staticClass.getLanguage() == 1 && ctrProgressClass.progress["vip"] != 1) panel.SetActive(true);
+        
+            if (staticClass.subscriptionsEnable) {
+                if (staticClass.scenePrev != "menu" && staticClass.scenePrev != "level menu")
+                    //if (staticClass.scenePrev.Substring(0, 5) == "level" || staticClass.scenePrev == "level menu")
+                    //if (staticClass.getLanguage() == 1 && ctrProgressClass.progress["vip"] != 1) panel.SetActive(true);
+                    if (ctrProgressClass.progress["vip"] != 1 &&
+                        !(PlayerPrefs.GetInt("FIRST_LAUNCH", 0) == 0 && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "menu"))
+                        panel.SetActive(true);
+                else PlayerPrefs.SetInt("FIRST_LAUNCH", 1);
         }
-
+        //}
         panel.transform.Find("content/spider/skin5").GetComponent<Animator>().Play("spider hi");
+
+
+        //subscription info
+        panel.transform.Find("content/Scroll/Scroll View/info Android").gameObject.SetActive(Application.platform == RuntimePlatform.Android);
+        panel.transform.Find("content/Scroll/Scroll View/info iOS (1)").gameObject.SetActive(Application.platform != RuntimePlatform.Android);
 
     }
 

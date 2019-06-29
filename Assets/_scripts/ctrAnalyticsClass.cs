@@ -37,6 +37,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
     void Awake()
     {
+        FB.Init();
         //fixnow - false for publish
         //Debug.unityLogger.logEnabled = true;
         Debug.unityLogger.logEnabled = false;
@@ -51,14 +52,21 @@ public class ctrAnalyticsClass: MonoBehaviour
             //Handle FB.Init
             FB.Init(() => {
                 FB.ActivateApp();
+                funnelStart(1, "loading_scene");
             });
         }
 		GameAnalytics.Initialize();
+        funnelStart(1, "loading_scene");
+        //Firebase.FirebaseApp.Create();
 
-		//Firebase.FirebaseApp.Create();
+        Debug.Log("firstLaunch: " + ctrProgressClass.progress["firstLaunch"]);
+        if (ctrProgressClass.progress["firstLaunch"] == 0) {
+            sendEvent("First_Launch", new Dictionary<string, string>());
+            ctrProgressClass.progress["firstLaunch"] = 1;
+        }
 
-
-	}
+        ctrProgressClass.saveProgress();
+    }
 	// Use this for initialization
 	void Start()
     {
@@ -76,7 +84,7 @@ public class ctrAnalyticsClass: MonoBehaviour
                 Localytics.RegisterForMessagingEvents();
                 Localytics.TestModeEnabled = true;
                 */
-         //Localytics.integrate(this, "API_KEY")
+        //Localytics.integrate(this, "API_KEY")
         // e.g. with preprocessor directives
 #if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
            // Localytics.TagScreen("xxx");
@@ -431,6 +439,7 @@ public class ctrAnalyticsClass: MonoBehaviour
 
 
     public static void funnelStart(int step, string stepName ) {
+        if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
         if (ctrProgressClass.progress["funnelStep"] < step) {
             ctrProgressClass.progress["funnelStep"] = step;
             ctrProgressClass.saveProgress();

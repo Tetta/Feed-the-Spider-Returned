@@ -40,7 +40,7 @@ public class loadingClass : MonoBehaviour {
         //label.text = "Loading complete";
         Debug.Log("loadingClass 4");
         //yield return new WaitForSeconds(5);
-        ctrAnalyticsClass.funnelStart(1, "loading_scene");
+
 
         //Text label = GetComponent<Text>();
         while ( !async.isDone ){

@@ -65,8 +65,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 #endif
     List<string> availableNetworks = new List<string>() { "adcolony", "admob", "amazon_ads", "applovin", "appnext", "avocarrot", "chartboost", "facebook", "flurry", "inmobi", "inner-active", "ironsource", "mailru", "mmedia", "mopub", "mobvista", "ogury", "openx", "pubnative", "smaato", "startapp", "tapjoy", "unity_ads", "vungle", "yandex" };
 
-    //for review AppStore interstitial after 5 level (off after "05/23/2019")
-    string adAfterDate = "05/23/2019";
+    //point
+    //for review AppStore interstitial after 5 level (off after "06/30/2019")
+    string adAfterDate = "06/30/2019";
 
     public void Start()
     {
@@ -218,9 +219,11 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
         int adAfterLevel = 5;
         if (staticClass.adHard) adAfterLevel = 1;
-#if UNITY_IOS
-        if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
-#endif
+//#if UNITY_IOS
+ //       if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
+//#else
+        if (DateTime.Now < DateTime.ParseExact(adAfterDate, "mm/dd/yyyy", null)) adAfterLevel = 5;
+//#endif
         if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= adAfterLevel && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;
