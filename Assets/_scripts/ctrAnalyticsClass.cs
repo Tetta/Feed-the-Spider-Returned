@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using Facebook.Unity;
 using UnityEngine;
 //using LocalyticsUnity;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 //using Firebase;
 using Assets.SimpleAndroidNotifications;
 
@@ -67,7 +67,7 @@ public class ctrAnalyticsClass: MonoBehaviour
                 //funnelStart(1, "loading_scene");
             });
         }
-		GameAnalytics.Initialize();
+		//GameAnalytics.Initialize();
         funnelStart(1, "loading_scene");
         //Firebase.FirebaseApp.Create();
 
@@ -166,7 +166,7 @@ public class ctrAnalyticsClass: MonoBehaviour
          // parametersFirebase);
 
 
-		 GameAnalytics.NewDesignEvent(strForGA);
+		 //GameAnalytics.NewDesignEvent(strForGA);
 
         if (FB.IsInitialized)
         {
@@ -220,7 +220,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         {
             //LocalyticsUnity.Localytics.SetProfileAttribute(key, value);
             //Firebase.Analytics.FirebaseAnalytics.SetUserProperty(key, value);
-            GameAnalytics.SetCustomDimension02(key +": " + value);
+            //GameAnalytics.SetCustomDimension02(key +": " + value);
         }
         catch (Exception)
         {
@@ -234,7 +234,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         {
             //LocalyticsUnity.Localytics.SetCustomDimension(key, value);
             //Firebase.Analytics.FirebaseAnalytics.SetUserProperty("Property_" + key.ToString(), value);
-            GameAnalytics.SetCustomDimension01(key + ": " + value);
+            //GameAnalytics.SetCustomDimension01(key + ": " + value);
         }
 
         catch (Exception)

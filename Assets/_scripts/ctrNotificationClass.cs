@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using Facebook.Unity;
 using UnityEngine;
 //using LocalyticsUnity;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 
 using Assets.SimpleAndroidNotifications;
 
