@@ -548,7 +548,7 @@ public class marketClass : MonoBehaviour {
 //#else
             instance.GetComponent<Purchaser>().BuyProductID("com.evogames.feedthespider." + name);
 //#endif
-            //fix
+            //point
             //test subscriptions
             //if (name == "vip_week") {
             //    ctrSubscriptionClass.instance.getReward();

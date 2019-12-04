@@ -131,14 +131,14 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
             //if loading failed, send analytics event
             adsAttributes["status"] = "notready";
             ctrAnalyticsClass.sendEvent("RewardedAdNotReady", adsAttributes);
-            //fix убрать таймер
+
             //if (isTimeToSendFailedAdAnalytics())
             ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
             else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "level") GameObject.Find("/default level/gui/ad dont ready menu").transform.GetChild(0).gameObject.SetActive(true);
         }
-        //fix - uncomment for test
+        //point - uncomment for test
         //setReward(); 
     }
 
@@ -302,7 +302,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
                     adsAttributes["status"] = "notready";
                     ctrAnalyticsClass.sendEvent("InterstitialNotReady", adsAttributes);
                     Debug.Log("ShowLevelAd fail");
-                    //fix убрать таймер
+
                     //if (isTimeToSendFailedAdAnalytics())
                         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
                 }
@@ -361,7 +361,8 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     */
     public static  void showBanner()
     {
-        if(!ctrSubscriptionClass.instance.panel.activeSelf && ctrProgressClass.progress["vip"] != 1 &&
+        if(!ctrSubscriptionClass.isPanelActive()
+            && ctrProgressClass.progress["vip"] != 1 &&
             SceneManager.GetActiveScene().name != "menu" &&
             SceneManager.GetActiveScene().name != "start" &&
             ctrProgressClass.progress["lastLevel"] != 1)

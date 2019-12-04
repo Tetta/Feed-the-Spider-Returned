@@ -164,7 +164,7 @@ public class ctrNotificationClass: MonoBehaviour
 
         }
         
-        //fix test
+        //point test
 		/*
         delay = new TimeSpan(0, 0, 0);
         delay = delay.Add(new TimeSpan(0, 0, 30));

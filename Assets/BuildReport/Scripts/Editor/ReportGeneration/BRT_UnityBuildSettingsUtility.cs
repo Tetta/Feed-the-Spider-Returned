@@ -275,8 +275,7 @@ public static class UnityBuildSettingsUtility
 #endif
 
 #if !UNITY_5
-            //fix comment
-            //settings.StripPhysicsCode = PlayerSettings.stripPhysics;
+
 			settings.StripPhysicsCode = false;
 #endif
 			settings.StripUnusedMeshComponents = PlayerSettings.stripUnusedMeshComponents;
@@ -498,8 +497,7 @@ public static class UnityBuildSettingsUtility
 
             // Unity 5: EditorUserBuildSettings.appendProject is removed
 #if !UNITY_5
-            //fix comment
-            //settings.iOSAppendedToProject = EditorUserBuildSettings.appendProject;
+
 			settings.iOSAppendedToProject = false;
 #endif
 
@@ -520,8 +518,7 @@ public static class UnityBuildSettingsUtility
 		// Unity 5.3 has a Screen.resolutions but I don't know which of those in the array would be the iOS target resolution
 #else
 
-            //fix
-            //settings.iOSTargetResolution = PlayerSettings.iOS.targetResolution.ToString();
+
 
             settings.iOSTargetResolution = Screen.currentResolution.ToString();
 #endif

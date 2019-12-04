@@ -109,4 +109,9 @@ public class ctrSubscriptionClass : MonoBehaviour
         Debug.Log("--------------- increase " + increase);
         Debug.Log("--------------- desrease " + desrease);
     }
+
+    public static bool isPanelActive()
+    {
+        return instance != null && instance.panel != null && instance.panel.activeSelf;
+    }
 }

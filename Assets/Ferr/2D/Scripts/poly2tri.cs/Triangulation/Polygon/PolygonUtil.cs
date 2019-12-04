@@ -1472,7 +1472,7 @@ namespace Poly2Tri
             }
         }
 
-        //Fix for obnoxious behavior for the % operator for negative numbers...
+        // Fix for obnoxious behavior for the % operator for negative numbers...
         private int remainder(int x, int modulus)
         {
             int rem = x % modulus;

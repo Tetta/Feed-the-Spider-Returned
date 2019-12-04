@@ -52,7 +52,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         FB.Init();
         //fixnow - false for publish
         //Debug.unityLogger.logEnabled = true;
-        //Debug.unityLogger.logEnabled = false;
+        Debug.unityLogger.logEnabled = false;
 
         //Localytics.Upload();
         if (FB.IsInitialized)
@@ -91,13 +91,13 @@ public class ctrAnalyticsClass: MonoBehaviour
             int r;
 
             r = UnityEngine.Random.Range(0, 2);
-            //fix
-            r = 1;
+
             PlayerPrefs.SetInt("USER_GROUP_BANNER", r);
             sendEvent("UserGroupBanner", new Dictionary<string, object>{{ "Group", r }});
 
 
             r = UnityEngine.Random.Range(0, 2);
+
             PlayerPrefs.SetInt("USER_GROUP_MAP", r);
             sendEvent("UserGroupMap", new Dictionary<string, object> { { "Group", r } });
 
@@ -129,7 +129,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         Debug.Log("AppsFlyer init");
         AppsFlyer.setAppsFlyerKey("Ura5UVbFB3YXvaig2PnvPA");
         /* For detailed logging */
-        //fix
+
         //AppsFlyer.setIsDebug (true);
 #if UNITY_IOS
    /* Mandatory - set your apple app ID

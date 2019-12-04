@@ -207,7 +207,7 @@ public class iClickClass : MonoBehaviour {
 				}
 			}
             //showAd в конце уровня, рестарте, выходе в меню с уровня
-		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next" || name == "button next level")
+		    if (name == "button play" || name == "button play 0" || name == "button play 1" || name.Substring(0, 5) == "level" || name == "restart" || name == "button next" || name == "button map" || name == "button next level")
 		    {
 		        if (ctrAdClass.instance != null)
 		        {
@@ -297,7 +297,7 @@ public class iClickClass : MonoBehaviour {
                 sceneNeedLoad = SceneManager.GetActiveScene().name;
 
             }
-            else if (name == "button next") {
+            else if (name == "button next" || name == "button map") {
                 if (staticClass.scenePrev.Substring(0, 5) == "level") {
                     //rate us
                     Debug.Log("staticClass.rateUsLast: " + staticClass.rateUsLast);
@@ -310,6 +310,8 @@ public class iClickClass : MonoBehaviour {
                     }
                     else {
                         sceneNeedLoad = "level menu";
+                        //without map
+                        if(name == "button next" && PlayerPrefs.GetInt("USER_GROUP_MAP", -1) == 0) sceneNeedLoad = "level" + (ctrProgressClass.progress["currentLevel"] + 1);
                         //async = SceneManager.LoadSceneAsync("level menu");
                     }
 
@@ -317,6 +319,9 @@ public class iClickClass : MonoBehaviour {
                 else {
                     //async = SceneManager.LoadSceneAsync ("level menu");
                     sceneNeedLoad = "level menu";
+                    //without map
+                    if (name == "button next" && PlayerPrefs.GetInt("USER_GROUP_MAP", -1) == 0) sceneNeedLoad = "level" + (ctrProgressClass.progress["currentLevel"] + 1);
+
                     ctrAnalyticsClass.funnelStart(8, "level1_next_click");
                 }
             } else if (name == "button play") {

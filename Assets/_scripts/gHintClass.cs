@@ -135,7 +135,7 @@ public class gHintClass : MonoBehaviour {
                     hint.transform.position = hintEndPos;
 
                 }
-                //fixedFrameCountLast = fixedFrameCount;
+                // fixedFrameCountLast = fixedFrameCount;
                 fixedFrameCountLast = gBerryClass.fixedCounter;
 
                 Debug.Log("isDream: " + isDream);
