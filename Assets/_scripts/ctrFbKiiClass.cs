@@ -557,7 +557,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 .GetComponent<UILabel>()
                 .text = coins.ToString();
             ctrProgressClass.progress["coins"] += coins;
-            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "inviteFriend" }, { "coins", coins.ToString() } });
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "inviteFriend" }, { "coins", coins.ToString() } });
 
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress["coins"].ToString();
             ctrProgressClass.saveProgress();
@@ -672,7 +672,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         //map icon coins anim
         //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().enabled = true;
         //initLevelMenuClass.instance.coinsLabel.transform.parent.GetChild(0).GetComponent<Animator>().Play("menu enable");
-        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "inviteFriend" }, { "coins", "10" } });
+        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "inviteFriend" }, { "coins", "10" } });
 
         ctrProgressClass.progress[id] = 1;
 
@@ -792,7 +792,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 groupGO.transform.parent.GetChild(4).gameObject.SetActive(true);
 
                 ctrProgressClass.progress["rewardGroupVK1"] = 1;
-                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "joinGroup1" }, { "coins", "50" } });
+                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "joinGroup1" }, { "coins", "50" } });
 
             }
             else {
@@ -801,7 +801,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 groupGO.transform.parent.GetChild(5).gameObject.SetActive(true);
 
                 ctrProgressClass.progress["rewardGroupVK2"] = 1;
-                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "joinGroup2" }, { "coins", "50" } });
+                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "joinGroup2" }, { "coins", "50" } });
 
             }
             if (groupGO != null) groupGO.SetActive(false);
@@ -842,7 +842,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             }
             ctrProgressClass.progress["rewardRepostOK"] = 1;
             ctrProgressClass.progress["coins"] += 100;
-            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "repost" }, { "coins", "100" } });
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "repost" }, { "coins", "100" } });
 
             ctrProgressClass.saveProgress();
         });

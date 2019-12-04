@@ -234,7 +234,7 @@ public class mCardClass : MonoBehaviour {
             //analytics
             if (name == "hints" || name == "webs" || name == "teleports" || name == "collectors")
             {
-                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                 {
                     {"detail", "booster"},
                     {"name", name},
@@ -243,7 +243,7 @@ public class mCardClass : MonoBehaviour {
             }
             if (name == "coins")
                 ctrAnalyticsClass.sendEvent("Coins",
-                    new Dictionary<string, string>
+                    new Dictionary<string, object>
                     {
                         {"detail", "booster"},
                         {"coins", mBoosterClass.instance.openingCards[name].ToString()}

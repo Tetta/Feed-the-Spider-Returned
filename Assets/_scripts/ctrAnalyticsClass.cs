@@ -37,10 +37,22 @@ public class ctrAnalyticsClass: MonoBehaviour
 
     void Awake()
     {
+
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
+
+
+
         FB.Init();
         //fixnow - false for publish
         //Debug.unityLogger.logEnabled = true;
-        Debug.unityLogger.logEnabled = false;
+        //Debug.unityLogger.logEnabled = false;
 
         //Localytics.Upload();
         if (FB.IsInitialized)
@@ -52,7 +64,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             //Handle FB.Init
             FB.Init(() => {
                 FB.ActivateApp();
-                funnelStart(1, "loading_scene");
+                //funnelStart(1, "loading_scene");
             });
         }
 		GameAnalytics.Initialize();
@@ -61,60 +73,22 @@ public class ctrAnalyticsClass: MonoBehaviour
 
         Debug.Log("firstLaunch: " + ctrProgressClass.progress["firstLaunch"]);
         if (ctrProgressClass.progress["firstLaunch"] == 0) {
-            sendEvent("First_Launch", new Dictionary<string, string>());
+            sendEvent("First_Launch");
             ctrProgressClass.progress["firstLaunch"] = 1;
         }
 
         ctrProgressClass.saveProgress();
+
+        startSession();
     }
 	// Use this for initialization
 	void Start()
     {
 
 
-
-        /*
-                Localytics.Upload();
-                Localytics.LoggingEnabled = true;
-                Localytics.RegisterForAnalyticsEvents();
-                Localytics.RegisterForMessagingEvents();
-                Localytics.TagEvent("click");
-                Localytics.RegisterForAnalyticsEvents();
-                Localytics.RegisterForLocationEvents();
-                Localytics.RegisterForMessagingEvents();
-                Localytics.TestModeEnabled = true;
-                */
-        //Localytics.integrate(this, "API_KEY")
-        // e.g. with preprocessor directives
-#if !UNITY_EDITOR && (UNITY_IOS || UNITY_ANDROID)
-           // Localytics.TagScreen("xxx");
-           // Localytics.Upload();
-#endif
-        //LocalyticsUnity.Localytics.cre
-        //Unity 2017
-
         Debug.Log("ctrAnalyticsClass start");
-        try
-        {
-            //Debug.Log("Localytics SessionTimeoutInterval: " + sessionTimeout);
-            //LocalyticsUnity.Localytics.SessionTimeoutInterval = sessionTimeout;
-        }
-        catch (Exception)
-        {
-            Debug.Log("Localytics SessionTimeoutInterval error");
-            //throw;
-        }
-
-        if (instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        instance = this;
-        DontDestroyOnLoad(gameObject);
 
 
-        startSession();
 
         //local notification for iOS
         //tokenSent = false;
@@ -150,20 +124,21 @@ public class ctrAnalyticsClass: MonoBehaviour
 	{
 
 	}
-	public static void sendEvent(string nameEvent, Dictionary<string, string> attributes2, long purchase = 0)
+	public static void sendEvent(string nameEvent, Dictionary<string, object> attributes2 = null, long purchase = 0)
     {
         //LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes);
         string str = "";
         str += nameEvent + "\n";
-
-        Dictionary<string, string> attributes = new Dictionary<string, string> (attributes2);
-        attributes.Add("level", ctrProgressClass.progress["lastLevel"].ToString());
+        //Debug.Log("---------------------" + nameEvent);
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        if (attributes2 != null) attributes = attributes2;
+        attributes["level"] = ctrProgressClass.progress["lastLevel"];
         var s = ctrProgressClass.progress["sessionCount"];
         if (s == 0) s = 1;
-        attributes.Add("session_number", s.ToString());
-        attributes.Add("social_id", ctrFbKiiClass.userId);
-        attributes.Add("keys_count", ctrProgressClass.progress["gems"].ToString());
-        if (!attributes.ContainsKey("energy_count")) attributes.Add("energy_count", lsEnergyClass.energy.ToString());
+        attributes["session_number"] = s;
+        attributes["social_id"] = ctrFbKiiClass.userId;
+        attributes["keys_count"] = ctrProgressClass.progress["gems"];
+        if (!attributes.ContainsKey("energy_count")) attributes.Add("energy_count", lsEnergyClass.energy);
         foreach (var attr in attributes)
         {
             str += attr.Key + ": " + attr.Value + "\n";
@@ -174,7 +149,7 @@ public class ctrAnalyticsClass: MonoBehaviour
         Dictionary<string, object> parameters = new Dictionary<string, object>();
         //Firebase.Analytics.Parameter[] parametersFirebase = new Firebase.Analytics.Parameter[attributes.Count];
         int i = 0;
-        foreach (KeyValuePair<string, string> param in attributes)
+        foreach (KeyValuePair<string, object> param in attributes)
         {
 
             strForGA += ":" + param.Key.ToString() + "_"  + param.Value.ToString();
@@ -193,21 +168,28 @@ public class ctrAnalyticsClass: MonoBehaviour
 
 		 GameAnalytics.NewDesignEvent(strForGA);
 
-		if (FB.IsInitialized)
-			FB.LogAppEvent(
-	            nameEvent,
-	            null,
-	            parameters
-	        );
+        if (FB.IsInitialized)
+        {
+            FB.LogAppEvent(
+                nameEvent,
+                null,
+                parameters
+            );
 
+            Debug.Log("---------------------" + strForLog);
+        }
+        else
+        {
+            instance.StartCoroutine(sendEventCoroutine(nameEvent, attributes));
+        }
 
         //end new
 
 
+        //Debug.Log("---------------------" + strForGA);
 
-        Debug.Log(strForGA);
 
-        Debug.Log(str);
+        //Debug.Log(str);
         try
         {
             //LocalyticsUnity.Localytics.TagEvent(nameEvent, attributes, purchase);
@@ -220,7 +202,16 @@ public class ctrAnalyticsClass: MonoBehaviour
         }
 
         //AppsFlyer
-        AppsFlyer.trackRichEvent(nameEvent, attributes);
+        //AppsFlyer.trackRichEvent(nameEvent, attributes);
+    }
+
+    public static IEnumerator sendEventCoroutine(string eventName, Dictionary<string, object> params3 = null)
+    {
+        while (!FB.IsInitialized)
+        {
+            yield return null;
+        }
+        sendEvent(eventName, params3);
     }
     public static void sendProfileAttribute(string key, string value)
     {
@@ -265,7 +256,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             ctrProgressClass.progress["energyOnEndSession"] = lsEnergyClass.energy;
             ctrProgressClass.saveProgress();
 
-            sendEvent("GameUnfocus", new Dictionary<string, string> { { "LastAction", ctrAnalyticsClass.lastAction }, { "Scene", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name } });
+            sendEvent("GameUnfocus", new Dictionary<string, object> { { "LastAction", ctrAnalyticsClass.lastAction }, { "Scene", UnityEngine.SceneManagement.SceneManager.GetActiveScene().name } });
 
 
         }
@@ -321,7 +312,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             if (ctrProgressClass.progress["sessionStart"] > 1)
             {
                 Debug.Log("--------------------------------------------------------------------");
-                sendEvent("Session_End", new Dictionary<string, string>
+                sendEvent("Session_End", new Dictionary<string, object>
                 {
                     {
                         "session_length",
@@ -345,7 +336,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             ctrProgressClass.progress["winCount"] = 0;
 
             sendEvent("Session_Start",
-                new Dictionary<string, string>
+                new Dictionary<string, object>
                 {
                     {"coins", ctrProgressClass.progress["coins"].ToString()},
                     {"energy", lsEnergyClass.energy.ToString()}
@@ -358,7 +349,7 @@ public class ctrAnalyticsClass: MonoBehaviour
             Debug.Log("firstLaunch: " + ctrProgressClass.progress["firstLaunch"]);
             if (ctrProgressClass.progress["firstLaunch"] == 0)
             {
-                sendEvent("First_Launch", new Dictionary<string, string>());
+                sendEvent("First_Launch");
                 ctrProgressClass.progress["firstLaunch"] = 1;
             }
         
@@ -443,7 +434,9 @@ public class ctrAnalyticsClass: MonoBehaviour
         if (ctrProgressClass.progress["funnelStep"] < step) {
             ctrProgressClass.progress["funnelStep"] = step;
             ctrProgressClass.saveProgress();
-            sendEvent("FunnelStart", new Dictionary<string, string> { { "step", step.ToString("00") + "_" + stepName } });
+            sendEvent("FunnelStart", new Dictionary<string, object> { { "step", step.ToString("00") + "_" + stepName } });
         }
     }
+
+
 }

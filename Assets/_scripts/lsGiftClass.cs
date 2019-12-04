@@ -130,7 +130,7 @@ public class lsGiftClass : MonoBehaviour {
                 //analytics
                 if (bonusName != "coins")
                 {
-                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                         {
                             {"detail", "chest"},
                             {"name", bonusName},
@@ -138,7 +138,7 @@ public class lsGiftClass : MonoBehaviour {
                         });
                 }
             }
-            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "chest" }, { "coins", bonusCount.ToString() } });
+            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "chest" }, { "coins", bonusCount.ToString() } });
 
             initLevelMenuClass.instance.coinsLabel.text = ctrProgressClass.progress ["coins"].ToString ();
             if (i == 2) StartCoroutine(card.GetComponent<mCardClass>().openCardGift(true));

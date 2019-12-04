@@ -23,7 +23,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     public static ctrAdClass instance = null;
     public static string adStarted = "";
 
-    private Dictionary<string, string> adsAttributes = new Dictionary<string, string>
+    private Dictionary<string, object> adsAttributes = new Dictionary<string, object>
     {
         {"name", "ad coins"},
         {"type", "rewarded"},
@@ -170,7 +170,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
                 .GetComponent<UILabel>()
                 .text = "50";
                 */
-            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{"detail", "video"}, {"coins", "50"}});
+            ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> {{"detail", "video"}, {"coins", "50"}});
             initLevelMenuClass.instance.coinsMenu.SetActive(false);
 
             //ps coins
@@ -222,8 +222,10 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 //#if UNITY_IOS
  //       if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
 //#else
-        if (DateTime.Now < DateTime.ParseExact(adAfterDate, "mm/dd/yyyy", null)) adAfterLevel = 5;
-//#endif
+        if (DateTime.Now < DateTime.ParseExact(adAfterDate, "MM/dd/yyyy", null)) adAfterLevel = 5;
+        Debug.Log("DateTime.Now: " + DateTime.Now);
+        Debug.Log("DateTime: " + DateTime.ParseExact(adAfterDate, "MM/dd/yyyy", null));
+        //#endif
         if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= adAfterLevel && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;

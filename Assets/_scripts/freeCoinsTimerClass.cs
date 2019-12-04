@@ -182,7 +182,7 @@ public class freeCoinsTimerClass : MonoBehaviour {
             .text = FreeGoldCount.ToString();
          */
 
-        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{"detail", "free"}, {"coins", FreeGoldCount .ToString()} });
+        ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> {{"detail", "free"}, {"coins", FreeGoldCount .ToString()} });
         //initLevelMenuClass.instance.coinsMenu.SetActive(false);
         ctrProgressClass.saveProgress();
         hand.SetActive(false);

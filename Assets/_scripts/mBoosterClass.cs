@@ -369,7 +369,7 @@ public class mBoosterClass : MonoBehaviour {
                         max = 4;
                         ctrProgressClass.progress["tutorialBuy"] = 5;
                         ctrAnalyticsClass.sendEvent("Tutorial",
-                            new Dictionary<string, string> { { "name", "open booster" } });
+                            new Dictionary<string, object> { { "name", "open booster" } });
 
                     }
                     for (int i = 2; i < max; i++)

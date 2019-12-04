@@ -186,12 +186,12 @@ public class gHintClass : MonoBehaviour {
                     if (GameObject.Find("/default level/gui/tutorial hint(Clone)") != null)
                         GameObject.Find("/default level/gui/tutorial hint(Clone)").SetActive(false);
                     ctrProgressClass.progress["tutorialHint"] = 1;
-                    ctrAnalyticsClass.sendEvent("Tutorial", new System.Collections.Generic.Dictionary<string, string> { { "name", "use hint" } });
+                    ctrAnalyticsClass.sendEvent("Tutorial", new System.Collections.Generic.Dictionary<string, object> { { "name", "use hint" } });
 
                 }
                 //for analytics
                 var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
-                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                 {
                     { "detail", "level " + SceneManager.GetActiveScene().name.Substring(5)},
                     { "type", type},

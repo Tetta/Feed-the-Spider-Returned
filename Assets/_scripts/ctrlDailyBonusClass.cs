@@ -55,7 +55,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                 //analytics
                 if (ctrProgressClass.progress["berry2"] > 0)
                 {
-                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                     {
                         {"detail", "item"},
                         {"name", "webs"},
@@ -64,7 +64,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                 }
                 if (ctrProgressClass.progress["berry3"] > 0)
                 {
-                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                     {
                         {"detail", "item"},
                         {"name", "collectors"},
@@ -73,7 +73,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                 }
                 if (ctrProgressClass.progress["berry4"] > 0)
                 {
-                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                     {
                         {"detail", "item"},
                         {"name", "teleports"},
@@ -82,7 +82,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                 }
                 if (ctrProgressClass.progress["berry5"] > 0)
                 {
-                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                     {
                         {"detail", "item"},
                         {"name", "hints"},
@@ -158,7 +158,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                         as GameObject;
                 if (bonusName != "coins")
                 {
-                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                    ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                         {
                             {"detail", "daily_gift"},
                             {"name", bonusName},
@@ -173,7 +173,7 @@ public class ctrlDailyBonusClass : MonoBehaviour {
                     Instantiate(marketClass.instance.cardsAll.Find(bonusName).gameObject, new Vector3(0, 0, 0),
                         Quaternion.Euler(0, 0, Mathf.CeilToInt(UnityEngine.Random.Range(-5, 5)))) as GameObject;
             }
-            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> { { "detail", "daily" }, { "coins", bonusCount.ToString() } });
+            if (bonusName == "coins") ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> { { "detail", "daily" }, { "coins", bonusCount.ToString() } });
 
             card.GetComponent<mCardClass>().functionPress = "openCardGift";
 			card.transform.parent = dailyBonusMenu.transform.GetChild(0).GetChild(0);

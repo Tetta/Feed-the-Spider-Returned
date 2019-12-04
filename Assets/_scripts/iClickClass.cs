@@ -124,7 +124,7 @@ public class iClickClass : MonoBehaviour {
             if (name == "booster_white_1")
             {
                 ctrProgressClass.progress ["tutorialBuy"] = 2;
-                ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "buy booster" } });
+                ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, object> { { "name", "buy booster" } });
                 //tutorial
                 //marketClass.instance.transform.GetChild(1).SendMessage("checkTutorialBuy");
 
@@ -1038,7 +1038,7 @@ public class iClickClass : MonoBehaviour {
         {
             ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"] = 3;
             ctrProgressClass.progress["tutorialDream"] ++;
-            ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use dream" } });
+            ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, object> { { "name", "use dream" } });
             ctrProgressClass.saveProgress();
         }
         var p = ctrProgressClass.progress[SceneManager.GetActiveScene().name + "_dream"];

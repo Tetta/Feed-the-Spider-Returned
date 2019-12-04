@@ -647,7 +647,7 @@ public class gBerryClass : MonoBehaviour {
         //var resultStr = (result) ? "win" : "lost";
         var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
 
-        var attr = new Dictionary<string, string>
+        var attr = new Dictionary<string, object>
         {
             {"level_number", SceneManager.GetActiveScene().name.Substring(5)},
             {"type", type},

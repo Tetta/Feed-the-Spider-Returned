@@ -226,7 +226,7 @@ public class marketClass : MonoBehaviour {
     public void setRewardForPurchase(string itemId, string transactionId, string currency, decimal price)
     {
         Debug.Log("setRewardForPurchase");
-        var attr = new Dictionary<string, string> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
+        var attr = new Dictionary<string, object> {{"category", "shop"}, { "name", itemId }, { "revenue", "100" } };
 //#if UNITY_IOS
         //itemId = itemId.Substring(22);
 //#else
@@ -428,7 +428,7 @@ public class marketClass : MonoBehaviour {
 
 
         Debug.Log("revenue old: " + attr["revenue"]);
-        long revenue = Mathf.FloorToInt(int.Parse(attr["revenue"]) * 0.7F);
+        long revenue = Mathf.FloorToInt(int.Parse(attr["revenue"].ToString()) * 0.7F);
         attr["revenue"] = Mathf.FloorToInt(revenue/100) + "." + (revenue%100);
         //attr["revenue"] = int
         Debug.Log("revenue int: " + revenue);
@@ -442,7 +442,7 @@ public class marketClass : MonoBehaviour {
         {
             Debug.Log("send sdk.reportPayment");
             Dictionary<string, string> args = new Dictionary<string, string>();
-            args["trx_id"] = attr["transactionId"];
+            args["trx_id"] = attr["transactionId"].ToString();
             if (args["trx_id"].Length > 128)  args["trx_id"] = args["trx_id"].Substring(0, 128);
             //args["amount"] = revenueForOk;
             args["amount"] = revenueForOk;
@@ -522,7 +522,7 @@ public class marketClass : MonoBehaviour {
             }
             var nameItem = name;
             ctrAnalyticsClass.sendEvent("Coins",
-                new Dictionary<string, string> {{"detail 1", nameItem}, {"coins", (-cost).ToString()}});
+                new Dictionary<string, object> {{"detail 1", nameItem}, {"coins", (-cost).ToString()}});
 
             ctrProgressClass.progress["coins"] -= cost;
             ctrProgressClass.progress["boostersWhite"] += amount;

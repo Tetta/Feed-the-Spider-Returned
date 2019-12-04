@@ -61,7 +61,7 @@ public class gBonusClass : MonoBehaviour {
                     if (GameObject.Find("/default level/gui/tutorial bonus(Clone)") != null)
                         GameObject.Find("/default level/gui/tutorial bonus(Clone)").SetActive(false);
                     if (name == "collectors") ctrProgressClass.progress["tutorialBonus"] = 1;
-                    ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, string> { { "name", "use bonus" } });
+                    ctrAnalyticsClass.sendEvent("Tutorial", new Dictionary<string, object> { { "name", "use bonus" } });
 
                 }
 
@@ -72,7 +72,7 @@ public class gBonusClass : MonoBehaviour {
 
                 //for analytics
                 var type = (initLevelMenuClass.levelDemands == 0) ? "normal" : "challenge";
-                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, string>
+                ctrAnalyticsClass.sendEvent("Bonuses", new Dictionary<string, object>
                 {
                     { "detail", "level " + UnityEngine.SceneManagement.SceneManager.GetActiveScene().name.Substring(5)},
                     { "type", type},

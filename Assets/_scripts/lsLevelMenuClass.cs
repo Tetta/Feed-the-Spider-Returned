@@ -292,7 +292,7 @@ public class lsLevelMenuClass : MonoBehaviour
             ctrProgressClass.progress["coins"] += coinsAdd;
 
             if (coinsAdd > 0)
-                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, string> {{ "detail", "level"}, {"coins", coinsAdd.ToString()}});
+                ctrAnalyticsClass.sendEvent("Coins", new Dictionary<string, object> {{ "detail", "level"}, {"coins", coinsAdd.ToString()}});
             //ctrStatsClass.logEvent("coins", "free", "level" + lvlNumber, coinsAdd);
 
             //сохранение очков в Kii
