@@ -1,8 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
-using System;
 using Unity.Appodeal.Xcode.PBX;
 
 namespace Unity.Appodeal.Xcode
@@ -27,124 +27,89 @@ namespace Unity.Appodeal.Xcode
         internal static FlagList appExtensionReleaseBuildFlags = new FlagList
         {
             // { "INFOPLIST_FILE", <path/to/info.plist> },
-            { "LD_RUNPATH_SEARCH_PATHS", "$(inherited)" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks" },
+            {"LD_RUNPATH_SEARCH_PATHS", "$(inherited)"}, {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks"},
+            {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks"},
             // { "PRODUCT_BUNDLE_IDENTIFIER", "<bundle id>" },
-            { "PRODUCT_NAME", "$(TARGET_NAME)" },
-            { "SKIP_INSTALL", "YES" },
+            {"PRODUCT_NAME", "$(TARGET_NAME)"}, {"SKIP_INSTALL", "YES"},
         };
 
         internal static FlagList appExtensionDebugBuildFlags = new FlagList
         {
             // { "INFOPLIST_FILE", <path/to/info.plist> },
-            { "LD_RUNPATH_SEARCH_PATHS", "$(inherited)" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks" },
+            {"LD_RUNPATH_SEARCH_PATHS", "$(inherited)"}, {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks"},
+            {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks"},
             // { "PRODUCT_BUNDLE_IDENTIFIER", "<bundle id>" },
-            { "PRODUCT_NAME", "$(TARGET_NAME)" },
-            { "SKIP_INSTALL", "YES" },
+            {"PRODUCT_NAME", "$(TARGET_NAME)"}, {"SKIP_INSTALL", "YES"},
         };
 
         internal static FlagList watchExtensionReleaseBuildFlags = new FlagList
         {
-            { "ASSETCATALOG_COMPILER_COMPLICATION_NAME", "Complication" },
-            { "CLANG_ANALYZER_NONNULL", "YES" },
-            { "CLANG_WARN_DOCUMENTATION_COMMENTS", "YES" },
-            { "CLANG_WARN_INFINITE_RECURSION", "YES" },
-            { "CLANG_WARN_SUSPICIOUS_MOVE", "YES" },
-            { "DEBUG_INFORMATION_FORMAT", "dwarf-with-dsym" },
-            { "GCC_NO_COMMON_BLOCKS", "YES" },
+            {"ASSETCATALOG_COMPILER_COMPLICATION_NAME", "Complication"}, {"CLANG_ANALYZER_NONNULL", "YES"},
+            {"CLANG_WARN_DOCUMENTATION_COMMENTS", "YES"}, {"CLANG_WARN_INFINITE_RECURSION", "YES"},
+            {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"}, {"DEBUG_INFORMATION_FORMAT", "dwarf-with-dsym"},
+            {"GCC_NO_COMMON_BLOCKS", "YES"},
             //{ "INFOPLIST_FILE", "<path/to/Info.plist>" },
-            { "LD_RUNPATH_SEARCH_PATHS", "$(inherited)" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks" },
+            {"LD_RUNPATH_SEARCH_PATHS", "$(inherited)"}, {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks"},
+            {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks"},
             // { "PRODUCT_BUNDLE_IDENTIFIER", "<bundle id>" },
-            { "PRODUCT_NAME", "${TARGET_NAME}" },
-            { "SDKROOT", "watchos" },
-            { "SKIP_INSTALL", "YES" },
-            { "TARGETED_DEVICE_FAMILY", "4" },
-            { "WATCHOS_DEPLOYMENT_TARGET", "3.1" },
+            {"PRODUCT_NAME", "${TARGET_NAME}"}, {"SDKROOT", "watchos"}, {"SKIP_INSTALL", "YES"},
+            {"TARGETED_DEVICE_FAMILY", "4"}, {"WATCHOS_DEPLOYMENT_TARGET", "3.1"},
             // the following are needed to override project settings in Unity Xcode project
-            { "ARCHS", "$(ARCHS_STANDARD)" },
-            { "SUPPORTED_PLATFORMS", "watchos" },
-            { "SUPPORTED_PLATFORMS", "watchsimulator" },
+            {"ARCHS", "$(ARCHS_STANDARD)"}, {"SUPPORTED_PLATFORMS", "watchos"},
+            {"SUPPORTED_PLATFORMS", "watchsimulator"},
         };
 
         internal static FlagList watchExtensionDebugBuildFlags = new FlagList
         {
-            { "ASSETCATALOG_COMPILER_COMPLICATION_NAME", "Complication" },
-            { "CLANG_ANALYZER_NONNULL", "YES" },
-            { "CLANG_WARN_DOCUMENTATION_COMMENTS", "YES" },
-            { "CLANG_WARN_INFINITE_RECURSION", "YES" },
-            { "CLANG_WARN_SUSPICIOUS_MOVE", "YES" },
-            { "DEBUG_INFORMATION_FORMAT", "dwarf" },
-            { "ENABLE_TESTABILITY", "YES" },
-            { "GCC_NO_COMMON_BLOCKS", "YES" },
+            {"ASSETCATALOG_COMPILER_COMPLICATION_NAME", "Complication"}, {"CLANG_ANALYZER_NONNULL", "YES"},
+            {"CLANG_WARN_DOCUMENTATION_COMMENTS", "YES"}, {"CLANG_WARN_INFINITE_RECURSION", "YES"},
+            {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"}, {"DEBUG_INFORMATION_FORMAT", "dwarf"}, {"ENABLE_TESTABILITY", "YES"},
+            {"GCC_NO_COMMON_BLOCKS", "YES"},
             // { "INFOPLIST_FILE", "<path/to/Info.plist>" },
-            { "LD_RUNPATH_SEARCH_PATHS", "$(inherited)" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks" },
-            { "LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks" },
+            {"LD_RUNPATH_SEARCH_PATHS", "$(inherited)"}, {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/Frameworks"},
+            {"LD_RUNPATH_SEARCH_PATHS", "@executable_path/../../Frameworks"},
             // { "PRODUCT_BUNDLE_IDENTIFIER", "<bundle id>" },
-            { "PRODUCT_NAME", "${TARGET_NAME}" },
-            { "SDKROOT", "watchos" },
-            { "SKIP_INSTALL", "YES" },
-            { "TARGETED_DEVICE_FAMILY", "4" },
-            { "WATCHOS_DEPLOYMENT_TARGET", "3.1" },
+            {"PRODUCT_NAME", "${TARGET_NAME}"}, {"SDKROOT", "watchos"}, {"SKIP_INSTALL", "YES"},
+            {"TARGETED_DEVICE_FAMILY", "4"}, {"WATCHOS_DEPLOYMENT_TARGET", "3.1"},
             // the following are needed to override project settings in Unity Xcode project
-            { "ARCHS", "$(ARCHS_STANDARD)" },
-            { "SUPPORTED_PLATFORMS", "watchos" },
-            { "SUPPORTED_PLATFORMS", "watchsimulator" },
+            {"ARCHS", "$(ARCHS_STANDARD)"}, {"SUPPORTED_PLATFORMS", "watchos"},
+            {"SUPPORTED_PLATFORMS", "watchsimulator"},
         };
 
         internal static FlagList watchAppReleaseBuildFlags = new FlagList
         {
-            { "ASSETCATALOG_COMPILER_APPICON_NAME", "AppIcon" },
-            { "CLANG_ANALYZER_NONNULL", "YES" },
-            { "CLANG_WARN_DOCUMENTATION_COMMENTS", "YES" },
-            { "CLANG_WARN_INFINITE_RECURSION", "YES" },
-            { "CLANG_WARN_SUSPICIOUS_MOVE", "YES" },
-            { "DEBUG_INFORMATION_FORMAT", "dwarf-with-dsym" },
-            { "GCC_NO_COMMON_BLOCKS", "YES" },
+            {"ASSETCATALOG_COMPILER_APPICON_NAME", "AppIcon"}, {"CLANG_ANALYZER_NONNULL", "YES"},
+            {"CLANG_WARN_DOCUMENTATION_COMMENTS", "YES"}, {"CLANG_WARN_INFINITE_RECURSION", "YES"},
+            {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"}, {"DEBUG_INFORMATION_FORMAT", "dwarf-with-dsym"},
+            {"GCC_NO_COMMON_BLOCKS", "YES"},
             //{ "IBSC_MODULE", "the extension target name with ' ' replaced with '_'" },
             //{ "INFOPLIST_FILE", "<path/to/Info.plist>" },
             //{ "PRODUCT_BUNDLE_IDENTIFIER", "<bundle id>" },
-            { "PRODUCT_NAME", "$(TARGET_NAME)" },
-            { "SDKROOT", "watchos" },
-            { "SKIP_INSTALL", "YES" },
-            { "TARGETED_DEVICE_FAMILY", "4" },
-            { "WATCHOS_DEPLOYMENT_TARGET", "3.1" },
+            {"PRODUCT_NAME", "$(TARGET_NAME)"}, {"SDKROOT", "watchos"}, {"SKIP_INSTALL", "YES"},
+            {"TARGETED_DEVICE_FAMILY", "4"}, {"WATCHOS_DEPLOYMENT_TARGET", "3.1"},
             // the following are needed to override project settings in Unity Xcode project
-            { "ARCHS", "$(ARCHS_STANDARD)" },
-            { "SUPPORTED_PLATFORMS", "watchos" },
-            { "SUPPORTED_PLATFORMS", "watchsimulator" },
+            {"ARCHS", "$(ARCHS_STANDARD)"}, {"SUPPORTED_PLATFORMS", "watchos"},
+            {"SUPPORTED_PLATFORMS", "watchsimulator"},
         };
 
         internal static FlagList watchAppDebugBuildFlags = new FlagList
         {
-            { "ASSETCATALOG_COMPILER_APPICON_NAME", "AppIcon" },
-            { "CLANG_ANALYZER_NONNULL", "YES" },
-            { "CLANG_WARN_DOCUMENTATION_COMMENTS", "YES" },
-            { "CLANG_WARN_INFINITE_RECURSION", "YES" },
-            { "CLANG_WARN_SUSPICIOUS_MOVE", "YES" },
-            { "DEBUG_INFORMATION_FORMAT", "dwarf" },
-            { "ENABLE_TESTABILITY", "YES" },
-            { "GCC_NO_COMMON_BLOCKS", "YES" },
+            {"ASSETCATALOG_COMPILER_APPICON_NAME", "AppIcon"}, {"CLANG_ANALYZER_NONNULL", "YES"},
+            {"CLANG_WARN_DOCUMENTATION_COMMENTS", "YES"}, {"CLANG_WARN_INFINITE_RECURSION", "YES"},
+            {"CLANG_WARN_SUSPICIOUS_MOVE", "YES"}, {"DEBUG_INFORMATION_FORMAT", "dwarf"}, {"ENABLE_TESTABILITY", "YES"},
+            {"GCC_NO_COMMON_BLOCKS", "YES"},
             //{ "IBSC_MODULE", "the extension target name with ' ' replaced with '_'" },
             //{ "INFOPLIST_FILE", "<path/to/Info.plist>" },
             //{ "PRODUCT_BUNDLE_IDENTIFIER", "<bundle id>" },
-            { "PRODUCT_NAME", "$(TARGET_NAME)" },
-            { "SDKROOT", "watchos" },
-            { "SKIP_INSTALL", "YES" },
-            { "TARGETED_DEVICE_FAMILY", "4" },
-            { "WATCHOS_DEPLOYMENT_TARGET", "3.1" },
+            {"PRODUCT_NAME", "$(TARGET_NAME)"}, {"SDKROOT", "watchos"}, {"SKIP_INSTALL", "YES"},
+            {"TARGETED_DEVICE_FAMILY", "4"}, {"WATCHOS_DEPLOYMENT_TARGET", "3.1"},
             // the following are needed to override project settings in Unity Xcode project
-            { "ARCHS", "$(ARCHS_STANDARD)" },
-            { "SUPPORTED_PLATFORMS", "watchos" },
-            { "SUPPORTED_PLATFORMS", "watchsimulator" },
+            {"ARCHS", "$(ARCHS_STANDARD)"}, {"SUPPORTED_PLATFORMS", "watchos"},
+            {"SUPPORTED_PLATFORMS", "watchsimulator"},
         };
 
-        static void SetBuildFlagsFromDict(this PBXProject proj, string configGuid, IEnumerable<KeyValuePair<string, string>> data)
+        static void SetBuildFlagsFromDict(this PBXProject proj, string configGuid,
+            IEnumerable<KeyValuePair<string, string>> data)
         {
             foreach (var kv in data)
                 proj.AddBuildPropertyForConfig(configGuid, kv.Key, kv.Value);
@@ -190,8 +155,8 @@ namespace Unity.Appodeal.Xcode
         /// <param name="bundleId">The bundle ID of the app extension. The bundle ID must be
         /// prefixed with the parent app bundle ID.</param>
         /// <param name="infoPlistPath">Path to the app extension Info.plist document.</param>
-        public static string AddAppExtension(this PBXProject proj, string mainTargetGuid, 
-                                             string name, string bundleId, string infoPlistPath)
+        public static string AddAppExtension(this PBXProject proj, string mainTargetGuid,
+            string name, string bundleId, string infoPlistPath)
         {
             string ext = ".appex";
             var newTargetGuid = proj.AddTarget(name, ext, "com.apple.product-type.app-extension");
@@ -228,8 +193,8 @@ namespace Unity.Appodeal.Xcode
         /// <param name="name">The name of the watch app. It must the same as the name of the watch extension.</param>
         /// <param name="bundleId">The bundle ID of the watch app.</param>
         /// <param name="infoPlistPath">Path to the watch app Info.plist document.</param>
-        public static string AddWatchApp(this PBXProject proj, string mainTargetGuid, string watchExtensionTargetGuid, 
-                                         string name, string bundleId, string infoPlistPath)
+        public static string AddWatchApp(this PBXProject proj, string mainTargetGuid, string watchExtensionTargetGuid,
+            string name, string bundleId, string infoPlistPath)
         {
             var newTargetGuid = proj.AddTarget(name, ".app", "com.apple.product-type.application.watchapp2");
 
@@ -249,9 +214,11 @@ namespace Unity.Appodeal.Xcode
 
             proj.AddResourcesBuildPhase(newTargetGuid);
             string copyFilesGuid = proj.AddCopyFilesBuildPhase(newTargetGuid, "Embed App Extensions", "", "13");
-            proj.AddFileToBuildSection(newTargetGuid, copyFilesGuid, proj.GetTargetProductFileRef(watchExtensionTargetGuid));
+            proj.AddFileToBuildSection(newTargetGuid, copyFilesGuid,
+                proj.GetTargetProductFileRef(watchExtensionTargetGuid));
 
-            string copyWatchFilesGuid = proj.AddCopyFilesBuildPhase(mainTargetGuid, "Embed Watch Content", "$(CONTENTS_FOLDER_PATH)/Watch", "16");
+            string copyWatchFilesGuid = proj.AddCopyFilesBuildPhase(mainTargetGuid, "Embed Watch Content",
+                "$(CONTENTS_FOLDER_PATH)/Watch", "16");
             proj.AddFileToBuildSection(mainTargetGuid, copyWatchFilesGuid, proj.GetTargetProductFileRef(newTargetGuid));
 
             proj.AddTargetDependency(newTargetGuid, watchExtensionTargetGuid);
@@ -270,8 +237,8 @@ namespace Unity.Appodeal.Xcode
         /// <param name="bundleId">The bundle ID of the watch extension. The bundle ID must be
         /// prefixed with the parent watch app bundle ID.</param>
         /// <param name="infoPlistPath">Path to the watch extension Info.plist document.</param>
-        public static string AddWatchExtension(this PBXProject proj, string mainTarget, 
-                                               string name, string bundleId, string infoPlistPath)
+        public static string AddWatchExtension(this PBXProject proj, string mainTarget,
+            string name, string bundleId, string infoPlistPath)
         {
             var newTargetGuid = proj.AddTarget(name, ".appex", "com.apple.product-type.watchkit2-extension");
 
@@ -299,7 +266,8 @@ namespace Unity.Appodeal.Xcode
         /// <param name="path">The path to the external Xcode project (the .xcodeproj file).</param>
         /// <param name="projectPath">The project path to the new project.</param>
         /// <param name="sourceTree">The source tree the path is relative to. The [[PBXSourceTree.Group]] tree is not supported.</param>
-        internal static void AddExternalProjectDependency(this PBXProject proj, string path, string projectPath, PBXSourceTree sourceTree)
+        internal static void AddExternalProjectDependency(this PBXProject proj, string path, string projectPath,
+            PBXSourceTree sourceTree)
         {
             if (sourceTree == PBXSourceTree.Group)
                 throw new Exception("sourceTree must not be PBXSourceTree.Group");
@@ -311,7 +279,7 @@ namespace Unity.Appodeal.Xcode
             proj.GroupsAddDuplicate(productGroup); // don't use GroupsAdd here
 
             PBXFileReferenceData fileRef = PBXFileReferenceData.CreateFromFile(path, Path.GetFileName(projectPath),
-                                                                               sourceTree);
+                sourceTree);
             proj.FileRefsAdd(path, projectPath, null, fileRef);
             proj.CreateSourceGroup(PBXPath.GetDirectory(projectPath)).children.AddGUID(fileRef.guid);
 
@@ -327,8 +295,9 @@ namespace Unity.Appodeal.Xcode
             TODO: what. is remoteInfo entry in PBXContainerItemProxy? Is in referenced project name or
             referenced library name without extension?
         */
-        internal static void AddExternalLibraryDependency(this PBXProject proj, string targetGuid, string filename, string remoteFileGuid, string projectPath,
-                                                          string remoteInfo)
+        internal static void AddExternalLibraryDependency(this PBXProject proj, string targetGuid, string filename,
+            string remoteFileGuid, string projectPath,
+            string remoteInfo)
         {
             PBXNativeTargetData target = proj.nativeTargets[targetGuid];
             filename = PBXPath.FixSlashes(filename);
@@ -412,4 +381,4 @@ namespace Unity.Appodeal.Xcode
             frameworkEmbedFileData.removeHeadersOnCopy = true;
         }
     }
-} // namespace UnityEditor.iOS.Xcode
+}

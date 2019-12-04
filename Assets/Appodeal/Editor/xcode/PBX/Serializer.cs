@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Unity.Appodeal.Xcode.PBX
 {
@@ -12,7 +12,7 @@ namespace Unity.Appodeal.Xcode.PBX
         private int m_Level;
         private bool m_All;
         private List<List<string>> m_Props;
-        
+
         /*  The argument is an array of matcher strings each of which determine 
                 whether a property with a certain path needs to be decorated with a
                 comment.
@@ -59,14 +59,14 @@ namespace Unity.Appodeal.Xcode.PBX
                 m_Props.Add(new List<string>(prop.Split('/')));
             }
         }
-        
+
         bool CheckContained(string prop)
         {
-            if (m_All) 
+            if (m_All)
                 return true;
             foreach (var list in m_Props)
             {
-                if (list.Count == m_Level+1)
+                if (list.Count == m_Level + 1)
                 {
                     if (list[m_Level] == prop)
                         return true;
@@ -77,12 +77,20 @@ namespace Unity.Appodeal.Xcode.PBX
                     }
                 }
             }
+
             return false;
         }
-        
-        public bool CheckStringValueInArray(string value) { return CheckContained(value); }
-        public bool CheckKeyInDict(string key) { return CheckContained(key); }
-        
+
+        public bool CheckStringValueInArray(string value)
+        {
+            return CheckContained(value);
+        }
+
+        public bool CheckKeyInDict(string key)
+        {
+            return CheckContained(key);
+        }
+
         public bool CheckStringValueInDict(string key, string value)
         {
             foreach (var list in m_Props)
@@ -90,28 +98,30 @@ namespace Unity.Appodeal.Xcode.PBX
                 if (list.Count == m_Level + 2)
                 {
                     if ((list[m_Level] == "*" || list[m_Level] == key) &&
-                        list[m_Level+1] == "*" || list[m_Level+1] == value)
+                        list[m_Level + 1] == "*" || list[m_Level + 1] == value)
                         return true;
                 }
             }
-            return false;       
+
+            return false;
         }
-        
+
         public PropertyCommentChecker NextLevel(string prop)
         {
             var newList = new List<List<string>>();
             foreach (var list in m_Props)
             {
-                if (list.Count <= m_Level+1)
+                if (list.Count <= m_Level + 1)
                     continue;
                 if (list[m_Level] == "*" || list[m_Level] == prop)
                     newList.Add(list);
             }
+
             return new PropertyCommentChecker(m_Level + 1, newList);
         }
     }
 
-    class Serializer 
+    class Serializer
     {
         public static PBXElementDict ParseTreeAST(TreeAST ast, TokenList tokens, string text)
         {
@@ -122,9 +132,10 @@ namespace Unity.Appodeal.Xcode.PBX
                 PBXElement value = ParseValueAST(kv.value, tokens, text);
                 el[key.value] = value;
             }
+
             return el;
         }
-        
+
         public static PBXElementArray ParseArrayAST(ArrayAST ast, TokenList tokens, string text)
         {
             var el = new PBXElementArray();
@@ -132,20 +143,21 @@ namespace Unity.Appodeal.Xcode.PBX
             {
                 el.values.Add(ParseValueAST(v, tokens, text));
             }
+
             return el;
         }
-        
+
         public static PBXElement ParseValueAST(ValueAST ast, TokenList tokens, string text)
         {
             if (ast is TreeAST)
-                return ParseTreeAST((TreeAST)ast, tokens, text);
+                return ParseTreeAST((TreeAST) ast, tokens, text);
             if (ast is ArrayAST)
-                return ParseArrayAST((ArrayAST)ast, tokens, text);
+                return ParseArrayAST((ArrayAST) ast, tokens, text);
             if (ast is IdentifierAST)
-                return ParseIdentifierAST((IdentifierAST)ast, tokens, text);
+                return ParseIdentifierAST((IdentifierAST) ast, tokens, text);
             return null;
         }
-        
+
         public static PBXElementString ParseIdentifierAST(IdentifierAST ast, TokenList tokens, string text)
         {
             Token tok = tokens[ast.value];
@@ -161,11 +173,11 @@ namespace Unity.Appodeal.Xcode.PBX
                     return new PBXElementString(value);
                 default:
                     throw new Exception("Internal parser error");
-            }           
+            }
         }
-        
+
         static string k_Indent = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
-        
+
         static string GetIndent(int indent)
         {
             return k_Indent.Substring(0, indent);
@@ -178,15 +190,16 @@ namespace Unity.Appodeal.Xcode.PBX
             else
                 sb.Append(PBXStream.QuoteStringIfNeeded(s));
         }
-                                         
-        public static void WriteDictKeyValue(StringBuilder sb, string key, PBXElement value, int indent, bool compact, 
-                                             PropertyCommentChecker checker, GUIDToCommentMap comments)
+
+        public static void WriteDictKeyValue(StringBuilder sb, string key, PBXElement value, int indent, bool compact,
+            PropertyCommentChecker checker, GUIDToCommentMap comments)
         {
             if (!compact)
             {
                 sb.Append("\n");
                 sb.Append(GetIndent(indent));
             }
+
             WriteStringImpl(sb, key, checker.CheckKeyInDict(key), comments);
             sb.Append(" = ");
 
@@ -200,31 +213,33 @@ namespace Unity.Appodeal.Xcode.PBX
             if (compact)
                 sb.Append(" ");
         }
-        
-        public static void WriteDict(StringBuilder sb, PBXElementDict el, int indent, bool compact, 
-                                     PropertyCommentChecker checker, GUIDToCommentMap comments)
+
+        public static void WriteDict(StringBuilder sb, PBXElementDict el, int indent, bool compact,
+            PropertyCommentChecker checker, GUIDToCommentMap comments)
         {
             sb.Append("{");
-            
+
             if (el.Contains("isa"))
-                WriteDictKeyValue(sb, "isa", el["isa"], indent+1, compact, checker, comments);
+                WriteDictKeyValue(sb, "isa", el["isa"], indent + 1, compact, checker, comments);
             var keys = new List<string>(el.values.Keys);
             keys.Sort(StringComparer.Ordinal);
             foreach (var key in keys)
             {
                 if (key != "isa")
-                    WriteDictKeyValue(sb, key, el[key], indent+1, compact, checker, comments);
+                    WriteDictKeyValue(sb, key, el[key], indent + 1, compact, checker, comments);
             }
+
             if (!compact)
             {
                 sb.Append("\n");
                 sb.Append(GetIndent(indent));
             }
+
             sb.Append("}");
         }
- 
-        public static void WriteArray(StringBuilder sb, PBXElementArray el, int indent, bool compact, 
-                                      PropertyCommentChecker checker, GUIDToCommentMap comments)
+
+        public static void WriteArray(StringBuilder sb, PBXElementArray el, int indent, bool compact,
+            PropertyCommentChecker checker, GUIDToCommentMap comments)
         {
             sb.Append("(");
             foreach (var value in el.values)
@@ -232,28 +247,27 @@ namespace Unity.Appodeal.Xcode.PBX
                 if (!compact)
                 {
                     sb.Append("\n");
-                    sb.Append(GetIndent(indent+1));
+                    sb.Append(GetIndent(indent + 1));
                 }
-                
+
                 if (value is PBXElementString)
                     WriteStringImpl(sb, value.AsString(), checker.CheckStringValueInArray(value.AsString()), comments);
                 else if (value is PBXElementDict)
-                    WriteDict(sb, value.AsDict(), indent+1, compact, checker.NextLevel("*"), comments);
+                    WriteDict(sb, value.AsDict(), indent + 1, compact, checker.NextLevel("*"), comments);
                 else if (value is PBXElementArray)
-                    WriteArray(sb, value.AsArray(), indent+1, compact, checker.NextLevel("*"), comments);
+                    WriteArray(sb, value.AsArray(), indent + 1, compact, checker.NextLevel("*"), comments);
                 sb.Append(",");
                 if (compact)
                     sb.Append(" ");
             }
-            
+
             if (!compact)
             {
                 sb.Append("\n");
                 sb.Append(GetIndent(indent));
             }
+
             sb.Append(")");
         }
     }
-    
-} // namespace UnityEditor.iOS.Xcode
-
+}

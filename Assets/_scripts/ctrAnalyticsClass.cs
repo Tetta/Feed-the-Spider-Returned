@@ -64,12 +64,13 @@ public class ctrAnalyticsClass: MonoBehaviour
             //Handle FB.Init
             FB.Init(() => {
                 FB.ActivateApp();
-                //funnelStart(1, "loading_scene");
+
             });
         }
-		//GameAnalytics.Initialize();
+        if (ctrProgressClass.progress.Count == 0) ctrProgressClass.getProgress();
+        setGroups();
         funnelStart(1, "loading_scene");
-        //Firebase.FirebaseApp.Create();
+
 
         Debug.Log("firstLaunch: " + ctrProgressClass.progress["firstLaunch"]);
         if (ctrProgressClass.progress["firstLaunch"] == 0) {
@@ -81,8 +82,31 @@ public class ctrAnalyticsClass: MonoBehaviour
 
         startSession();
     }
-	// Use this for initialization
-	void Start()
+
+    void setGroups()
+    {
+        
+        if (PlayerPrefs.GetInt("USER_GROUP_BANNER", -1) == -1) {
+
+            int r;
+
+            r = UnityEngine.Random.Range(0, 2);
+            //fix
+            r = 1;
+            PlayerPrefs.SetInt("USER_GROUP_BANNER", r);
+            sendEvent("UserGroupBanner", new Dictionary<string, object>{{ "Group", r }});
+
+
+            r = UnityEngine.Random.Range(0, 2);
+            PlayerPrefs.SetInt("USER_GROUP_MAP", r);
+            sendEvent("UserGroupMap", new Dictionary<string, object> { { "Group", r } });
+
+        }
+
+    }
+
+    // Use this for initialization
+    void Start()
     {
 
 

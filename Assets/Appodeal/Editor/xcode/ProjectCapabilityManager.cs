@@ -61,11 +61,12 @@ namespace Unity.Appodeal.Xcode
         /// <param name="enableKeyValueStorage">Enables key-value storage option if set to true</param>
         /// <param name="enableiCloudDocument">Enables iCloud document option if set to true</param>
         /// <param name="customContainers">A list of custom containers to add</param>
-        public void AddiCloud(bool enableKeyValueStorage, bool enableiCloudDocument, 
-                              string[] customContainers)
+        [Obsolete]
+        public void AddiCloud(bool enableKeyValueStorage, bool enableiCloudDocument,
+            string[] customContainers)
         {
-            AddiCloud(enableKeyValueStorage, enableiCloudDocument, true, true, 
-                      customContainers);
+            AddiCloud(enableKeyValueStorage, enableiCloudDocument, true, true,
+                customContainers);
         }
 
         /// <summary>
@@ -76,7 +77,9 @@ namespace Unity.Appodeal.Xcode
         /// <param name="enablecloudKit">Enables cloudKit option if set to true</param>
         /// <param name="addDefaultContainers">Default containers are added if this option is set to true</param>
         /// <param name="customContainers">A list of custom containers to add</param>
-        public void AddiCloud(bool enableKeyValueStorage, bool enableiCloudDocument, bool enablecloudKit, bool addDefaultContainers, string[] customContainers)
+        [Obsolete]
+        public void AddiCloud(bool enableKeyValueStorage, bool enableiCloudDocument, bool enablecloudKit,
+            bool addDefaultContainers, string[] customContainers)
         {
             var ent = GetOrCreateEntitlementDoc();
             var val = (ent.root[ICloudEntitlements.ContainerIdKey] = new PlistElementArray()) as PlistElementArray;
@@ -90,7 +93,9 @@ namespace Unity.Appodeal.Xcode
             {
                 val.values.Add(new PlistElementString(ICloudEntitlements.ContainerIdValue));
                 ser.values.Add(new PlistElementString(ICloudEntitlements.ServicesDocValue));
-                var ubiquity = (ent.root[ICloudEntitlements.UbiquityContainerIdKey] = new PlistElementArray()) as PlistElementArray;
+                var ubiquity =
+                    (ent.root[ICloudEntitlements.UbiquityContainerIdKey] =
+                        new PlistElementArray()) as PlistElementArray;
 
                 if (addDefaultContainers)
                     ubiquity.values.Add(new PlistElementString(ICloudEntitlements.UbiquityContainerIdValue));
@@ -119,7 +124,8 @@ namespace Unity.Appodeal.Xcode
             }
 
             if (enableKeyValueStorage)
-                ent.root[ICloudEntitlements.KeyValueStoreKey] = new PlistElementString(ICloudEntitlements.KeyValueStoreValue);
+                ent.root[ICloudEntitlements.KeyValueStoreKey] =
+                    new PlistElementString(ICloudEntitlements.KeyValueStoreValue);
 
             project.AddCapability(m_TargetGuid, PBXCapabilityType.iCloud, m_EntitlementFilePath, enablecloudKit);
         }
@@ -128,18 +134,23 @@ namespace Unity.Appodeal.Xcode
         /// Add Push (or remote) Notifications capability to the project
         /// </summary>
         /// <param name="development">Sets the development option if set to true</param>
+        [Obsolete]
         public void AddPushNotifications(bool development)
         {
-            GetOrCreateEntitlementDoc().root[PushNotificationEntitlements.Key] = new PlistElementString(development ? PushNotificationEntitlements.DevelopmentValue : PushNotificationEntitlements.ProductionValue);
+            GetOrCreateEntitlementDoc().root[PushNotificationEntitlements.Key] = new PlistElementString(development
+                ? PushNotificationEntitlements.DevelopmentValue
+                : PushNotificationEntitlements.ProductionValue);
             project.AddCapability(m_TargetGuid, PBXCapabilityType.PushNotifications, m_EntitlementFilePath);
         }
 
         /// <summary>
         /// Adds Game Center capability to the project
         /// </summary>
+        [Obsolete]
         public void AddGameCenter()
         {
-            var arr = (GetOrCreateInfoDoc().root[GameCenterInfo.Key] ?? (GetOrCreateInfoDoc().root[GameCenterInfo.Key] = new PlistElementArray())) as PlistElementArray;
+            var arr = (GetOrCreateInfoDoc().root[GameCenterInfo.Key] ??
+                       (GetOrCreateInfoDoc().root[GameCenterInfo.Key] = new PlistElementArray())) as PlistElementArray;
             arr.values.Add(new PlistElementString(GameCenterInfo.Value));
             project.AddCapability(m_TargetGuid, PBXCapabilityType.GameCenter);
         }
@@ -150,9 +161,12 @@ namespace Unity.Appodeal.Xcode
         /// <param name="passSubset">Controls the allowed pass types. If null or
         /// empty, then all team pass types are allowed. Otherwise, only the 
         /// specified subset of pass types is allowed</param>
+        [Obsolete]
         public void AddWallet(string[] passSubset)
         {
-            var arr = (GetOrCreateEntitlementDoc().root[WalletEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
+            var arr =
+                (GetOrCreateEntitlementDoc().root[WalletEntitlements.Key] = new PlistElementArray()) as
+                PlistElementArray;
             if ((passSubset == null || passSubset.Length == 0) && arr != null)
             {
                 arr.values.Add(new PlistElementString(WalletEntitlements.BaseValue + WalletEntitlements.BaseValue));
@@ -172,6 +186,7 @@ namespace Unity.Appodeal.Xcode
         /// <summary>
         /// Adds Siri capability to project.
         /// </summary>
+        [Obsolete]
         public void AddSiri()
         {
             GetOrCreateEntitlementDoc().root[SiriEntitlements.Key] = new PlistElementBoolean(true);
@@ -183,9 +198,12 @@ namespace Unity.Appodeal.Xcode
         /// Adds Apple Pay capability to the project.
         /// </summary>
         /// <param name="merchants">The list of merchant IDs to configure</param>
+        [Obsolete]
         public void AddApplePay(string[] merchants)
         {
-            var arr = (GetOrCreateEntitlementDoc().root[ApplePayEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
+            var arr =
+                (GetOrCreateEntitlementDoc().root[ApplePayEntitlements.Key] = new PlistElementArray()) as
+                PlistElementArray;
             for (var i = 0; i < merchants.Length; i++)
             {
                 arr.values.Add(new PlistElementString(merchants[i]));
@@ -206,61 +224,78 @@ namespace Unity.Appodeal.Xcode
         /// Adds Maps capability to the project.
         /// </summary>
         /// <param name="options">The routing options to configure.</param>
+        [Obsolete]
         public void AddMaps(MapsOptions options)
         {
-            var bundleArr = (GetOrCreateInfoDoc().root[MapsInfo.BundleKey] ?? (GetOrCreateInfoDoc().root[MapsInfo.BundleKey] = new PlistElementArray())) as PlistElementArray;
+            var bundleArr =
+                (GetOrCreateInfoDoc().root[MapsInfo.BundleKey] ??
+                 (GetOrCreateInfoDoc().root[MapsInfo.BundleKey] = new PlistElementArray())) as PlistElementArray;
             bundleArr.values.Add(new PlistElementDict());
             PlistElementDict bundleDic = GetOrCreateUniqueDictElementInArray(bundleArr);
             bundleDic[MapsInfo.BundleNameKey] = new PlistElementString(MapsInfo.BundleNameValue);
-            var bundleTypeArr = (bundleDic[MapsInfo.BundleTypeKey] ?? (bundleDic[MapsInfo.BundleTypeKey]  = new PlistElementArray())) as PlistElementArray;
+            var bundleTypeArr =
+                (bundleDic[MapsInfo.BundleTypeKey] ?? (bundleDic[MapsInfo.BundleTypeKey] = new PlistElementArray())) as
+                PlistElementArray;
             GetOrCreateStringElementInArray(bundleTypeArr, MapsInfo.BundleTypeValue);
 
             var optionArr = (GetOrCreateInfoDoc().root[MapsInfo.ModeKey] ??
-                            (GetOrCreateInfoDoc().root[MapsInfo.ModeKey] = new PlistElementArray())) as PlistElementArray;
+                             (GetOrCreateInfoDoc().root[MapsInfo.ModeKey] = new PlistElementArray())) as
+                PlistElementArray;
             if ((options & MapsOptions.Airplane) == MapsOptions.Airplane)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModePlaneValue);
             }
+
             if ((options & MapsOptions.Bike) == MapsOptions.Bike)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeBikeValue);
             }
+
             if ((options & MapsOptions.Bus) == MapsOptions.Bus)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeBusValue);
             }
+
             if ((options & MapsOptions.Car) == MapsOptions.Car)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeCarValue);
             }
+
             if ((options & MapsOptions.Ferry) == MapsOptions.Ferry)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeFerryValue);
             }
+
             if ((options & MapsOptions.Other) == MapsOptions.Other)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeOtherValue);
             }
+
             if ((options & MapsOptions.Pedestrian) == MapsOptions.Pedestrian)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModePedestrianValue);
             }
+
             if ((options & MapsOptions.RideSharing) == MapsOptions.RideSharing)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeRideShareValue);
             }
+
             if ((options & MapsOptions.StreetCar) == MapsOptions.StreetCar)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeStreetCarValue);
             }
+
             if ((options & MapsOptions.Subway) == MapsOptions.Subway)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeSubwayValue);
             }
+
             if ((options & MapsOptions.Taxi) == MapsOptions.Taxi)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeTaxiValue);
             }
+
             if ((options & MapsOptions.Train) == MapsOptions.Train)
             {
                 GetOrCreateStringElementInArray(optionArr, MapsInfo.ModeTrainValue);
@@ -272,9 +307,11 @@ namespace Unity.Appodeal.Xcode
         /// <summary>
         /// Adds Personal VPN capability to the project.
         /// </summary>
+        [Obsolete]
         public void AddPersonalVPN()
         {
-            var arr = (GetOrCreateEntitlementDoc().root[VPNEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
+            var arr =
+                (GetOrCreateEntitlementDoc().root[VPNEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
             arr.values.Add(new PlistElementString(VPNEntitlements.Value));
 
             project.AddCapability(m_TargetGuid, PBXCapabilityType.PersonalVPN, m_EntitlementFilePath);
@@ -284,43 +321,55 @@ namespace Unity.Appodeal.Xcode
         /// Adds Background capability to the project.
         /// </summary>
         /// <param name="options">The list of background modes to configure.</param>
+        [Obsolete]
         public void AddBackgroundModes(BackgroundModesOptions options)
         {
             var optionArr = (GetOrCreateInfoDoc().root[BackgroundInfo.Key] ??
-                            (GetOrCreateInfoDoc().root[BackgroundInfo.Key] = new PlistElementArray())) as PlistElementArray;
+                             (GetOrCreateInfoDoc().root[BackgroundInfo.Key] = new PlistElementArray())) as
+                PlistElementArray;
 
-            if ((options & BackgroundModesOptions.ActsAsABluetoothLEAccessory) == BackgroundModesOptions.ActsAsABluetoothLEAccessory)
+            if ((options & BackgroundModesOptions.ActsAsABluetoothLEAccessory) ==
+                BackgroundModesOptions.ActsAsABluetoothLEAccessory)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeActsBluetoothValue);
             }
+
             if ((options & BackgroundModesOptions.AudioAirplayPiP) == BackgroundModesOptions.AudioAirplayPiP)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeAudioValue);
             }
+
             if ((options & BackgroundModesOptions.BackgroundFetch) == BackgroundModesOptions.BackgroundFetch)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeFetchValue);
             }
-            if ((options & BackgroundModesOptions.ExternalAccessoryCommunication) == BackgroundModesOptions.ExternalAccessoryCommunication)
+
+            if ((options & BackgroundModesOptions.ExternalAccessoryCommunication) ==
+                BackgroundModesOptions.ExternalAccessoryCommunication)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeExtAccessoryValue);
             }
+
             if ((options & BackgroundModesOptions.LocationUpdates) == BackgroundModesOptions.LocationUpdates)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeLocationValue);
             }
+
             if ((options & BackgroundModesOptions.NewsstandDownloads) == BackgroundModesOptions.NewsstandDownloads)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeNewsstandValue);
             }
+
             if ((options & BackgroundModesOptions.RemoteNotifications) == BackgroundModesOptions.RemoteNotifications)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModePushValue);
             }
+
             if ((options & BackgroundModesOptions.VoiceOverIP) == BackgroundModesOptions.VoiceOverIP)
             {
                 GetOrCreateStringElementInArray(optionArr, BackgroundInfo.ModeVOIPValue);
             }
+
             project.AddCapability(m_TargetGuid, PBXCapabilityType.BackgroundModes);
         }
 
@@ -328,9 +377,12 @@ namespace Unity.Appodeal.Xcode
         /// Adds Keychain Sharing capability to the project.
         /// </summary>
         /// <param name="accessGroups">The list of keychain access groups to configure.</param>
+        [Obsolete]
         public void AddKeychainSharing(string[] accessGroups)
         {
-            var arr = (GetOrCreateEntitlementDoc().root[KeyChainEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
+            var arr =
+                (GetOrCreateEntitlementDoc().root[KeyChainEntitlements.Key] = new PlistElementArray()) as
+                PlistElementArray;
             if (accessGroups != null)
             {
                 for (var i = 0; i < accessGroups.Length; i++)
@@ -349,6 +401,7 @@ namespace Unity.Appodeal.Xcode
         /// <summary>
         /// Adds Inter App Audio capability to the project.
         /// </summary>
+        [Obsolete]
         public void AddInterAppAudio()
         {
             GetOrCreateEntitlementDoc().root[AudioEntitlements.Key] = new PlistElementBoolean(true);
@@ -359,9 +412,12 @@ namespace Unity.Appodeal.Xcode
         /// Adds Associated Domains capability to the project.
         /// </summary>
         /// <param name="domains">The list of domains to configure.</param>
+        [Obsolete]
         public void AddAssociatedDomains(string[] domains)
         {
-            var arr = (GetOrCreateEntitlementDoc().root[AssociatedDomainsEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
+            var arr =
+                (GetOrCreateEntitlementDoc().root[AssociatedDomainsEntitlements.Key] = new PlistElementArray()) as
+                PlistElementArray;
             for (var i = 0; i < domains.Length; i++)
             {
                 arr.values.Add(new PlistElementString(domains[i]));
@@ -374,9 +430,12 @@ namespace Unity.Appodeal.Xcode
         /// Adds App Groups capability to the project.
         /// </summary>
         /// <param name="groups">The list of app groups to configure.</param>
+        [Obsolete]
         public void AddAppGroups(string[] groups)
         {
-            var arr = (GetOrCreateEntitlementDoc().root[AppGroupsEntitlements.Key] = new PlistElementArray()) as PlistElementArray;
+            var arr =
+                (GetOrCreateEntitlementDoc().root[AppGroupsEntitlements.Key] = new PlistElementArray()) as
+                PlistElementArray;
             for (var i = 0; i < groups.Length; i++)
             {
                 arr.values.Add(new PlistElementString(groups[i]));
@@ -388,6 +447,7 @@ namespace Unity.Appodeal.Xcode
         /// <summary>
         /// Adds HomeKit capability to the project.
         /// </summary>
+        [Obsolete]
         public void AddHomeKit()
         {
             GetOrCreateEntitlementDoc().root[HomeKitEntitlements.Key] = new PlistElementBoolean(true);
@@ -397,19 +457,23 @@ namespace Unity.Appodeal.Xcode
         /// <summary>
         /// Adds Data Protection capability to the project.
         /// </summary>
+        [Obsolete]
         public void AddDataProtection()
         {
-            GetOrCreateEntitlementDoc().root[DataProtectionEntitlements.Key] = new PlistElementString(DataProtectionEntitlements.Value);
+            GetOrCreateEntitlementDoc().root[DataProtectionEntitlements.Key] =
+                new PlistElementString(DataProtectionEntitlements.Value);
             project.AddCapability(m_TargetGuid, PBXCapabilityType.DataProtection, m_EntitlementFilePath);
         }
 
         /// <summary>
         /// Adds HealthKit capability to the project.
         /// </summary>
+        [Obsolete]
         public void AddHealthKit()
         {
             var capabilityArr = (GetOrCreateInfoDoc().root[HealthInfo.Key] ??
-                                (GetOrCreateInfoDoc().root[HealthInfo.Key] = new PlistElementArray())) as PlistElementArray;
+                                 (GetOrCreateInfoDoc().root[HealthInfo.Key] = new PlistElementArray())) as
+                PlistElementArray;
             GetOrCreateStringElementInArray(capabilityArr, HealthInfo.Value);
             GetOrCreateEntitlementDoc().root[HealthKitEntitlements.Key] = new PlistElementBoolean(true);
             project.AddCapability(m_TargetGuid, PBXCapabilityType.HealthKit, m_EntitlementFilePath);
@@ -418,12 +482,16 @@ namespace Unity.Appodeal.Xcode
         /// <summary>
         /// Adds Wireless Accessory Configuration capability to the project.
         /// </summary>
+        [Obsolete]
         public void AddWirelessAccessoryConfiguration()
         {
-            GetOrCreateEntitlementDoc().root[WirelessAccessoryConfigurationEntitlements.Key] = new PlistElementBoolean(true);
-            project.AddCapability(m_TargetGuid, PBXCapabilityType.WirelessAccessoryConfiguration, m_EntitlementFilePath);
+            GetOrCreateEntitlementDoc().root[WirelessAccessoryConfigurationEntitlements.Key] =
+                new PlistElementBoolean(true);
+            project.AddCapability(m_TargetGuid, PBXCapabilityType.WirelessAccessoryConfiguration,
+                m_EntitlementFilePath);
         }
 
+        [Obsolete]
         private PlistDocument GetOrCreateEntitlementDoc()
         {
             if (m_Entitlements == null)
@@ -443,6 +511,7 @@ namespace Unity.Appodeal.Xcode
             return m_Entitlements;
         }
 
+        [Obsolete]
         private PlistDocument GetOrCreateInfoDoc()
         {
             if (m_InfoPlist == null)
@@ -475,11 +544,13 @@ namespace Unity.Appodeal.Xcode
                     exist = true;
                 }
             }
+
             if (!exist)
             {
                 r = new PlistElementString(value);
                 root.values.Add(r);
             }
+
             return r;
         }
 
@@ -495,6 +566,7 @@ namespace Unity.Appodeal.Xcode
                 r = new PlistElementDict();
                 root.values.Add(r);
             }
+
             return r;
         }
     }
@@ -504,16 +576,16 @@ namespace Unity.Appodeal.Xcode
     [Serializable]
     public enum BackgroundModesOptions
     {
-        None                           = 0,
-        AudioAirplayPiP                = 1<<0,
-        LocationUpdates                = 1<<1,
-        VoiceOverIP                    = 1<<2,
-        NewsstandDownloads             = 1<<3,
-        ExternalAccessoryCommunication = 1<<4,
-        UsesBluetoothLEAccessory       = 1<<5,
-        ActsAsABluetoothLEAccessory    = 1<<6,
-        BackgroundFetch                = 1<<7,
-        RemoteNotifications            = 1<<8
+        None = 0,
+        AudioAirplayPiP = 1 << 0,
+        LocationUpdates = 1 << 1,
+        VoiceOverIP = 1 << 2,
+        NewsstandDownloads = 1 << 3,
+        ExternalAccessoryCommunication = 1 << 4,
+        UsesBluetoothLEAccessory = 1 << 5,
+        ActsAsABluetoothLEAccessory = 1 << 6,
+        BackgroundFetch = 1 << 7,
+        RemoteNotifications = 1 << 8
     }
 
     // The list of options available for Maps.
@@ -521,19 +593,19 @@ namespace Unity.Appodeal.Xcode
     [Flags]
     public enum MapsOptions
     {
-        None          = 0,
-        Airplane      = 1<<0,
-        Bike          = 1<<1,
-        Bus           = 1<<2,
-        Car           = 1<<3,
-        Ferry         = 1<<4,
-        Pedestrian    = 1<<5,
-        RideSharing   = 1<<6,
-        StreetCar     = 1<<7,
-        Subway        = 1<<8,
-        Taxi          = 1<<9,
-        Train         = 1<<10,
-        Other         = 1<<11
+        None = 0,
+        Airplane = 1 << 0,
+        Bike = 1 << 1,
+        Bus = 1 << 2,
+        Car = 1 << 3,
+        Ferry = 1 << 4,
+        Pedestrian = 1 << 5,
+        RideSharing = 1 << 6,
+        StreetCar = 1 << 7,
+        Subway = 1 << 8,
+        Taxi = 1 << 9,
+        Train = 1 << 10,
+        Other = 1 << 11
     }
 
     /* Follows the large quantity of string used as key and value all over the place in the info.plist or entitlements file. */

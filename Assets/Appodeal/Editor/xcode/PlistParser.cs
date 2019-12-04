@@ -8,19 +8,47 @@ using System.Xml.XPath;
 
 namespace Unity.Appodeal.Xcode
 {
-
     public class PlistElement
     {
-        protected PlistElement() {}
+        protected PlistElement()
+        {
+        }
 
         // convenience methods
-        public string AsString() { return ((PlistElementString)this).value; }
-        public int AsInteger()   { return ((PlistElementInteger)this).value; }
-        public bool AsBoolean()  { return ((PlistElementBoolean)this).value; }
-        public PlistElementArray AsArray() { return (PlistElementArray)this; }
-        public PlistElementDict AsDict()   { return (PlistElementDict)this; }
-        public float AsReal() { return ((PlistElementReal)this).value; }
-        public DateTime AsDate() { return ((PlistElementDate)this).value; }
+        public string AsString()
+        {
+            return ((PlistElementString) this).value;
+        }
+
+        public int AsInteger()
+        {
+            return ((PlistElementInteger) this).value;
+        }
+
+        public bool AsBoolean()
+        {
+            return ((PlistElementBoolean) this).value;
+        }
+
+        public PlistElementArray AsArray()
+        {
+            return (PlistElementArray) this;
+        }
+
+        public PlistElementDict AsDict()
+        {
+            return (PlistElementDict) this;
+        }
+
+        public float AsReal()
+        {
+            return ((PlistElementReal) this).value;
+        }
+
+        public DateTime AsDate()
+        {
+            return ((PlistElementDate) this).value;
+        }
 
         public PlistElement this[string key]
         {
@@ -31,56 +59,77 @@ namespace Unity.Appodeal.Xcode
 
     public class PlistElementString : PlistElement
     {
-        public PlistElementString(string v) { value = v; }
+        public PlistElementString(string v)
+        {
+            value = v;
+        }
 
         public string value;
     }
 
     public class PlistElementInteger : PlistElement
     {
-        public PlistElementInteger(int v) { value = v; }
+        public PlistElementInteger(int v)
+        {
+            value = v;
+        }
 
         public int value;
     }
 
     public class PlistElementReal : PlistElement
     {
-        public PlistElementReal(float v) { value = v; }
+        public PlistElementReal(float v)
+        {
+            value = v;
+        }
 
         public float value;
     }
 
     public class PlistElementBoolean : PlistElement
     {
-        public PlistElementBoolean(bool v) { value = v; }
+        public PlistElementBoolean(bool v)
+        {
+            value = v;
+        }
 
         public bool value;
     }
 
     public class PlistElementDate : PlistElement
     {
-        public PlistElementDate(DateTime date) { value = date; }
+        public PlistElementDate(DateTime date)
+        {
+            value = date;
+        }
 
         public DateTime value;
     }
 
     public class PlistElementDict : PlistElement
     {
-        public PlistElementDict() : base() {}
+        public PlistElementDict() : base()
+        {
+        }
 
         private SortedDictionary<string, PlistElement> m_PrivateValue = new SortedDictionary<string, PlistElement>();
-        public IDictionary<string, PlistElement> values { get { return m_PrivateValue; }}
+
+        public IDictionary<string, PlistElement> values
+        {
+            get { return m_PrivateValue; }
+        }
 
         new public PlistElement this[string key]
         {
-            get {
+            get
+            {
                 if (values.ContainsKey(key))
                     return values[key];
                 return null;
             }
             set { this.values[key] = value; }
         }
-
 
         // convenience methods
         public void SetInteger(string key, int val)
@@ -125,7 +174,10 @@ namespace Unity.Appodeal.Xcode
 
     public class PlistElementArray : PlistElement
     {
-        public PlistElementArray() : base() {}
+        public PlistElementArray() : base()
+        {
+        }
+
         public List<PlistElement> values = new List<PlistElement>();
 
         // convenience methods
@@ -183,6 +235,7 @@ namespace Unity.Appodeal.Xcode
         }
 
         // Parses a string that contains a XML file. No validation is done.
+        [Obsolete]
         internal static XDocument ParseXmlNoDtd(string text)
         {
             XmlReaderSettings settings = new XmlReaderSettings();
@@ -206,8 +259,8 @@ namespace Unity.Appodeal.Xcode
             {
                 XDocument tmpDoc =
                     new XDocument(new XDeclaration("1.0", "utf-8", null),
-                                  new XDocumentType(documentType.Name, documentType.PublicId, documentType.SystemId, null),
-                                  new XElement(doc.Root.Name));
+                        new XDocumentType(documentType.Name, documentType.PublicId, documentType.SystemId, null),
+                        new XElement(doc.Root.Name));
                 return "" + tmpDoc.Declaration + "\n" + tmpDoc.DocumentType + "\n" + doc.Root + "\n";
             }
             else
@@ -242,15 +295,17 @@ namespace Unity.Appodeal.Xcode
                     for (int i = 0; i < children.Count - 1; i++)
                     {
                         if (children[i].Name != "key")
-                            throw new Exception("Malformed plist file. Found '"+children[i].Name+"' where 'key' was expected.");
+                            throw new Exception("Malformed plist file. Found '" + children[i].Name +
+                                                "' where 'key' was expected.");
                         string key = GetText(children[i]).Trim();
-                        var newChild = ReadElement(children[i+1]);
+                        var newChild = ReadElement(children[i + 1]);
                         if (newChild != null)
                         {
                             i++;
                             el[key] = newChild;
                         }
                     }
+
                     return el;
                 }
                 case "array":
@@ -264,6 +319,7 @@ namespace Unity.Appodeal.Xcode
                         if (newChild != null)
                             el.values.Add(newChild);
                     }
+
                     return el;
                 }
                 case "string":
@@ -298,6 +354,7 @@ namespace Unity.Appodeal.Xcode
             }
         }
 
+        [Obsolete]
         public void Create()
         {
             const string doc = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
@@ -309,16 +366,19 @@ namespace Unity.Appodeal.Xcode
             ReadFromString(doc);
         }
 
+        [Obsolete]
         public void ReadFromFile(string path)
         {
             ReadFromString(File.ReadAllText(path));
         }
 
+        [Obsolete]
         public void ReadFromStream(TextReader tr)
         {
             ReadFromString(tr.ReadToEnd());
         }
 
+        [Obsolete]
         public void ReadFromString(string text)
         {
             XDocument doc = ParseXmlNoDtd(text);
@@ -341,26 +401,31 @@ namespace Unity.Appodeal.Xcode
                 var realEl = el as PlistElementBoolean;
                 return new XElement(realEl.value ? "true" : "false");
             }
+
             if (el is PlistElementInteger)
             {
                 var realEl = el as PlistElementInteger;
                 return new XElement("integer", realEl.value.ToString());
             }
+
             if (el is PlistElementString)
             {
                 var realEl = el as PlistElementString;
                 return new XElement("string", realEl.value);
             }
+
             if (el is PlistElementReal)
             {
                 var realEl = el as PlistElementReal;
                 return new XElement("real", realEl.value.ToString());
             }
+
             if (el is PlistElementDate)
             {
                 var realEl = el as PlistElementDate;
                 return new XElement("date", realEl.value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"));
             }
+
             if (el is PlistElementDict)
             {
                 var realEl = el as PlistElementDict;
@@ -375,8 +440,10 @@ namespace Unity.Appodeal.Xcode
                         dictXml.Add(valueXml);
                     }
                 }
+
                 return dictXml;
             }
+
             if (el is PlistElementArray)
             {
                 var realEl = el as PlistElementArray;
@@ -387,8 +454,10 @@ namespace Unity.Appodeal.Xcode
                     if (elXml != null)
                         arrayXml.Add(elXml);
                 }
+
                 return arrayXml;
             }
+
             return null;
         }
 
@@ -415,5 +484,4 @@ namespace Unity.Appodeal.Xcode
             return CleanDtdToString(doc, documentType).Replace("\r\n", "\n");
         }
     }
-
-} // namespace UnityEditor.iOS.XCode
+}

@@ -19,7 +19,7 @@
   <!--unitynotification-->
   <uses-feature android:name="android.hardware.location" android:required="false" />
   <uses-feature android:name="android.hardware.location.network" android:required="false" />
-  <application android:name="android.support.multidex.MultiDexApplication" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" tools:replace="android:icon" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="true">
+  <application android:theme="@android:style/Theme.NoTitleBar.Fullscreen" tools:replace="android:icon" android:icon="@drawable/app_icon" android:label="@string/app_name">
     <!--unitynotification-->
     <!-- <receiver android:name="net.agasper.unitynotification.UnityNotificationManager"></receiver>-->
     <!--<receiver android:name="net.agasper.unitynotification.UnityNotificationActionHandler"></receiver>-->
@@ -72,5 +72,6 @@
     <meta-data android:name="com.google.android.gms.ads.AD_MANAGER_APP" android:value="true" />
     <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled" android:value="true" />
     <meta-data android:name="com.facebook.sdk.AdvertiserIDCollectionEnabled" android:value="true" />
+    <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-3014392707261195~8974565950" />
   </application>
 </manifest>

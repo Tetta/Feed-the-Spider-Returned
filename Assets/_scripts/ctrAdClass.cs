@@ -18,7 +18,7 @@ using AppodealAds.Unity.Common;
 using UnityEngine.Advertisements;
 //2740765
 
-public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitialAdListener/*, INonSkippableVideoAdListener*/ {
+public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitialAdListener, IBannerAdListener {
 
     public static ctrAdClass instance = null;
     public static string adStarted = "";
@@ -99,11 +99,13 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         ctrProgressClass.progress["firstTimeAd"] = 1;
     }
     public void initAppodeal () {
-        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL /*| Appodeal.NON_SKIPPABLE_VIDEO*/);
+        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER);
         
         Appodeal.setRewardedVideoCallbacks(this);
         Appodeal.setInterstitialCallbacks(this);
-        //Appodeal.setNonSkippableVideoCallbacks(this);
+        Appodeal.setBannerCallbacks(this);
+
+        showBanner();
     }
 
     public void ShowRewardedAd()
@@ -121,15 +123,17 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         
         if (isAdReady(Appodeal.REWARDED_VIDEO))
         {
+            ctrAnalyticsClass.sendEvent("RewardedAdShow", adsAttributes);
             Appodeal.show(Appodeal.REWARDED_VIDEO);
         }
         else
         {
             //if loading failed, send analytics event
             adsAttributes["status"] = "notready";
+            ctrAnalyticsClass.sendEvent("RewardedAdNotReady", adsAttributes);
             //fix убрать таймер
             //if (isTimeToSendFailedAdAnalytics())
-                ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
+            ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
             //adDontReadyMenu
             if (initLevelMenuClass.instance != null) initLevelMenuClass.instance.adDontReadyMenu.SetActive(true);
             else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "level") GameObject.Find("/default level/gui/ad dont ready menu").transform.GetChild(0).gameObject.SetActive(true);
@@ -218,7 +222,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         //if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1 && r > 0.5F) return false;
 
         int adAfterLevel = 5;
-        if (staticClass.adHard) adAfterLevel = 1;
+        if (staticClass.adHard) adAfterLevel = 4;
 //#if UNITY_IOS
  //       if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
 //#else
@@ -288,12 +292,15 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
                     Appodeal.show(Appodeal.INTERSTITIAL);
                     levelAdCounter++;
+                    ctrAnalyticsClass.sendEvent("InterstitialShow", adsAttributes);
                     return true;
                     //GameObject.Find("default level/gui/pause").SendMessage("OnPress", false);
                 }
                 else
                 {
+                    
                     adsAttributes["status"] = "notready";
+                    ctrAnalyticsClass.sendEvent("InterstitialNotReady", adsAttributes);
                     Debug.Log("ShowLevelAd fail");
                     //fix убрать таймер
                     //if (isTimeToSendFailedAdAnalytics())
@@ -352,8 +359,26 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         }
     }
     */
+    public static  void showBanner()
+    {
+        if(!ctrSubscriptionClass.instance.panel.activeSelf && ctrProgressClass.progress["vip"] != 1 &&
+            SceneManager.GetActiveScene().name != "menu" &&
+            SceneManager.GetActiveScene().name != "start" &&
+            ctrProgressClass.progress["lastLevel"] != 1)
+        {
+            Debug.Log("Need banner show");
+            Appodeal.show(Appodeal.BANNER_BOTTOM);
+        }
+            
+    }
 
-#region Rewarded Video callback handlers
+    public static void hideBanner()
+    {
+        Appodeal.hide(Appodeal.BANNER);
+    }
+
+
+    #region Rewarded Video callback handlers
     public void onRewardedVideoLoaded(bool flag)
     {
         adsAttributes["type"] = "rewarded";
@@ -391,6 +416,7 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         ctrAnalyticsClass.sendEvent("Advertisment", adsAttributes);
         instance.StartCoroutine(instance.coroutineSetReward());
 
+        ctrAnalyticsClass.sendEvent("RewardedAdFinished", adsAttributes);
         //setReward();
     }
     public void onRewardedVideoClicked()
@@ -405,9 +431,10 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     {
 
     }
-#endregion
+    public void onRewardedVideoShowFailed() { }
+    #endregion
 
-#region Interstitial callback handlers
+    #region Interstitial callback handlers
     public void onInterstitialClicked()
     {
         adsAttributes["type"] = "interstitial";
@@ -475,9 +502,10 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     {
 
     }
-#endregion
+    public void onInterstitialShowFailed() { }
+    #endregion
 
-#region Non Skippable callback handlers
+    #region Non Skippable callback handlers
     /*
     public void onNonSkippableClicked() {
         adsAttributes["type"] = "non_skippable";
@@ -531,9 +559,15 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
 
     }
     */
-#endregion
+    #endregion
 
-
+    #region Banner callback handlers
+    public void onBannerLoaded(bool precache) { showBanner(); }
+    public void onBannerFailedToLoad() { print("banner failed"); }
+    public void onBannerShown() { print("banner opened"); }
+    public void onBannerClicked() { print("banner clicked"); }
+    public void onBannerExpired() { print("banner expired"); }
+    #endregion
 
 
 }

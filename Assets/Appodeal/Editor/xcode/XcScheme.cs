@@ -31,17 +31,20 @@ namespace Unity.Appodeal.Xcode
                 throw new Exception("The xcscheme document does not contain build configuration setting");
             el.SetAttributeValue("buildConfiguration", buildConfigName);
         }
- 
+
+        [Obsolete]
         public void ReadFromFile(string path)
         {
             ReadFromString(File.ReadAllText(path));
         }
 
+        [Obsolete]
         public void ReadFromStream(TextReader tr)
         {
             ReadFromString(tr.ReadToEnd());
         }
 
+        [Obsolete]
         public void ReadFromString(string text)
         {
             m_Doc = PlistDocument.ParseXmlNoDtd(text);
@@ -61,7 +64,6 @@ namespace Unity.Appodeal.Xcode
         public string WriteToString()
         {
             return PlistDocument.CleanDtdToString(m_Doc, null).Replace("\r\n", "\n");
-        }        
+        }
     }
-
-} // namespace UnityEditor.iOS.XCode
+}

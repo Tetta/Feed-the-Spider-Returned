@@ -437,10 +437,12 @@ public class iClickClass : MonoBehaviour {
 
             if (sceneCanLoad)
 		    {
-		        async.allowSceneActivation = false;
+                ctrAdClass.showBanner();
+                async.allowSceneActivation = false;
 		        yield return StartCoroutine(staticClass.waitForRealTime(0.5F));
 		        async.allowSceneActivation = true;
 		        yield return async;
+
 		    }
 
 		}
@@ -945,6 +947,7 @@ public class iClickClass : MonoBehaviour {
             Debug.Log("button subscription exit");
             ctrSubscriptionClass.instance.panel.SetActive(false);
             ctrSubscriptionClass.instance.congrats.SetActive(false);
+            ctrAdClass.showBanner();
         }
     }
 

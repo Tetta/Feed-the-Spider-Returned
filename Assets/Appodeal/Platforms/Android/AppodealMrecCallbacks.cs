@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using AppodealAds.Unity.Common;
+﻿using AppodealAds.Unity.Common;
+using UnityEngine;
 
 namespace AppodealAds.Unity.Android
 {
@@ -34,13 +34,16 @@ namespace AppodealAds.Unity.Android
             listener.onMrecClicked();
         }
 
-        void onMrecExpired(){
+        void onMrecExpired()
+        {
             listener.onMrecExpired();
         }
     }
 #else
     {
-        public AppodealMrecCallbacks(IMrecAdListener listener) { }
+    public AppodealMrecCallbacks(IMrecAdListener listener)
+    {
+    }
     }
 #endif
 }

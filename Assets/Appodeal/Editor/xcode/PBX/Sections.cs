@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
 
 // Base classes for section handling
 
 namespace Unity.Appodeal.Xcode.PBX
 {
-
     // common base
     internal abstract class SectionBase
     {
@@ -28,17 +27,17 @@ namespace Unity.Appodeal.Xcode.PBX
         {
             m_Name = sectionName;
         }
- 
+
         public IEnumerable<KeyValuePair<string, T>> GetEntries()
-        { 
-            return m_Entries; 
+        {
+            return m_Entries;
         }
 
         public IEnumerable<string> GetGuids()
         {
             return m_Entries.Keys;
         }
-        
+
         public IEnumerable<T> GetObjects()
         {
             return m_Entries.Values;
@@ -56,7 +55,7 @@ namespace Unity.Appodeal.Xcode.PBX
         public override void WriteSection(StringBuilder sb, GUIDToCommentMap comments)
         {
             if (m_Entries.Count == 0)
-                return;            // do not write empty sections
+                return; // do not write empty sections
 
             sb.AppendFormat("\n\n/* Begin {0} section */", m_Name);
             var keys = new List<string>(m_Entries.Keys);
@@ -68,27 +67,29 @@ namespace Unity.Appodeal.Xcode.PBX
                 sb.Append("\n\t\t");
                 comments.WriteStringBuilder(sb, obj.guid);
                 sb.Append(" = ");
-                Serializer.WriteDict(sb, obj.GetPropertiesWhenSerializing(), 2, 
-                                     obj.shouldCompact, obj.checker, comments);
+                Serializer.WriteDict(sb, obj.GetPropertiesWhenSerializing(), 2,
+                    obj.shouldCompact, obj.checker, comments);
                 sb.Append(";");
             }
+
             sb.AppendFormat("\n/* End {0} section */", m_Name);
         }
 
         // returns null if not found
         public T this[string guid]
         {
-            get {
+            get
+            {
                 if (m_Entries.ContainsKey(guid))
                     return m_Entries[guid];
                 return null;
             }
         }
-        
+
         public bool HasEntry(string guid)
         {
             return m_Entries.ContainsKey(guid);
-        }      
+        }
 
         public void AddEntry(T obj)
         {
@@ -111,12 +112,12 @@ namespace Unity.Appodeal.Xcode.PBX
 
         public PBXProjectObjectData project
         {
-            get {
+            get
+            {
                 foreach (var kv in GetEntries())
                     return kv.Value;
                 return null;
             }
         }
     }
-
-} // UnityEditor.iOS.Xcode
+}

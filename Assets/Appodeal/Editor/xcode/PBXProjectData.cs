@@ -1,28 +1,28 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
-using System;
 using Unity.Appodeal.Xcode.PBX;
 
 namespace Unity.Appodeal.Xcode
 {
-    using PBXBuildFileSection           = KnownSectionBase<PBXBuildFileData>;
-    using PBXFileReferenceSection       = KnownSectionBase<PBXFileReferenceData>;
-    using PBXGroupSection               = KnownSectionBase<PBXGroupData>;
-    using PBXContainerItemProxySection  = KnownSectionBase<PBXContainerItemProxyData>;
-    using PBXReferenceProxySection      = KnownSectionBase<PBXReferenceProxyData>;
-    using PBXSourcesBuildPhaseSection   = KnownSectionBase<PBXSourcesBuildPhaseData>;
-    using PBXFrameworksBuildPhaseSection= KnownSectionBase<PBXFrameworksBuildPhaseData>;
+    using PBXBuildFileSection = KnownSectionBase<PBXBuildFileData>;
+    using PBXFileReferenceSection = KnownSectionBase<PBXFileReferenceData>;
+    using PBXGroupSection = KnownSectionBase<PBXGroupData>;
+    using PBXContainerItemProxySection = KnownSectionBase<PBXContainerItemProxyData>;
+    using PBXReferenceProxySection = KnownSectionBase<PBXReferenceProxyData>;
+    using PBXSourcesBuildPhaseSection = KnownSectionBase<PBXSourcesBuildPhaseData>;
+    using PBXFrameworksBuildPhaseSection = KnownSectionBase<PBXFrameworksBuildPhaseData>;
     using PBXResourcesBuildPhaseSection = KnownSectionBase<PBXResourcesBuildPhaseData>;
     using PBXCopyFilesBuildPhaseSection = KnownSectionBase<PBXCopyFilesBuildPhaseData>;
     using PBXShellScriptBuildPhaseSection = KnownSectionBase<PBXShellScriptBuildPhaseData>;
-    using PBXVariantGroupSection        = KnownSectionBase<PBXVariantGroupData>;
-    using PBXNativeTargetSection        = KnownSectionBase<PBXNativeTargetData>;
-    using PBXTargetDependencySection    = KnownSectionBase<PBXTargetDependencyData>;
-    using XCBuildConfigurationSection   = KnownSectionBase<XCBuildConfigurationData>;
-    using XCConfigurationListSection    = KnownSectionBase<XCConfigurationListData>;
-    using UnknownSection                = KnownSectionBase<PBXObjectData>;
+    using PBXVariantGroupSection = KnownSectionBase<PBXVariantGroupData>;
+    using PBXNativeTargetSection = KnownSectionBase<PBXNativeTargetData>;
+    using PBXTargetDependencySection = KnownSectionBase<PBXTargetDependencyData>;
+    using XCBuildConfigurationSection = KnownSectionBase<XCBuildConfigurationData>;
+    using XCConfigurationListSection = KnownSectionBase<XCConfigurationListData>;
+    using UnknownSection = KnownSectionBase<PBXObjectData>;
 
     internal class PBXProjectData
     {
@@ -94,9 +94,9 @@ namespace Unity.Appodeal.Xcode
                 return null;
             return m_FileGuidToBuildFileMap[targetGuid][fileGuid];
         }
-        
-        public IEnumerable<PBXBuildFileData> BuildFilesGetAll() 
-        { 
+
+        public IEnumerable<PBXBuildFileData> BuildFilesGetAll()
+        {
             return buildFiles.GetObjects();
         }
 
@@ -183,7 +183,7 @@ namespace Unity.Appodeal.Xcode
             m_GuidToParentGroupMap.Remove(guid);
             groups.RemoveEntry(guid);
         }
-        
+
         // This function returns a build section that a particular file should be automatically added to.
         // Returns null for non-buildable file types.
         // Throws an exception if the file should be added to a section, but that particular section does not exist for given target
@@ -192,7 +192,8 @@ namespace Unity.Appodeal.Xcode
         {
             string ext = Path.GetExtension(path);
             var phase = FileTypeUtils.GetFileType(ext, isFolderRef);
-            switch (phase) {
+            switch (phase)
+            {
                 case PBXFileType.Framework:
                     foreach (var guid in target.phases)
                         if (frameworks.HasEntry(guid))
@@ -221,7 +222,9 @@ namespace Unity.Appodeal.Xcode
                 case PBXFileType.NotBuildable:
                     return null;
             }
-            throw new Exception(String.Format("The given path {0} does not refer to a file in a known build section", path));
+
+            throw new Exception(String.Format("The given path {0} does not refer to a file in a known build section",
+                path));
         }
 
         public FileGUIDListBase BuildSectionAny(string sectionGuid)
@@ -240,7 +243,7 @@ namespace Unity.Appodeal.Xcode
         }
 
         void RefreshBuildFilesMapForBuildFileGuidList(Dictionary<string, PBXBuildFileData> mapForTarget,
-                                                      FileGUIDListBase list)
+            FileGUIDListBase list)
         {
             foreach (string guid in list.files)
             {
@@ -249,7 +252,8 @@ namespace Unity.Appodeal.Xcode
             }
         }
 
-        void RefreshMapsForGroupChildren(string projectPath, string realPath, PBXSourceTree realPathTree, PBXGroupData parent)
+        void RefreshMapsForGroupChildren(string projectPath, string realPath, PBXSourceTree realPathTree,
+            PBXGroupData parent)
         {
             var children = new List<string>(parent.children);
             foreach (string guid in children)
@@ -268,14 +272,17 @@ namespace Unity.Appodeal.Xcode
                     {
                         m_ProjectPathToFileRefMap.Add(pPath, fileRef);
                     }
+
                     if (!m_FileRefGuidToProjectPathMap.ContainsKey(fileRef.guid))
                     {
                         m_FileRefGuidToProjectPathMap.Add(fileRef.guid, pPath);
                     }
+
                     if (!m_RealPathToFileRefMap[rTree].ContainsKey(rPath))
                     {
                         m_RealPathToFileRefMap[rTree].Add(rPath, fileRef);
                     }
+
                     if (!m_GuidToParentGroupMap.ContainsKey(guid))
                     {
                         m_GuidToParentGroupMap.Add(guid, parent);
@@ -294,10 +301,12 @@ namespace Unity.Appodeal.Xcode
                     {
                         m_ProjectPathToGroupMap.Add(pPath, gr);
                     }
+
                     if (!m_GroupGuidToProjectPathMap.ContainsKey(gr.guid))
                     {
                         m_GroupGuidToProjectPathMap.Add(gr.guid, pPath);
                     }
+
                     if (!m_GuidToParentGroupMap.ContainsKey(guid))
                     {
                         m_GuidToParentGroupMap.Add(guid, parent);
@@ -324,8 +333,10 @@ namespace Unity.Appodeal.Xcode
                     if (copyFiles.HasEntry(phaseGuid))
                         RefreshBuildFilesMapForBuildFileGuidList(map, copyFiles[phaseGuid]);
                 }
+
                 m_FileGuidToBuildFileMap[targetEntry.Key] = map;
             }
+
             RefreshMapsForGroupChildren("", "", PBXSourceTree.Source, GroupsGetMainGroup());
         }
 
@@ -351,32 +362,45 @@ namespace Unity.Appodeal.Xcode
 
             m_Section = new Dictionary<string, SectionBase>
             {
-                { "PBXBuildFile", buildFiles },
-                { "PBXFileReference", fileRefs },
-                { "PBXGroup", groups },
-                { "PBXContainerItemProxy", containerItems },
-                { "PBXReferenceProxy", references },
-                { "PBXSourcesBuildPhase", sources },
-                { "PBXFrameworksBuildPhase", frameworks },
-                { "PBXResourcesBuildPhase", resources },
-                { "PBXCopyFilesBuildPhase", copyFiles },
-                { "PBXShellScriptBuildPhase", shellScripts },
-                { "PBXNativeTarget", nativeTargets },
-                { "PBXTargetDependency", targetDependencies },
-                { "PBXVariantGroup", variantGroups },
-                { "XCBuildConfiguration", buildConfigs },
-                { "XCConfigurationList", buildConfigLists },
+                {"PBXBuildFile", buildFiles},
+                {"PBXFileReference", fileRefs},
+                {"PBXGroup", groups},
+                {"PBXContainerItemProxy", containerItems},
+                {"PBXReferenceProxy", references},
+                {"PBXSourcesBuildPhase", sources},
+                {"PBXFrameworksBuildPhase", frameworks},
+                {"PBXResourcesBuildPhase", resources},
+                {"PBXCopyFilesBuildPhase", copyFiles},
+                {"PBXShellScriptBuildPhase", shellScripts},
+                {"PBXNativeTarget", nativeTargets},
+                {"PBXTargetDependency", targetDependencies},
+                {"PBXVariantGroup", variantGroups},
+                {"XCBuildConfiguration", buildConfigs},
+                {"XCConfigurationList", buildConfigLists},
 
-                { "PBXProject", project },
+                {"PBXProject", project},
             };
             m_RootElements = new PBXElementDict();
             m_UnknownObjects = new PBXElementDict();
             m_ObjectVersion = null;
-            m_SectionOrder = new List<string>{
-                "PBXBuildFile", "PBXContainerItemProxy", "PBXCopyFilesBuildPhase", "PBXFileReference",
-                "PBXFrameworksBuildPhase", "PBXGroup", "PBXNativeTarget", "PBXProject", "PBXReferenceProxy",
-                "PBXResourcesBuildPhase", "PBXShellScriptBuildPhase", "PBXSourcesBuildPhase", "PBXTargetDependency",
-                "PBXVariantGroup", "XCBuildConfiguration", "XCConfigurationList"
+            m_SectionOrder = new List<string>
+            {
+                "PBXBuildFile",
+                "PBXContainerItemProxy",
+                "PBXCopyFilesBuildPhase",
+                "PBXFileReference",
+                "PBXFrameworksBuildPhase",
+                "PBXGroup",
+                "PBXNativeTarget",
+                "PBXProject",
+                "PBXReferenceProxy",
+                "PBXResourcesBuildPhase",
+                "PBXShellScriptBuildPhase",
+                "PBXSourcesBuildPhase",
+                "PBXTargetDependency",
+                "PBXVariantGroup",
+                "XCBuildConfiguration",
+                "XCConfigurationList"
             };
             m_FileGuidToBuildFileMap = new Dictionary<string, Dictionary<string, PBXBuildFileData>>();
             m_ProjectPathToFileRefMap = new Dictionary<string, PBXFileReferenceData>();
@@ -426,16 +450,19 @@ namespace Unity.Appodeal.Xcode
                 comments.Add(e.guid, "Sources");
                 BuildCommentMapForBuildFiles(comments, e.files, "Sources");
             }
+
             foreach (var e in resources.GetObjects())
             {
                 comments.Add(e.guid, "Resources");
                 BuildCommentMapForBuildFiles(comments, e.files, "Resources");
             }
+
             foreach (var e in frameworks.GetObjects())
             {
                 comments.Add(e.guid, "Frameworks");
                 BuildCommentMapForBuildFiles(comments, e.files, "Frameworks");
             }
+
             foreach (var e in copyFiles.GetObjects())
             {
                 string sectName = e.name;
@@ -444,6 +471,7 @@ namespace Unity.Appodeal.Xcode
                 comments.Add(e.guid, sectName);
                 BuildCommentMapForBuildFiles(comments, e.files, sectName);
             }
+
             foreach (var e in shellScripts.GetObjects())
                 comments.Add(e.guid, "ShellScript");
             foreach (var e in targetDependencies.GetObjects())
@@ -451,8 +479,10 @@ namespace Unity.Appodeal.Xcode
             foreach (var e in nativeTargets.GetObjects())
             {
                 comments.Add(e.guid, e.name);
-                comments.Add(e.buildConfigList, String.Format("Build configuration list for PBXNativeTarget \"{0}\"", e.name));
+                comments.Add(e.buildConfigList,
+                    String.Format("Build configuration list for PBXNativeTarget \"{0}\"", e.name));
             }
+
             foreach (var e in variantGroups.GetObjects())
                 comments.Add(e.guid, e.name);
             foreach (var e in buildConfigs.GetObjects())
@@ -460,8 +490,10 @@ namespace Unity.Appodeal.Xcode
             foreach (var e in project.GetObjects())
             {
                 comments.Add(e.guid, "Project object");
-                comments.Add(e.buildConfigList, "Build configuration list for PBXProject \"Unity-iPhone\""); // FIXME: project name is hardcoded
+                comments.Add(e.buildConfigList,
+                    "Build configuration list for PBXProject \"Unity-iPhone\""); // FIXME: project name is hardcoded
             }
+
             foreach (var e in fileRefs.GetObjects())
                 comments.Add(e.guid, e.name);
             if (m_RootElements.Contains("rootObject") && m_RootElements["rootObject"] is PBXElementString)
@@ -508,6 +540,7 @@ namespace Unity.Appodeal.Xcode
                     m_UnknownObjects.values.Add(kv.Key, el);
                     continue;
                 }
+
                 var dict = el.AsDict();
                 var sectionName = dict["isa"].AsString();
 
@@ -526,6 +559,7 @@ namespace Unity.Appodeal.Xcode
                         section = new UnknownSection(sectionName);
                         m_UnknownSections.Add(sectionName, section);
                     }
+
                     section.AddObject(kv.Key, dict);
 
                     // update section order
@@ -539,15 +573,17 @@ namespace Unity.Appodeal.Xcode
                             pos = m_SectionOrder.FindIndex(x => x == prevSectionName);
                             pos += 1;
                         }
+
                         m_SectionOrder.Insert(pos, sectionName);
                     }
                 }
+
                 prevSectionName = sectionName;
             }
+
             RepairStructure(allGuids);
             RefreshAuxMaps();
         }
-
 
         public string WriteToString()
         {
@@ -567,6 +603,7 @@ namespace Unity.Appodeal.Xcode
                 else if (m_UnknownSections.ContainsKey(sectionName))
                     m_UnknownSections[sectionName].WriteSection(objectsSb, commentMap);
             }
+
             foreach (var kv in m_UnknownObjects.values)
                 Serializer.WriteDictKeyValue(objectsSb, kv.Key, kv.Value, 2, false, emptyChecker, emptyCommentMap);
             objectsSb.Append("\n\t};");
@@ -574,7 +611,7 @@ namespace Unity.Appodeal.Xcode
             StringBuilder contentSb = new StringBuilder();
             contentSb.Append("// !$*UTF8*$!\n");
             Serializer.WriteDict(contentSb, m_RootElements, 0, false,
-                                 new PropertyCommentChecker(new string[]{"rootObject/*"}), commentMap);
+                new PropertyCommentChecker(new string[] {"rootObject/*"}), commentMap);
             contentSb.Append("\n");
             string content = contentSb.ToString();
 
@@ -594,7 +631,7 @@ namespace Unity.Appodeal.Xcode
         }
 
         /* Iterates the given guid list and removes all guids that are not in allGuids dictionary.
-        */
+         */
         static void RemoveMissingGuidsFromGuidList(PBX.GUIDList guidList, Dictionary<string, bool> allGuids)
         {
             List<string> guidsToRemove = null;
@@ -607,6 +644,7 @@ namespace Unity.Appodeal.Xcode
                     guidsToRemove.Add(guid);
                 }
             }
+
             if (guidsToRemove != null)
             {
                 foreach (var guid in guidsToRemove)
@@ -619,8 +657,8 @@ namespace Unity.Appodeal.Xcode
             Returns true if any objects were removed.
         */
         static bool RemoveObjectsFromSection<T>(KnownSectionBase<T> section,
-                                                Dictionary<string, bool> allGuids,
-                                                Func<T, bool> checker) where T : PBXObjectData, new()
+            Dictionary<string, bool> allGuids,
+            Func<T, bool> checker) where T : PBXObjectData, new()
         {
             List<string> guidsToRemove = null;
             foreach (var kv in section.GetEntries())
@@ -632,6 +670,7 @@ namespace Unity.Appodeal.Xcode
                     guidsToRemove.Add(kv.Key);
                 }
             }
+
             if (guidsToRemove != null)
             {
                 foreach (var guid in guidsToRemove)
@@ -639,8 +678,10 @@ namespace Unity.Appodeal.Xcode
                     section.RemoveEntry(guid);
                     allGuids.Remove(guid);
                 }
+
                 return true;
             }
+
             return false;
         }
 
@@ -651,7 +692,7 @@ namespace Unity.Appodeal.Xcode
 
             // PBXBuildFile
             changed |= RemoveObjectsFromSection(buildFiles, allGuids,
-                                                o => (o.fileRef == null || !allGuids.ContainsKey(o.fileRef)));
+                o => (o.fileRef == null || !allGuids.ContainsKey(o.fileRef)));
             // PBXFileReference / fileRefs not cleaned
 
             // PBXGroup
@@ -706,6 +747,4 @@ namespace Unity.Appodeal.Xcode
             return changed;
         }
     }
-
-} // namespace UnityEditor.iOS.Xcode
-
+}

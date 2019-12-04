@@ -29,12 +29,17 @@ public class ctrSubscriptionClass : MonoBehaviour
 
         
             if (staticClass.subscriptionsEnable) {
+            if (ctrProgressClass.progress["lastLevel"] >= 4)
                 if (staticClass.scenePrev != "menu" && staticClass.scenePrev != "level menu")
                     //if (staticClass.scenePrev.Substring(0, 5) == "level" || staticClass.scenePrev == "level menu")
                     //if (staticClass.getLanguage() == 1 && ctrProgressClass.progress["vip"] != 1) panel.SetActive(true);
                     if (ctrProgressClass.progress["vip"] != 1 &&
                         !(PlayerPrefs.GetInt("FIRST_LAUNCH", 0) == 0 && UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "menu"))
+                    {
                         panel.SetActive(true);
+                        ctrAdClass.hideBanner();
+                    }
+                        
                 else PlayerPrefs.SetInt("FIRST_LAUNCH", 1);
         }
         //}
@@ -85,7 +90,7 @@ public class ctrSubscriptionClass : MonoBehaviour
 
         panel.SetActive(false);
         congrats.SetActive(true);
-
+        ctrAdClass.hideBanner();
     }
 
 

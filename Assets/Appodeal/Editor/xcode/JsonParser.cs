@@ -1,21 +1,42 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Linq;
+using System.Text;
 
 namespace Unity.Appodeal.Xcode
 {
     internal class JsonElement
     {
-        protected JsonElement() {}
+        protected JsonElement()
+        {
+        }
 
         // convenience methods
-        public string AsString() { return ((JsonElementString)this).value; }
-        public int AsInteger()   { return ((JsonElementInteger)this).value; }
-        public bool AsBoolean()  { return ((JsonElementBoolean)this).value; }
-        public JsonElementArray AsArray() { return (JsonElementArray)this; }
-        public JsonElementDict AsDict()   { return (JsonElementDict)this; }
+        public string AsString()
+        {
+            return ((JsonElementString) this).value;
+        }
+
+        public int AsInteger()
+        {
+            return ((JsonElementInteger) this).value;
+        }
+
+        public bool AsBoolean()
+        {
+            return ((JsonElementBoolean) this).value;
+        }
+
+        public JsonElementArray AsArray()
+        {
+            return (JsonElementArray) this;
+        }
+
+        public JsonElementDict AsDict()
+        {
+            return (JsonElementDict) this;
+        }
 
         public JsonElement this[string key]
         {
@@ -26,35 +47,51 @@ namespace Unity.Appodeal.Xcode
 
     internal class JsonElementString : JsonElement
     {
-        public JsonElementString(string v) { value = v; }
+        public JsonElementString(string v)
+        {
+            value = v;
+        }
 
         public string value;
     }
 
     internal class JsonElementInteger : JsonElement
     {
-        public JsonElementInteger(int v) { value = v; }
+        public JsonElementInteger(int v)
+        {
+            value = v;
+        }
 
         public int value;
     }
 
     internal class JsonElementBoolean : JsonElement
     {
-        public JsonElementBoolean(bool v) { value = v; }
+        public JsonElementBoolean(bool v)
+        {
+            value = v;
+        }
 
         public bool value;
     }
 
     internal class JsonElementDict : JsonElement
     {
-        public JsonElementDict() : base() {}
+        public JsonElementDict() : base()
+        {
+        }
 
         private SortedDictionary<string, JsonElement> m_PrivateValue = new SortedDictionary<string, JsonElement>();
-        public IDictionary<string, JsonElement> values { get { return m_PrivateValue; }}
+
+        public IDictionary<string, JsonElement> values
+        {
+            get { return m_PrivateValue; }
+        }
 
         new public JsonElement this[string key]
         {
-            get {
+            get
+            {
                 if (values.ContainsKey(key))
                     return values[key];
                 return null;
@@ -105,7 +142,10 @@ namespace Unity.Appodeal.Xcode
 
     internal class JsonElementArray : JsonElement
     {
-        public JsonElementArray() : base() {}
+        public JsonElementArray() : base()
+        {
+        }
+
         public List<JsonElement> values = new List<JsonElement>();
 
         // convenience methods
@@ -199,9 +239,10 @@ namespace Unity.Appodeal.Xcode
             {
                 if (hasElement)
                     sb.Append(","); // trailing commas not supported
-                WriteDictKeyValue(sb, key, el[key], indent+1);
+                WriteDictKeyValue(sb, key, el[key], indent + 1);
                 hasElement = true;
             }
+
             sb.Append("\n");
             AppendIndent(sb, indent);
             sb.Append("}");
@@ -216,7 +257,7 @@ namespace Unity.Appodeal.Xcode
                 if (hasElement)
                     sb.Append(","); // trailing commas not supported
                 sb.Append("\n");
-                AppendIndent(sb, indent+1);
+                AppendIndent(sb, indent + 1);
 
                 if (value is JsonElementString)
                     WriteString(sb, value.AsString());
@@ -225,11 +266,12 @@ namespace Unity.Appodeal.Xcode
                 else if (value is JsonElementBoolean)
                     WriteBoolean(sb, value.AsBoolean());
                 else if (value is JsonElementDict)
-                    WriteDict(sb, value.AsDict(), indent+1);
+                    WriteDict(sb, value.AsDict(), indent + 1);
                 else if (value is JsonElementArray)
-                    WriteArray(sb, value.AsArray(), indent+1);
+                    WriteArray(sb, value.AsArray(), indent + 1);
                 hasElement = true;
             }
+
             sb.Append("\n");
             AppendIndent(sb, indent);
             sb.Append("]");
@@ -252,6 +294,4 @@ namespace Unity.Appodeal.Xcode
             return sb.ToString();
         }
     }
-
-
-} // namespace UnityEditor.iOS.Xcode
+}

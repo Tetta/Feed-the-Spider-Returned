@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.IO;
 
 namespace Unity.Appodeal.Xcode
 {
@@ -19,7 +19,7 @@ namespace Unity.Appodeal.Xcode
         }
 
         public static void Combine(string path1, PBXSourceTree tree1, string path2, PBXSourceTree tree2,
-                                   out string resPath, out PBXSourceTree resTree)
+            out string resPath, out PBXSourceTree resTree)
         {
             if (tree2 == PBXSourceTree.Group)
             {
@@ -27,11 +27,11 @@ namespace Unity.Appodeal.Xcode
                 resTree = tree1;
                 return;
             }
-            
+
             resPath = path2;
             resTree = tree2;
         }
-        
+
         // Combines two paths
         public static string Combine(string path1, string path2)
         {
@@ -45,7 +45,7 @@ namespace Unity.Appodeal.Xcode
                 return path1;
             return path1 + "/" + path2;
         }
-        
+
         public static string GetDirectory(string path)
         {
             path = path.TrimEnd('/');
@@ -63,14 +63,14 @@ namespace Unity.Appodeal.Xcode
             {
                 throw new Exception("PBX project compatible current directory can only obtained on OSX");
             }
-                
+
             string path = Directory.GetCurrentDirectory();
             path = FixSlashes(path);
             if (!IsPathRooted(path))
                 return "/" + path;
             return path;
         }
-        
+
         public static string GetFilename(string path)
         {
             int pos = path.LastIndexOf('/');
@@ -86,7 +86,7 @@ namespace Unity.Appodeal.Xcode
                 return false;
             return path[0] == '/';
         }
-        
+
         public static string GetFullPath(string path)
         {
             if (IsPathRooted(path))
@@ -98,9 +98,8 @@ namespace Unity.Appodeal.Xcode
         public static string[] Split(string path)
         {
             if (string.IsNullOrEmpty(path))
-                return new string[]{};
-            return path.Split(new[]{'/'}, StringSplitOptions.RemoveEmptyEntries);
+                return new string[] { };
+            return path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
         }
     }
-
-} // UnityEditor.iOS.Xcode
+}
