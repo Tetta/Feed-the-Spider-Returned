@@ -504,13 +504,14 @@ public class iClickClass : MonoBehaviour {
 
             }
             //ok on
+            /*
             if (ctrProgressClass.progress["ok"] == 1 && Odnoklassniki.OK.IsLoggedIn)
             {
                 transform.parent.parent.GetChild(2).gameObject.SetActive(false);
                 transform.parent.parent.GetChild(1).gameObject.SetActive(false);
                 transform.parent.parent.GetChild(3).gameObject.SetActive(true);
             }
-
+            */
         }
         if (name == "sound button") {
 			if (ctrProgressClass.progress ["sound"] == 1)

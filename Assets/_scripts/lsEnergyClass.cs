@@ -293,7 +293,7 @@ public class lsEnergyClass : MonoBehaviour {
 			
             if (energy == 0 && !lsEnergyClass.energyInfinity) {
 				//нотифер, поправить с новым плагином
-				//fix
+				//fix - energy notifer
 				//AndroidNotificationManager.instance.ScheduleLocalNotification(Localization.Get("notiferTitleEnergy"), Localization.Get("notiferMessageEnergy"), lsEnergyClass.costEnergy * lsEnergyClass.maxEnergy);
 				lsEnergyClass.energyMenuState = "energy";
 				SceneManager.LoadScene ("level menu");

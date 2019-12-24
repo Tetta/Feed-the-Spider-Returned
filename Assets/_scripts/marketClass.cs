@@ -4,7 +4,7 @@ using System.Collections;
 //using UnionAssets.FLE;
 using System.Collections.Generic;
 using CompleteProject;
-using Odnoklassniki.HTTP;
+//using Odnoklassniki.HTTP;
 
 public class marketClass : MonoBehaviour {
 
@@ -437,7 +437,7 @@ public class marketClass : MonoBehaviour {
         //string revenueForOk = Mathf.FloorToInt(revenue / 100) + "." + (revenue % 100);
         string revenueForOk = price.ToString().Replace(",", ".");
         //send OK sdk.reportPayment
-
+        /*
         if (ctrFbKiiClass.instance.source != "0" && ctrProgressClass.progress["ok"] == 1 && Odnoklassniki.OK.IsLoggedIn)
         {
             Debug.Log("send sdk.reportPayment");
@@ -454,7 +454,7 @@ public class marketClass : MonoBehaviour {
                 Debug.Log(response.Text);
             });
         }
-
+        */
         ctrAnalyticsClass.sendCustomDimension(2, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["paymentCount"], ctrAnalyticsClass.paymentGroups)); //paymentCount
         ctrAnalyticsClass.sendCustomDimension(3, ctrAnalyticsClass.getGroup(ctrProgressClass.progress["revenue"], ctrAnalyticsClass.revenueGroups)); //revenue
 

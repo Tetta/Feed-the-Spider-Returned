@@ -146,9 +146,11 @@ public class gDestroyerClass : MonoBehaviour {
             terrainsTransform.Add(collider.transform.position);
 
 			
-			exitPoint = Vector3.MoveTowards(transform.position, enterPoint, -10);
-
-			List<Vector2>  pathVerts = collider.GetComponent<Ferr2D_Path>().pathVerts;
+			//exitPoint = Vector3.MoveTowards(transform.position, enterPoint, -10);
+            //exitPoint = Vector3.MoveTowards(Camera.main.ScreenToWorldPoint(Input.mousePosition), enterPoint, -10);
+            //exitPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            exitPoint = transform.position;
+            List<Vector2>  pathVerts = collider.GetComponent<Ferr2D_Path>().pathVerts;
 			//pathVerts.AddRange(hit.collider.GetComponent<Ferr2D_Path>().pathVerts);
 			
 			List<Vector2>  posSort = new List<Vector2>();
@@ -276,18 +278,22 @@ public class gDestroyerClass : MonoBehaviour {
 
 	void createHelperTerrains (Vector3 mousePosition) {
 
-		//удаляем helper terrains
+
+        //удаляем helper terrains
 		GameObject[] terrains = GameObject.FindGameObjectsWithTag("helper terrain");
 		foreach (GameObject terrainH in terrains) Destroy(terrainH);	
-		exitPoint = Vector3.MoveTowards(mousePosition, transform.position, -10);
-		//ищем пересечения со всеми террейнами
-		LayerMask mask = LayerMask.GetMask ("terrains");
+		
+        //exitPoint = Vector3.MoveTowards(mousePosition, transform.position, -10);
+        exitPoint = (mousePosition - transform.position) * 100;
+        //ищем пересечения со всеми террейнами
+        LayerMask mask = LayerMask.GetMask ("terrains");
 		RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, mousePosition - transform.position, 10, mask);
 
         //для каждого попадания:
         foreach (RaycastHit2D hit in hits) {
 
-			List<Vector2>  pathVerts =  new List<Vector2>();
+
+            List<Vector2>  pathVerts =  new List<Vector2>();
 			pathVerts.AddRange(hit.collider.GetComponent<Ferr2D_Path>().pathVerts);
 
 			List<Vector2>  posSort = new List<Vector2>();
@@ -298,7 +304,8 @@ public class gDestroyerClass : MonoBehaviour {
 			//возвращает отсортированный массив координат и точек пересечения posSort, pointSort
 			getIntersectPoints((Vector2)hit.transform.position, pathVerts, ref posSort, ref pointSort);
 			int k = 0;
-			while (posSort.Count >= 2) {
+
+            while (posSort.Count >= 2) {
 				//подстраховка на цикл while
 				k++;
 				if (k > 20) break;
@@ -306,11 +313,14 @@ public class gDestroyerClass : MonoBehaviour {
 				//возвращает 2 фигуры firstFigure, secondFigure
 				bool flag = getFigures(pathVerts, posSort, ref pointSort, ref firstFigure, ref secondFigure);
 
-				if (getSq(firstFigure) < 0.0001F || getSq(secondFigure) < 0.0001F) flag = false;
-				int t = pathVerts.Count;
+                if (getSq(firstFigure) < 0.0001F || getSq(secondFigure) < 0.0001F) flag = false;
+
+                int t = pathVerts.Count;
 				//создаем helper terrain, если 2 фигуры нормальные
 				if (flag) {
-					GameObject tempTerrain = Instantiate(helper, new Vector2(0, 0), Quaternion.identity) as GameObject;
+
+
+                    GameObject tempTerrain = Instantiate(helper, new Vector2(0, 0), Quaternion.identity) as GameObject;
 					tempTerrain.transform.position = new Vector2 (hit.collider.transform.position.x, hit.collider.transform.position.y);
 					tempTerrain.transform.localScale = new Vector3(1, 1, 1);
 					pathVerts.Clear();
@@ -366,17 +376,20 @@ public class gDestroyerClass : MonoBehaviour {
 				posA = pathVerts[i + 1];
 				posB = pathVerts[i];
 			}
-			posTemp = lineIntersectPos(enterPoint - terrainTrPos, exitPoint - terrainTrPos, posA, posB);
-			//matchCount = 0;
-			if (posTemp.x != 10000) {
-				//if (Mathf.Abs (posTemp.x - posA.x) <= 0.03F && Mathf.Abs (posTemp.y - posA.y) <= 0.03F) {
-					//posTemp = posA;
-					//matchCount = 1;
-					//if (i == pathVerts.Count - 1) matchCount = -i;
 
-				//}
-				//if (Mathf.Abs(posTemp.x - posB.x) <= 0.03F && Mathf.Abs(posTemp.y - posB.y) <= 0.03F) posTemp = posB;
-				pos.Add(posTemp);
+			posTemp = lineIntersectPos(enterPoint - terrainTrPos, exitPoint - terrainTrPos, posA, posB);
+            //matchCount = 0;
+
+            if (posTemp.x != 10000) {
+                
+                //if (Mathf.Abs (posTemp.x - posA.x) <= 0.03F && Mathf.Abs (posTemp.y - posA.y) <= 0.03F) {
+                //posTemp = posA;
+                //matchCount = 1;
+                //if (i == pathVerts.Count - 1) matchCount = -i;
+
+                //}
+                //if (Mathf.Abs(posTemp.x - posB.x) <= 0.03F && Mathf.Abs(posTemp.y - posB.y) <= 0.03F) posTemp = posB;
+                pos.Add(posTemp);
 				point.Add(i);
 
 
@@ -398,7 +411,8 @@ public class gDestroyerClass : MonoBehaviour {
 			pos[j] = new Vector2(1000, 1000);
 			pointSort.Add(point[j]);
 		}
-	}
+
+    }
 
 	//возвращает 2 фигуры firstFigure, secondFigure
 	bool getFigures (List<Vector2>  pathVerts, List<Vector2> posSort, ref List<int> pointSort, ref List<Vector2> firstFigure, ref List<Vector2> secondFigure) {

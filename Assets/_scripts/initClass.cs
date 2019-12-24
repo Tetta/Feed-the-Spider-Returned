@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using Odnoklassniki;
+//using Odnoklassniki;
 
 //D:\Programs\AndroidSDK\platform-tools\adb logcat ActivityManager:I gof.feedthespider/com.unity3d.player.UnityPlayerNativeActivity:D *:S
 //
@@ -26,6 +26,7 @@ public class initClass : MonoBehaviour {
     public GameObject groupVK2;
     public GameObject repostRewardOK;
 
+    public GameObject splash;
     private int i;
 	//private int LastNotificationId = 0;
 	private int y;
@@ -142,6 +143,9 @@ public class initClass : MonoBehaviour {
 
         ctrAnalyticsClass.funnelStart(2, "menu_scene");
 
+        if (PlayerPrefs.GetInt("USER_GROUP_MENU", -1) == 0 && ctrProgressClass.progress["lastLevel"] == 0) UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("level1");
+        else splash.SetActive(false);
+        
     }
 
     // Update is called once per frame

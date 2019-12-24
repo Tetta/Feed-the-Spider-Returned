@@ -547,7 +547,7 @@ public class staticClass
     public static bool notGemsForLevel = false;
 
     public static int  rateUsLast = 0;
-    public static List<int> rateUsLevels = new List<int> {9, 16, 25, 32, 41, 48, 57, 63, 70, 80, 88, 96, 100};
+    public static List<int> rateUsLevels = new List<int> {32, 41, 48, 57, 63, 70, 80, 88, 96, 100}; //9, 16, 25
     public static string rateUsSceneNext;
 
     public static bool showRewardCardsMenu = false;

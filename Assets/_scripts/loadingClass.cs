@@ -17,22 +17,7 @@ public class loadingClass : MonoBehaviour {
         //показываем Unity Ads при первом запуске игры
         ctrAdClass.unityAdsLoaded = false;
 
-//#if !UNITY_EDITOR
-   
-		/*
-        if (ctrProgressClass.progress["firstTimeAd"] == 0) {
-            for (int i = 0; i < 7; i++) {
-                yield return new WaitForSeconds(1);
-                Debug.Log("i: " + i);
-                Debug.Log("Advertisement.IsReady: " + ctrAdClass.isUnityAdsReady());
-                if (ctrAdClass.isUnityAdsReady()) {
-                    ctrAdClass.unityAdsLoaded = true;
-                    i = 10;
-                }
-            }
-        }
-        */
-//#endif
+
         AsyncOperation async = SceneManager.LoadSceneAsync("menu");
         Debug.Log("loadingClass 2");
 

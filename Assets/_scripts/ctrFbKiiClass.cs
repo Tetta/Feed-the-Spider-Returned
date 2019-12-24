@@ -12,8 +12,8 @@ using com.playGenesis.VkUnityPlugin;
 using UnityEngine.SceneManagement;
 using Facebook.MiniJSON;
 using JsonOrg;
-using Odnoklassniki;
-using Odnoklassniki.HTTP;
+//using Odnoklassniki;
+//using Odnoklassniki.HTTP;
 
 
 public class ctrFbKiiClass : MonoBehaviour {
@@ -180,7 +180,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             bestGamersMenu = socialMenu.GetChild(1);
 
         }
-        else if (ctrProgressClass.progress["ok"] == 1 && OK.IsLoggedIn)
+        else if (ctrProgressClass.progress["ok"] == 1/* && OK.IsLoggedIn*/)
 	    {
 	        //doing
 	        socialMenu = levelMenu.GetChild(3);
@@ -472,12 +472,13 @@ public class ctrFbKiiClass : MonoBehaviour {
             long unixTimestamp = (long)DateTime.UtcNow.TotalSeconds() * 1000;
 
             //get notes
+            /*
             OK.API(OKMethod.SDK.getNotes, response =>
             {
                 Debug.Log("getNotes");
                 Debug.Log(response.Text);
             });
-
+            */
             /*
             //reset note
             var args1 = new Dictionary<string, string>()
@@ -516,7 +517,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                      // {"text", title + " " + message}
 
         };
-
+            /*
             OK.API("sdk.appInvite",  args2, response =>
             {
                 Debug.Log("sendNote");
@@ -524,7 +525,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 if (response.Error == "" && int.Parse(response.Object["count"].ToString()) >= 1)
                     OnInviteFriend(name);
             });
-            
+            */
         }
     }
 
@@ -735,7 +736,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
         if (ctrProgressClass.progress["ok"] == 1)
         {
-            OK.Logout();
+            //OK.Logout();
             GameObject.Find("/settings folder/settings/ok").SetActive(false);
         }
 
@@ -829,8 +830,8 @@ public class ctrFbKiiClass : MonoBehaviour {
         //string media = "{\"media\": [{\"type\": \"topic\",\"topicId\": \"66736745848976\",\"group\": \"true\"}]}";
         Dictionary<string, string> args1 = new Dictionary<string, string>();
         args1["attachment"] = media;
-        args1["app"] = OK.AppId;
-
+        //args1["app"] = OK.AppId;
+        /*
         OK.API("sdk.post", Method.GET, args1, response =>
         {
             Debug.Log(response.Text);
@@ -846,6 +847,7 @@ public class ctrFbKiiClass : MonoBehaviour {
 
             ctrProgressClass.saveProgress();
         });
+        */
     }
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
     //init sdk
@@ -870,13 +872,14 @@ public class ctrFbKiiClass : MonoBehaviour {
             d = VkApi.VkApiInstance.gameObject.GetComponent<Downloader>();
             friendManagerVK = VkApi.VkApiInstance.gameObject.GetComponent<FriendManager>();
             onInitializeSDK("vk");
-            
+            /*
             //ok
             OK.Init(initSuccess =>
             { 
                 if (initSuccess)
                     onInitializeSDK("ok");
             });
+            */
         }
     }
 
@@ -972,7 +975,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             */
 #endif
 
-            if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1) onLogin("ok");
+            //if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1) onLogin("ok");
         }
     }
 
@@ -998,10 +1001,12 @@ public class ctrFbKiiClass : MonoBehaviour {
                 VkApi.VkApiInstance.Login();
                 break;
             case "ok":
+                /*
                 OK.Auth(success =>
                 {
                     if (success) onLogin("ok");
                 });
+                */
                 break;
 
         }
@@ -1134,11 +1139,13 @@ public class ctrFbKiiClass : MonoBehaviour {
                 VkApi.VkApiInstance.Call(r);
                 break;
             case "ok":
+                /*
                 string[] fields =  { OKUserInfo.Field.first_name, OKUserInfo.Field.last_name, OKUserInfo.Field.age, OKUserInfo.Field.gender, OKUserInfo.Field.email, OKUserInfo.Field.uid, OKUserInfo.Field.pic128x128};
                 OK.GetCurrentUser(userInfo =>
                 {
                     onRequestUser(userInfo);
                 }, fields);
+                */
                 break;
 
         }
@@ -1165,7 +1172,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 break;
             case "ok":
 
-
+                /*
                 OK.API(OKMethod.Friends.get, Method.GET, response =>
                 {
                     ArrayList uidList = response.Array;
@@ -1190,7 +1197,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                         onRequestFriends(kv2);
                     });
                 });
-
+                */
 
 
                
@@ -1303,6 +1310,7 @@ public class ctrFbKiiClass : MonoBehaviour {
         }
 
         //ok
+        /*
         if (result.GetType() == typeof(OKUserInfo))
         {
             OKUserInfo r = result as OKUserInfo;
@@ -1320,7 +1328,7 @@ public class ctrFbKiiClass : MonoBehaviour {
             userId = r.uid;
             sendSocialAnalytics(r.age, r.gender, "ok", r.firstName, r.lastName);
         }
-
+        */
     }
 
     private void onRequestFriends<T>(T result)
@@ -1418,13 +1426,13 @@ public class ctrFbKiiClass : MonoBehaviour {
         {
             social = "ok";
             KeyValuePair<bool, string[]>?  r = result as KeyValuePair<bool, string[]>?;
-            string[] fields = {OKUserInfo.Field.pic128x128, OKUserInfo.Field.first_name, OKUserInfo.Field.uid, OKUserInfo.Field.last_name };
+            //string[] fields = {OKUserInfo.Field.pic128x128, OKUserInfo.Field.first_name, OKUserInfo.Field.uid, OKUserInfo.Field.last_name };
             if (r.Value.Key)
                 friendsIds = new string[r.Value.Value.Length];
             //else
             //friendsIdsForInvite = new string[r.Value.Value.Length];
             Debug.Log("socials - onRequestFriends ok app friends: " + r.Value.Key);
-
+            /*
             OK.GetInfo(users =>
             {
                 var i = 0;
@@ -1465,7 +1473,7 @@ public class ctrFbKiiClass : MonoBehaviour {
                 }
 
             }, r.Value.Value, fields);
-
+            */
         }
         Debug.Log("flagSendAnalytics: " + flagSendAnalytics);
 

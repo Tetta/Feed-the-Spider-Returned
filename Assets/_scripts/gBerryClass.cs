@@ -456,7 +456,8 @@ public class gBerryClass : MonoBehaviour {
 	}
 	public IEnumerator coroutineEat(Collision2D collisionObject)
 	{
-	    if (starsCounter == 2)tutorialWand();
+        //point - tutorialWand
+        //if (starsCounter == 2)tutorialWand();
 
         collisionObject.rigidbody.isKinematic = false;
 		transform.GetChild (int.Parse (staticClass.currentBerry.Substring (5, 1)) - 1).GetComponent<SpriteRenderer> ().sortingOrder = 119;

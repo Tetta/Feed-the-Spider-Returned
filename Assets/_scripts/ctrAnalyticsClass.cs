@@ -86,23 +86,31 @@ public class ctrAnalyticsClass: MonoBehaviour
     void setGroups()
     {
         
-        if (PlayerPrefs.GetInt("USER_GROUP_BANNER", -1) == -1) {
+        if (PlayerPrefs.GetInt("USER_GROUP_AD", -1) == -1) {
+            List<int> available = new List<int> { 2, 100 };
+
+            int r;
+
+            r = UnityEngine.Random.Range(0, 2);
+            
+            PlayerPrefs.SetInt("USER_GROUP_AD", available[r]);
+            sendEvent("UserGroupAd", new Dictionary<string, object>{{ "Group", available[r] } });
+
+        }
+        if (PlayerPrefs.GetInt("USER_GROUP_MENU", -1) == -1)
+        {
+
 
             int r;
 
             r = UnityEngine.Random.Range(0, 2);
 
-            PlayerPrefs.SetInt("USER_GROUP_BANNER", r);
-            sendEvent("UserGroupBanner", new Dictionary<string, object>{{ "Group", r }});
-
-
-            r = UnityEngine.Random.Range(0, 2);
-
-            PlayerPrefs.SetInt("USER_GROUP_MAP", r);
-            sendEvent("UserGroupMap", new Dictionary<string, object> { { "Group", r } });
+            PlayerPrefs.SetInt("USER_GROUP_MENU", r);
+            sendEvent("UserGroupMenu", new Dictionary<string, object> { { "Group", r} });
 
         }
-
+        PlayerPrefs.SetInt("USER_GROUP_BANNER", 1);
+        PlayerPrefs.SetInt("USER_GROUP_MAP", 0);
     }
 
     // Use this for initialization

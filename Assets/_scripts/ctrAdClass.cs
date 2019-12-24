@@ -99,8 +99,9 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
         ctrProgressClass.progress["firstTimeAd"] = 1;
     }
     public void initAppodeal () {
-        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.INTERSTITIAL | Appodeal.BANNER);
-        
+        Appodeal.initialize(appKeyAppodeal, Appodeal.REWARDED_VIDEO | Appodeal.BANNER);
+        if(PlayerPrefs.GetInt("USER_GROUP_AD", -1 ) < 100) Appodeal.initialize(appKeyAppodeal,  Appodeal.INTERSTITIAL);
+
         Appodeal.setRewardedVideoCallbacks(this);
         Appodeal.setInterstitialCallbacks(this);
         Appodeal.setBannerCallbacks(this);
@@ -217,19 +218,12 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     {
         Debug.Log("ShowLevelAd: " + buttonName);
 
-        //if OK, ad rate /2
-        float r = UnityEngine.Random.value;
-        //if (OK.IsLoggedIn && ctrProgressClass.progress["ok"] == 1 && r > 0.5F) return false;
-
         int adAfterLevel = 5;
-        if (staticClass.adHard) adAfterLevel = 4;
-//#if UNITY_IOS
- //       if (DateTime.Now < DateTime.Parse(adAfterDate)) adAfterLevel = 5;
-//#else
-        if (DateTime.Now < DateTime.ParseExact(adAfterDate, "MM/dd/yyyy", null)) adAfterLevel = 5;
-        Debug.Log("DateTime.Now: " + DateTime.Now);
-        Debug.Log("DateTime: " + DateTime.ParseExact(adAfterDate, "MM/dd/yyyy", null));
-        //#endif
+        if (staticClass.adHard) adAfterLevel = PlayerPrefs.GetInt("USER_GROUP_AD", -1);
+
+        //if (DateTime.Now < DateTime.ParseExact(adAfterDate, "MM/dd/yyyy", null)) adAfterLevel = 5;
+
+
         if (ctrProgressClass.progress["firstPurchase"] == 0 && ctrProgressClass.progress["currentLevel"] >= adAfterLevel && (!staticClass.rateUsLevels.Contains(ctrProgressClass.progress["currentLevel"])))
         {
             bool flag = false;
@@ -361,16 +355,17 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     */
     public static  void showBanner()
     {
-        if(!ctrSubscriptionClass.isPanelActive()
-            && ctrProgressClass.progress["vip"] != 1 &&
+        if(!ctrSubscriptionClass.isPanelActive() && 
+            ctrProgressClass.progress["vip"] != 1 &&
             SceneManager.GetActiveScene().name != "menu" &&
             SceneManager.GetActiveScene().name != "start" &&
-            ctrProgressClass.progress["lastLevel"] != 1)
+            ctrProgressClass.progress["lastLevel"] != 1 && 
+            PlayerPrefs.GetInt("USER_GROUP_BANNER", -1) == 1)
         {
             Debug.Log("Need banner show");
             Appodeal.show(Appodeal.BANNER_BOTTOM);
-        }
-            
+        } //else Appodeal.hide(Appodeal.BANNER);
+
     }
 
     public static void hideBanner()
@@ -565,7 +560,10 @@ public class ctrAdClass : MonoBehaviour, IRewardedVideoAdListener, IInterstitial
     #region Banner callback handlers
     public void onBannerLoaded(bool precache) { showBanner(); }
     public void onBannerFailedToLoad() { print("banner failed"); }
-    public void onBannerShown() { print("banner opened"); }
+    public void onBannerShown() { 
+        print("banner opened");
+        ctrAnalyticsClass.sendEvent("BannerShown");
+    }
     public void onBannerClicked() { print("banner clicked"); }
     public void onBannerExpired() { print("banner expired"); }
     #endregion
